@@ -26,6 +26,8 @@
                 </g>
                 </svg>                
         </div>
+
+        <canvas id="testMap" height="500px" width="500px"></canvas>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
@@ -34,7 +36,27 @@
       // Create SocketIO instance, connect
   
       const socket = io('http://192.168.43.81:3000');
+
+      socket.emit("joystickMoved",[0,1])
+
+      let testCanvas = document.getElementById("testMap")
+      let ctx = testCanvas.getContext('2d')
+
+      let coords = [10,10]
+
+      if (testCanvas.getContext){
+        
+      }
       
+      socket.on("joystickMoved",data => {
+        console.log("joystick data received",data)
+        
+        coords[0] += parseFloat(data[0])
+        coords[1] -= parseFloat(data[1])
+        requestAnimationFrame(draw)
+
+      })
+
       socket.on("scoreSended", data =>{
 
           console.log(data)
@@ -53,6 +75,16 @@
           }
         }
         )
+
+        function draw(){
+
+          ctx.clearRect(0,0,500,500)
+
+          ctx.fillStyle = 'rgb(200, 0, 0)';
+          ctx.fillRect(coords[0], coords[1], 50, 50);
+          console.log(coords)
+
+        }
       
   </script>
 </body>
