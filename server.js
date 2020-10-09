@@ -4,12 +4,12 @@ const app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-const port = 3000 
+const port = 3000
 const events = [
-  {event:"scoreSended",hint:"score to send to rotate the motor in the motor experience",expectedType:"Int"},
-  {event:"joystickMoved",hint:"sphero joystick data to send to move in the skill tree",expectedType:"Array of coordinates [x,y]"},
-  {event:"hello",hint:"debug",expectedType:"Any"},
-  {event:"hello",hint:"debug",expectedType:"nothing"},
+  { event: "scoreSended", hint: "score to send to rotate the motor in the motor experience", expectedType: "Int" },
+  { event: "joystickMoved", hint: "sphero joystick data to send to move in the skill tree", expectedType: "Array of coordinates [x,y]" },
+  { event: "hello", hint: "debug", expectedType: "Any" },
+  { event: "hello", hint: "debug", expectedType: "nothing" },
 ]
 
 app.use("/js", express.static(__dirname + "/js"))
@@ -24,9 +24,11 @@ app.get('/tree', (req, res) => {
 app.get('/motor', (req, res) => {
   res.sendFile(__dirname + '/views/motor.html');
 });
-
+app.get('/generator', (req, res) => {
+  res.sendFile(__dirname + '/views/generator.html');
+});
 server.listen(port, function () {
-    console.log('Express server listening on %d', port);
+  console.log('Express server listening on %d', port);
 });
 
 io.on('connection', (socket) => {
@@ -35,24 +37,30 @@ io.on('connection', (socket) => {
   //socket.join('TheGreatChannel')
 
   socket.on("pizza-cordon-bleu", data => {
-    socket.emit("miam",events)
+    socket.emit("miam", events)
   })
 
   socket.on('scoreSended', data => {
     // console.log(data)
-    socket.broadcast.emit("scoreSended",data)
+    socket.broadcast.emit("scoreSended", data)
   })
 
   socket.on("joystickMoved", data => {
     // console.log(data)
-    data = data+ ''
+    data = data + ''
     // console.log(typeof(data))
     let coords = data.split(":")
-    socket.broadcast.emit("joystickMoved",coords)
+    socket.broadcast.emit("joystickMoved", coords)
   })
 
-  socket.on("hello",data => {
-    socket.emit("hello","yo");
+  socket.on("generatorRotated", data => {
+    console.log(data)
+
+    socket.broadcast.emit("generatorRotated", data)
+  })
+
+  socket.on("hello", data => {
+    socket.emit("hello", "yo");
     console.log(data)
   })
 

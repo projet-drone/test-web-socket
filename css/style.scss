@@ -1,6 +1,10 @@
 $color_bg: #19191a;
 $color_white: #fff;
 
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -33,4 +37,23 @@ html, body {
 
 #_testMap {
     border: solid 2px $color_white ;
+}
+
+#_bar {
+    width: 800px;
+    height: 80px;
+    border: solid 2px $color_white;
+    padding: 2px;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#_progressBar {
+    height: 100%;
+    width: 0px;
+    transition: width .3s ease;
+    background-color: $color_white;
+    position: relative;
+
 }
