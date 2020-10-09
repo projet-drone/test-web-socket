@@ -1,0 +1,36 @@
+$color_bg: #19191a;
+$color_white: #fff;
+
+html, body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: $color_bg;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+}
+
+.controls {
+    color: $color_white;
+    font-size: 60px;
+    line-height: 66px;
+    font-weight: 700;
+}
+
+#_spinner {
+    margin: 50px 0 0;
+    width: 500px;
+    height: 500px;
+}
+
+#_testMap {
+    border: solid 2px $color_white ;
+}

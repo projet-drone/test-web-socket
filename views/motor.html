@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Motor</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <span class="controls" id="_plus">+</span>
+        <span class="controls" id="_minus">-</span>
+        <div id="_spinner">
+            <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+                    <circle cx="250" cy="250" r="250" fill="#FF0000" />
+                </mask>
+                <g mask="url(#mask0)">
+                    <circle cx="250" cy="250" r="250" fill="#FF0000" />
+                    <rect x="250" y="-37" width="279" height="597" fill="#2C5AFF" />
+                    <circle cx="250.5" cy="250.5" r="113.5" fill="#010101" />
+                </g>
+            </svg>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"
+            integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ=="
+            crossorigin="anonymous"></script>
+            <script src="js/motor.js"></script>
+</body>
+</html>
