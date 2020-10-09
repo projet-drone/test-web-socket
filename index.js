@@ -14,6 +14,18 @@ server.listen(port, function () {
 io.on('connection', (socket) => {
 
   console.log('a user connected');
+  //socket.join('TheGreatChannel')
+
+  socket.on('scoreSended', data => {
+    console.log(data)
+    socket.broadcast.emit("scoreSended",data)
+  })
+
+  socket.on("hello",data => {
+    socket.emit("hello","yo");
+    console.log(data)
+  })
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

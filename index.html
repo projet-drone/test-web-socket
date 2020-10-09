@@ -1,6 +1,100 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
-<script>
-    // Create SocketIO instance, connect
 
-    const socket = io('http://192.168.43.81:3000');
-</script>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Motor</title>
+
+</head>
+<body>
+    <div class="container">
+
+        <span class="controls" id="_plus">+</span>
+        <span class="controls" id="_minus">-</span>
+        <div id="_spinner">
+            <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+                <circle cx="250" cy="250" r="250" fill="#FF0000"/>
+                </mask>
+                <g mask="url(#mask0)">
+                <circle cx="250" cy="250" r="250" fill="#FF0000"/>
+                <rect x="250" y="-37" width="279" height="597" fill="#2C5AFF"/>
+                <circle cx="250.5" cy="250.5" r="113.5" fill="#010101"/>
+                </g>
+                </svg>                
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+    <script>
+      // Create SocketIO instance, connect
+  
+      const socket = io('http://192.168.43.81:3000');
+      
+      socket.on("scoreSended", data =>{
+
+          console.log(data)
+          let score = data
+          
+          let rotation = score * 36
+          let prevRotate = (score - 1) * 36
+          score++;
+          console.log([score, prevRotate, rotation]); 
+  
+          if (score >= 10) {
+              gsap.to("#_spinner", {duration: 1, rotation: score * (rotation + prevRotate), repeat: -1, ease:Linear.easeNone});
+  
+          } else {
+              gsap.to("#_spinner", {duration: 1, rotation: score * (rotation + prevRotate)});
+          }
+        }
+        )
+      
+  </script>
+</body>
+</html>
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background-color: #19191a;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.controls {
+  color: #fff;
+  font-size: 60px;
+  line-height: 66px;
+  font-weight: 700;
+}
+
+#_spinner {
+  margin: 50px 0 0;
+  width: 500px;
+  height: 500px;
+}
+</style>
