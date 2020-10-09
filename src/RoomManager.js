@@ -1,0 +1,7 @@
+class RoomManager {
+    lights
+
+    getAllLights() {
+        
+    }
+}

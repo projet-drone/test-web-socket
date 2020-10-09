@@ -1,0 +1,7 @@
+class SpheroManager {
+    lights
+
+    getAllLights() {
+        
+    }
+}
