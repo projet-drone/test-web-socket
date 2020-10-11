@@ -5,7 +5,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
 var ExperienceManager = require('./src/XpManager')
-var ClientHandler = require('./src/ClientHandler')
+var {ClientHandler} = require('./src/ClientHandler')
 
 const port = 3000 
 
@@ -18,7 +18,7 @@ let xpManager = new ExperienceManager()
 
 let clientHandler = ClientHandler.getinstance()
 clientHandler.server = server;
-clientHandler.clients = ["test","tast","tost"]
+clientHandler.ioObject = io;
 xpManager.init()
 
 
