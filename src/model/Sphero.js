@@ -25,6 +25,10 @@ class Sphero {
         this.state = "active"
         this.client.emit("activate")
     }
+    disable(){
+        this.state = "idle"
+        this.client.emit("disable")
+    }
 }
 
 

@@ -28,8 +28,11 @@ class XpManager{
 
             if (this.nbInventorSpheros == this.expectedInventorSpheroNumber){
                 this.spheroManager.init()
-                
-                this.spheroManager.activateAllInventorSpheros()
+
+                this.spheroManager.activate(this.spheroManager.spheros[0])
+                this.spheroManager.activate(this.spheroManager.spheros[1])
+                this.spheroManager.activate(this.spheroManager.spheros[2])
+
             }
         },
         (clientToDelete) => {

@@ -47,6 +47,15 @@ class SpheroManager {
             sphero.activate()
         })
     }
+    activate(spheroToActivate){
+        this.spheros.forEach(sphero => {
+            if (spheroToActivate == sphero) {
+                sphero.activate()
+            }else{
+                sphero.disable()
+            }
+        })
+    }
 
     pingAllSpheros(){
  
