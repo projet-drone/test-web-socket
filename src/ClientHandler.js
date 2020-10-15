@@ -7,7 +7,6 @@ var Client = require('./model/Client')
  */
 const clientTypes = {
         SPHERO : "sphero",
-        NEUTRAL_SPHERO : "neutral_sphero",
         LIGHT : "light",
         MAP : "map",
         DISPLAY : "display",
@@ -91,7 +90,7 @@ class ClientHandler{
 
         newClient.client = client;
 
-        client.emit("startHandShake",{responseEvent: "identify", responseForm:'name/type'})
+        client.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
 
         client.on("HandShakeAnswered",data => {
             let explodedData = data.split(":")
@@ -110,7 +109,6 @@ class ClientHandler{
     sortInRightChannel(newClient){
         switch (newClient.type) {
             case clientTypes.SPHERO:
-            case clientTypes.NEUTRAL_SPHERO:
                 newClient.client.join(clientTypes.SPHERO)
                 console.log("new Sphero detected")
 

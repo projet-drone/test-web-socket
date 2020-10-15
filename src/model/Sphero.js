@@ -24,10 +24,16 @@ class Sphero {
     activate(){
         this.state = "active"
         this.client.emit("activate")
+
+        //TODO: changer l'éclairage de la pièce
     }
     disable(){
         this.state = "idle"
         this.client.emit("disable")
+    }
+    switchMode(mod,modSwitched){
+        this.mode = mod
+        modSwitched()
     }
 }
 
