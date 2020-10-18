@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Edison</title>
+
+</head>
+<body>
+    
+    <button id="joystickSwitch">pose le sphero sur le socle de joystick</button>
+    <button id="joystickLeft">gauche</button>
+    <button id="joystickRight">droite</button>
+    <button id="joystickUp">haut</button>
+    <button id="joystickDown">bas</button>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+    <script>
+      // Create SocketIO instance, connect
+  
+      const socket = io('http://127.0.0.1:3000');
+
+      socket.on("startHandShake",data =>{
+        console.log("c'est pas très covid ça")
+
+
+        socket.emit("HandShakeAnswered","Edison:sphero")
+      })
+  
+      socket.on("checkAllSpheroClients",data => {
+          console.log("data")
+      })
+
+      socket.on("activate",data => {
+          console.log("i'm now active")
+      })
+      socket.on("disable",data => {
+          console.log("i'm now idle")
+      })
+      socket.on("unlocked",data => {
+          console.log("i'm now idle")
+      })
+      socket.on("switchMod",data => {
+        console.log("switched to mod : " + data)
+        if(data == "memoryVacuum"){
+          setTimeout(()=>{
+            console.log("i've got close to target")
+            socket.emit("gotCloseToEmitter")
+          },3000)
+        }
+        if(data == "joyStick"){
+          socket.emit("connectedAsJoystick")
+        }
+      })
+
+      document.addEventListener('DOMContentLoaded',()=>{
+        let joystickMod = false;
+        let joystickbutton = document.querySelector("#joystickSwitch")
+        let joystickLeft = document.querySelector("#joystickLeft")
+        let joystickRight = document.querySelector("#joystickRight")
+        let joystickUp = document.querySelector("#joystickUp")
+        let joystickDown = document.querySelector("#joystickDown")
+
+
+        joystickLeft.addEventListener("click",()=>{
+          console.log("click")
+          let fakeJoystickData = "Edison:-1:0"
+          socket.emit("sendJoystickDatas",fakeJoystickData)
+        })
+
+        joystickRight.addEventListener("click",()=>{
+          console.log("click")
+          let fakeJoystickData = "Edison:1:0"
+          socket.emit("sendJoystickDatas",fakeJoystickData)
+        })
+
+        joystickUp.addEventListener("click",()=>{
+          console.log("click")
+          let fakeJoystickData = "Edison:0:1"
+          socket.emit("sendJoystickDatas",fakeJoystickData)
+        })
+
+        joystickDown.addEventListener("click",()=>{
+          console.log("click")
+          let fakeJoystickData = "Edison:0:-1"
+          socket.emit("sendJoystickDatas",fakeJoystickData)
+        })
+
+        console.log("joystick",joystickbutton)
+        joystickbutton.addEventListener("click",()=>{
+          console.log("click")
+          joystickMod = !joystickMod
+          if(joystickMod){
+            socket.emit("connectedAsJoystick")
+          }else{
+
+          }
+        })
+      })
+  </script>
+</body>
+</html>

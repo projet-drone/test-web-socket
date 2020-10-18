@@ -19,6 +19,7 @@ const clientTypes = {
 class ClientHandler{
     static instance = null
     server
+    socketTunnels = {}
     clients = [];
 
     
@@ -75,7 +76,7 @@ class ClientHandler{
         let foundClients = []
         for (let i = 0; i < this.clients.length; i++) {
             const element = this.clients[i];
-            console.log(element.name)
+            console.log("found element", element.name)
             if (type == element.type) {
                 //this.clients.splice(i,1)
                 foundClients.push(element)
@@ -136,6 +137,22 @@ class ClientHandler{
         this.clients.forEach(client => {
             client.client.disconnect(true);
         });
+    }
+
+    createSocketTunnel(emitter,receiver,eventName){
+        this.socketTunnels[eventName] = {emitter:emitter.client}
+        emitter.client.on(eventName,(datas) =>{
+            console.log("received " + datas + "on event : " + eventName)
+            receiver.client.emit(eventName,datas)
+        })
+    }
+
+    collapseSocketTunnel(eventName){
+        if (this.socketTunnels.hasOwnProperty(eventName)){
+            console.log(this.socketTunnels)
+            this.socketTunnels[eventName].emitter.off(eventName,() => {})
+            delete this.socketTunnels[eventName]
+        }
     }
     
 }

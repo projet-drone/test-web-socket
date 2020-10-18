@@ -1,6 +1,6 @@
 class Activity {
     name
-    actors
+    actorSphero
     activityCore
     state
 }

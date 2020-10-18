@@ -1,7 +1,8 @@
 
 const SpheroMods = {
     JOYSTICK : "joystick",
-    GENERATOR : "generator",
+    DC_GENERATOR : "dcGenerator",
+    AC_GENERATOR : "acGenerator",
     PROXIMITY_DETECTOR : "memoryVacuum",
     MOTOR : "display",
 }
@@ -33,7 +34,9 @@ class Sphero {
     }
     switchMode(mod,modSwitched){
         this.mode = mod
-        modSwitched()
+        if(modSwitched){
+            modSwitched()
+        }
     }
 }
 

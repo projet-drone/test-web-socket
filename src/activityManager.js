@@ -3,15 +3,17 @@ var {Activity} = require('./model/Activity')
 
 class ActivityManager {
     
-    activities
+    activities = []
     
 
     findActivityByName(name){
+        let activityToReturn = null
         this.activities.forEach(activity => {
             if(activity.name == name){
-                return Activity
+                activityToReturn = activity
             }
         });
+        return activityToReturn
     }
 }
 

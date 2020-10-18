@@ -16,7 +16,7 @@ class SpheroManager {
                 client.type,
                 SpheroMods.PROXIMITY_DETECTOR,
                 client.client,
-                "idle",
+                "locked",
             )
             this.spheros.push(newSphero)
         });
@@ -33,17 +33,30 @@ class SpheroManager {
             sphero.activate()
         })
     }
+
+    unlock(sphero){
+        sphero.state = "idle"
+        sphero.disable()
+    }
+
+    lock(sphero){
+        sphero.state = "locked"
+    }
+
     activate(spheroToActivate){
         this.spheros.forEach(sphero => {
-            if (spheroToActivate == sphero) {
+            if (spheroToActivate == sphero && spheroToActivate.state != "locked") {
                 sphero.activate()
-            }else{
+            }else if(spheroToActivate.state != "locked"){
                 sphero.disable()
             }
         })
     }
     disable(spheroToDisable){
-        spheroToDisable.disable()
+
+        if(spheroToDisable.state != "locked"){
+            spheroToDisable.disable()
+        }
     }
 
     findSpheroByName(name){
@@ -61,7 +74,7 @@ class SpheroManager {
         sphero.switchMode(mod,modSwitched)
 
         sphero.client.emit("switchMod",mod)
-    }
+    } 
 
     listenForJoystickConnection(spheroConnected){
         this.spheros.forEach((sphero) =>{
