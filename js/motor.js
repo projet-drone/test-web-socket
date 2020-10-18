@@ -1,6 +1,8 @@
 
 //const socket = io('http://192.168.43.81:3000');
-const socket = io('http://172.17.128.251:3000');
+//const socket = io('http://192.168.1.16:3000'); 
+const socket = io('http://192.168.1.17:3000');
+
 socket.on("scoreSended", data => {
 
     console.log(data)
