@@ -77,6 +77,14 @@ html, body {
   stroke: #202020;
 }
 
+.Tree .node {
+  opacity: 1;
+}
+
+.Tree .node.hidden {
+  opacity: 0;
+}
+
 .Tree .node .filter {
   opacity: 0;
 }
@@ -89,6 +97,10 @@ html, body {
 .Tree .node path {
   stroke: #202020;
   fill: #202020;
+}
+
+.Tree .node.active {
+  opacity: 1;
 }
 
 .Tree .node.active .filter {

@@ -1,3 +1,7 @@
+import Node from './Node.js';
+import Cursor from './Cursor.js';
+
+var nodeArray = []
 
 // // //const socket = io('http://192.168.43.81:3000');
 // // //const socket = io('http://172.17.128.251:3000');
@@ -30,8 +34,6 @@
 //   requestAnimationFrame(draw)
 // })
 
-
-
 // // //socket.emit("joystickMoved", [0, 1])
 
 // const inventors = {
@@ -40,80 +42,31 @@
 //   SPRING: 'spring'
 // }
 
-class Node {
-  // TODO
-  origin = {x: 0, y: 0}
-  radius;
-
-  constructor(radius, el) {
-
-    this.position = this.setPosition;
-    this.origin = this.setOrigin;
-    this.radius;
-    this.isActive = false;
-    this.inventor; 
-  }
-
-  get orign() {
-    return this.calcOrigin();
-  }
-
-  calcOrigin() {
-    let pos = this.el.getBoundingClientRect();
- 
-    let oX = pos.left + this.radius;
-    let oY = pos.top + this.radius;
-  
-    let origin = {'x': oX, 'y': oY}
-    return origin
-  }
-}
 
 var canvas = document.getElementById("_testMap");
 var cursor = document.getElementById("_cursor");
 var nodes = document.querySelectorAll(".node");
 
 var c = canvas.getContext("2d");
-var x = canvas.width/2;
-var y = canvas.height-30;
+var x = canvas.width / 2;
+var y = canvas.height - 30;
 
-// let diameter = node.r.baseVal.value;
-// console.log(node.r.baseVal.value)
+const CURSOR = new Cursor(0, 0, 50, cursor)
 
 nodes.forEach(node => {
-  node.addEventListener('click', function () {
-    this.classList.add('active')
-  })
+
+  // Use node's circle position
+  var position = node.querySelector('.circle').getBoundingClientRect();
+  let newNode = new Node(position.top, position.left, 66, node)
+  nodeArray.push(newNode)
 });
-
-// var rect = node.getBoundingClientRect();
-// console.log(rect.top, rect.right, rect.bottom, rect.left);
-
-var node = new Node(30, nodes[0])
-
-node.orign();
-
-let getDistance = (originNode, originCursor ) => {
-
-  let result = Math.sqrt( Math.pow(originNode.x - originCursor.x, 2) + Math.pow(originNode.y - originCursor.y, 2))
-  return result
-}
-
-let getOrigin = (left, top, diameter) => {
-
-  let oX = left + diameter/2;
-  let oY = top + diameter/2;
-
-  let origin = {'x': oX, 'y': oY}
-  return origin
-}
 
 document.addEventListener('mousemove', function (event) {
   x = event.pageX
   y = event.pageY
 
-  cursor.style.top = y + "px"
-  cursor.style.left = x + "px"
+  CURSOR.moveCursor(x, y)
+  CURSOR.collisionHandler(nodeArray)
 
   // let nodeOrigin = getOrigin(rect.left, rect.top, diameter)
   // let cursorOrigin = getOrigin(x, y, cursor.offsetWidth)
@@ -128,39 +81,39 @@ document.addEventListener('mousemove', function (event) {
 
   //   cursor.style.top = nodeOrigin.y - 36 + "px"
   //   cursor.style.left = nodeOrigin.x - 36 + "px"
-    
+
   //   setTimeout(() => {
   //     document.querySelector('.gif').setAttribute('src', 'https://i.gifer.com/6mb.gif') ;
   //   }, 2500);
 
   //   console.log(nodeOrigin.x);
-  
+
   // } else {
   //   node.classList.remove('active')
   //   cursor.classList.remove('magnet')
   // }
 });
 
-function drawBall() {
-  c.lineWidth = 3
-  c.strokeStyle = 'white' 
-  c.beginPath()
-  c.arc(x, y, 30, 2 * Math.PI * 0.0001, 2 * Math.PI *0.9999)
-  c.shadowColor = "blue" 
-  c.shadowOffsetX = 0
-  c.shadowOffsetY = 0
-  c.shadowColor = "red"
-  c.shadowBlur  = 20
-  c.stroke()
-  c.closePath();
-}
+// function drawBall() {
+//   c.lineWidth = 3
+//   c.strokeStyle = 'white'
+//   c.beginPath()
+//   c.arc(x, y, 30, 2 * Math.PI * 0.0001, 2 * Math.PI * 0.9999)
+//   c.shadowColor = "blue"
+//   c.shadowOffsetX = 0
+//   c.shadowOffsetY = 0
+//   c.shadowColor = "red"
+//   c.shadowBlur = 20
+//   c.stroke()
+//   c.closePath();
+// }
 
-function draw() {
-  c.clearRect(0, 0, canvas.width, canvas.height);
-  drawBall();
-}
+// function draw() {
+//   c.clearRect(0, 0, canvas.width, canvas.height);
+//   drawBall();
+// }
 
-setInterval(draw, 10);
+// setInterval(draw, 10);
 
 // let testCanvas = document.getElementById("_testMap")
 // const c = testCanvas.getContext('2d')
@@ -172,9 +125,9 @@ setInterval(draw, 10);
 // testCanvas.addEventListener('mousemove', function (event) {
 //   mouseX = event.pageX
 //   mouseY = event.pageY
-  
+
 //   moveCursor(mouseX, mouseY)
-  
+
 // });
 
 // function draw(){
@@ -202,11 +155,11 @@ setInterval(draw, 10);
 
 // // socket.on("joystickMoved", data => {
 // //     // console.log("joystick data received", data)
-   
+
 // //     coords[0] += parseFloat(data[0] * 10)
 // //     coords[1] -= parseFloat(data[1] * 10)
 
-   
+
 
 // // })
 
@@ -300,7 +253,7 @@ setInterval(draw, 10);
 // 	}
 // 	this.phase = phs;
 // 	phases.push(phs);
-	
+
 // /*//pastels
 //   var h = Math.random()*360>>0;
 //   var s = Math.random()*100>>0;
@@ -337,21 +290,21 @@ setInterval(draw, 10);
 
 //     var path = new Path2D('M cx - r, cy  a r,r 0 1,0 (r * 2),0 a r,r 0 1,0 -(r * 2),0');
 //     ctx.stroke(path);
-    
+
 // 	t++;
-	
+
 //   for(var i=0;i<particles.length;i++) {
 //     p = particles[i];
-    
+
 //     ctx.beginPath();
 //     ctx.fillStyle = p.color;
 //     ctx.arc(f( p ), g( p ), p.radius, Math.PI*2, false);
 //     ctx.fill();
-    
+
 //     var A = sin(t/50)*p.radius*.5;
 //     var B = cos(t/50)*p.radius*.5;
-    
-    
+
+
 //     ctx.beginPath();
 //     ctx.fillStyle = p.color;
 //     ctx.arc(f( p ) + A, g( p ) + B, p.radius, Math.PI*2, false);
@@ -376,15 +329,15 @@ setInterval(draw, 10);
 // draw();
 
 
-    
+
 // const drawC = function (radius, maxWidth, minWidth) {
 //   const inc = (maxWidth - minWidth) / 10
 //   let idx = 0;
 
 //   console.log('inc : ' + inc);
 //   for (let width = maxWidth; width >= minWidth; width -= 1) {
- 
-      
+
+
 //       let opacity = idx * 0.02 ;
 //       let red = idx * 50;
 //     c.lineWidth = 10
@@ -396,7 +349,7 @@ setInterval(draw, 10);
 //     } else {
 //       c.strokeStyle = 'white' 
 //     }
-    
+
 //   }
 
 //   c.strokeStyle = 'white' 

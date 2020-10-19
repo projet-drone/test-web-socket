@@ -90,6 +90,12 @@ html, body {
     .node {
         // stroke: $color_disable;
         // fill: $color_bg;
+
+        opacity: 1;
+
+        &.hidden {
+            opacity: 0;
+        }
         
         & .filter {
             opacity: 0;
@@ -106,7 +112,7 @@ html, body {
         }
 
         &.active {
-
+            opacity: 1;
             & .filter {
                 opacity: 1;
             }
