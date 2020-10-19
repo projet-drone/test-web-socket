@@ -19,7 +19,6 @@
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  cursor: none !important;
 }
 
 html, body {
@@ -71,16 +70,39 @@ html, body {
 }
 
 .Tree .branch {
-  stroke: red;
+  stroke: #fff;
 }
 
 .Tree .branch .disable {
   stroke: #202020;
 }
 
-.Tree .node {
+.Tree .node .filter {
+  opacity: 0;
+}
+
+.Tree .node .circle {
   stroke: #202020;
   fill: #000;
+}
+
+.Tree .node path {
+  stroke: #202020;
+  fill: #202020;
+}
+
+.Tree .node.active .filter {
+  opacity: 1;
+}
+
+.Tree .node.active .circle {
+  stroke: #fff;
+  fill: #000;
+}
+
+.Tree .node.active path {
+  stroke: #fff;
+  fill: #fff;
 }
 
 .Tree #_cursor {

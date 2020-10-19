@@ -1,34 +1,36 @@
 
 // // //const socket = io('http://192.168.43.81:3000');
 // // //const socket = io('http://172.17.128.251:3000');
-const socket = io('http://192.168.1.10:3000');
+// const socket = io('http://192.168.1.10:3000');
 
-socket.on("startHandShake",data =>{
-    console.log("c'est pas très covid ça")
-    socket.emit("HandShakeAnswered","SkillTreeWebApp:display")
-})
+// socket.on("startHandShake",data =>{
+//     console.log("c'est pas très covid ça")
+//     socket.emit("HandShakeAnswered","SkillTreeWebApp:display")
+// })
 
-socket.on("sendJoystickDatas",dataString => {
-  console.log("joystick data received",dataString)
-  // let data = dataString.split(":")
-  // coords[0] += parseFloat(data[1])
-  // coords[1] -= parseFloat(data[2])
+// socket.on("sendJoystickDatas",dataString => {
+//   console.log("joystick data received",dataString)
+//   // let data = dataString.split(":")
+//   // coords[0] += parseFloat(data[1])
+//   // coords[1] -= parseFloat(data[2])
 
-  // switch (data[0]) {
-  //     case "Edison":
-  //        color = "rgb(200,0,0)"
-  //         break;
-  //     case "Westinghouse":
-  //        color = "rgb(100,50,200)"
-  //         break;
-  //     case "Tesla":
-  //        color = "rgb(0,0,200)"
-  //         break;
-  //     default:
-  //         break;
-  // }
-  requestAnimationFrame(draw)
-})
+//   // switch (data[0]) {
+//   //     case "Edison":
+//   //        color = "rgb(200,0,0)"
+//   //         break;
+//   //     case "Westinghouse":
+//   //        color = "rgb(100,50,200)"
+//   //         break;
+//   //     case "Tesla":
+//   //        color = "rgb(0,0,200)"
+//   //         break;
+//   //     default:
+//   //         break;
+//   // }
+//   requestAnimationFrame(draw)
+// })
+
+
 
 // // //socket.emit("joystickMoved", [0, 1])
 
@@ -71,7 +73,6 @@ var canvas = document.getElementById("_testMap");
 var cursor = document.getElementById("_cursor");
 var nodes = document.querySelectorAll(".node");
 
-
 var c = canvas.getContext("2d");
 var x = canvas.width/2;
 var y = canvas.height-30;
@@ -79,8 +80,10 @@ var y = canvas.height-30;
 // let diameter = node.r.baseVal.value;
 // console.log(node.r.baseVal.value)
 
-nodes.forEach(element => {
-  
+nodes.forEach(node => {
+  node.addEventListener('click', function () {
+    this.classList.add('active')
+  })
 });
 
 // var rect = node.getBoundingClientRect();

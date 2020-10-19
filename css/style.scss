@@ -7,6 +7,8 @@ $color_red: #FF3C00;
 $color_violet: #9A0FDB;
 
 $blue_node: #01203E;
+$red_node: #01203E;
+$_node: #01203E;
 
 $color_disable: #202020;
 
@@ -25,7 +27,7 @@ $color_disable: #202020;
 
 * {
     box-sizing: border-box;
-    cursor: none !important;
+    // cursor: none !important;
 }
 
 html, body {
@@ -68,7 +70,7 @@ html, body {
     }
 
     .icon {
-        path {
+        path { 
             fill: $color_disable;
         }
     }
@@ -78,7 +80,7 @@ html, body {
     }
 
     .branch {
-        stroke: red;
+        stroke: $color_white;
 
         .disable {
             stroke: $color_disable;
@@ -86,10 +88,37 @@ html, body {
     }
 
     .node {
-        stroke: $color_disable;
-        fill: $color_bg;
-        .disable {
-            
+        // stroke: $color_disable;
+        // fill: $color_bg;
+        
+        & .filter {
+            opacity: 0;
+        }
+
+        & .circle {
+            stroke: $color_disable;
+            fill: $color_bg;
+        }
+
+        & path {
+            stroke: $color_disable;
+            fill: $color_disable;
+        }
+
+        &.active {
+
+            & .filter {
+                opacity: 1;
+            }
+
+            & .circle {
+                stroke: $color_white;
+                fill: $color_bg;
+            }
+            & path {
+                stroke: $color_white;
+                fill: $color_white;
+            }
         }
     }
 
@@ -144,13 +173,9 @@ html, body {
                 transition: 1.5s ease 1.2s;
                 stroke-dashoffset: 0 !important;
                 // animation: stroke-anim 3s ease forwards;
-               
-                  
             }
         }
     }
-
-   
    
     .gif {
         position: fixed;
