@@ -1,16 +1,18 @@
 export default class Node {
     origin = {x: 0, y: 0}
-    position = {x: 0, y: 0}
+    isFocused = false;
+    position;
     radius;
 
     constructor(top, left, radius, el) {
 
         this.circle = el.querySelector('.circle');
         this.el = el;
-        this.position = {x: left, y: top};
+        this.position = this.circle.getBoundingClientRect()
+        
         this.radius = radius;
-        this.origin = this.calcOrigin(left, top);
-       
+        this.origin = this.calcOrigin();
+        
         this.isActive = false;
         this.inventor; 
     }
@@ -19,10 +21,13 @@ export default class Node {
         return this.calcOrigin();
     }
 
-    calcOrigin(left, top) {
+    calcOrigin() {
+        let position = this.circle.getBoundingClientRect()
 
-        let oX = left + this.radius;
-        let oY = top + this.radius;
+        let oX = position.left + this.radius/2;
+        let oY = position.top + this.radius/2;
+
+        console.log(position);
 
         return {x: oX, y: oY}
     }

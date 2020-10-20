@@ -1,0 +1,62 @@
+$color_bg: #000;
+$color_white: #fff;
+$color_black: #000;
+
+$color_blue: #0082FF;
+$color_red: #FF3C00;
+$color_violet: #9A0FDB;
+
+* {
+    box-sizing: border-box;
+    // cursor: none !important;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: $color_bg;
+    background-image: url('./Pattern.svg');
+}
+
+main {
+    position: relative;
+    background-color: $color_bg;
+    background-image: url('../img/Blur-blue.png');
+   
+}
+
+.section {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    
+}
+.container {
+    width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.title {
+    color: $color_white;
+    text-shadow: 0px 0px 60px $color_white; 
+    font-size: 46px;
+    text-transform: uppercase;
+}
+
+.text {
+    color: $color_white;
+    font-size: 24px;
+    width: 480px;
+}
+
+.img {
+    position: absolute;
+    left: 120px;
+    z-index: -1;
+    top: 0;
+    transform: translateY(-30%);
+}

@@ -1,0 +1,65 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background-color: #000;
+  background-image: url("./Pattern.svg");
+}
+
+main {
+  position: relative;
+  background-color: #000;
+  background-image: url("../img/Blur-blue.png");
+}
+
+.section {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container {
+  width: 1440px;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+}
+
+.title {
+  color: #fff;
+  text-shadow: 0px 0px 60px #fff;
+  font-size: 46px;
+  text-transform: uppercase;
+}
+
+.text {
+  color: #fff;
+  font-size: 24px;
+  width: 480px;
+}
+
+.img {
+  position: absolute;
+  left: 120px;
+  z-index: -1;
+  top: 0;
+  -webkit-transform: translateY(-30%);
+          transform: translateY(-30%);
+}
+/*# sourceMappingURL=detail.css.map */

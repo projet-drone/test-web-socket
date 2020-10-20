@@ -14,12 +14,16 @@ const events = [
 
 app.use("/js", express.static(__dirname + "/js"))
 app.use("/css", express.static(__dirname + "/css"))
+app.use("/img", express.static(__dirname + "/img"))
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 app.get('/tree', (req, res) => {
   res.sendFile(__dirname + '/views/tree.html');
+});
+app.get('/detail', (req, res) => {
+  res.sendFile(__dirname + '/views/detail.html');
 });
 app.get('/motor', (req, res) => {
   res.sendFile(__dirname + '/views/motor.html');

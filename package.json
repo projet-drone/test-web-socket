@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "fullpage.js": "^3.0.9",
     "socket.io": "^2.3.0"
   }
 }
