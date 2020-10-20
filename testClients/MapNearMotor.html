@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Motor</title>
+
+</head>
+<body>
+    
+    </div>
+
+    <button id="motorEnd">fin de l'experience du moteur</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+    <script>
+        // Create SocketIO instance, connect
+        const socket = io('http://127.0.0.1:3000');
+
+        socket.on("startHandShake",data =>{
+            console.log("c'est pas très covid ça")
+
+
+            socket.emit("HandShakeAnswered","motor-near:map")
+        })
+
+        document.querySelector("#motorEnd").addEventListener('click',() => {
+            socket.emit("MotorActivityCompleted")
+            
+        })
+    
+    
+
+  </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ var RoomManager = require('./RoomManager')
 var SpheroManager = require('./SpheroManager')
 var ActivityManager = require('./ActivityManager')
 var WebAppsManager = require('./WebAppsManager')
+var MapSystemManager = require('./MapSystemManager')
 var {Sphero, SpheroMods} = require('./model/Sphero')
 var Activity = require('./model/Activity')
 var WebApp = require('./model/WebApp')
@@ -14,6 +15,7 @@ class XpManager{
     mapManager;
     activityManager;
     webAppsManager;
+    MapSystemManager;
 
     experienceHasBegun = false
     nbInventorSpheros = 0
@@ -172,6 +174,7 @@ class XpManager{
         this.spheroManager = new SpheroManager()
         this.webAppsManager = new WebAppsManager()
         this.activityManager = new ActivityManager()
+        this.mapSystemManager = new MapSystemManager()
 
         
     }
@@ -209,6 +212,9 @@ class XpManager{
 
                 //eventuellent l'écran qui envoie cet event
                 skillTreeWebApp.client.on('DCgeneratorActivityCompleted',() => {
+
+                    let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
+                    lightMapSystem.client.emit("edisonCompleted")
                     ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
                     resolve('finished')
                 })
@@ -242,6 +248,10 @@ class XpManager{
 
                 //eventuellent l'écran qui envoie cet event
                 skillTreeWebApp.client.on('ACgeneratorActivityCompleted',() => {
+
+                    let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
+                    lightMapSystem.client.emit("westinghouseCompleted")
+
                     ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
                     resolve('finished')
                 })
@@ -275,6 +285,15 @@ class XpManager{
 
                 //eventuellent l'écran qui envoie cet event
                 motorWebApp.client.on('MotorActivityCompleted',() => {
+
+                    let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
+                    lightMapSystem.client.emit("teslaCompleted")
+
+                    let motorsMapSystems = this.MapSystemManager.findallSystemsByName("motor")
+                    motorsMapSystems.forEach(MapmotorSystem => {
+                        
+                    });
+
                     ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
                     resolve('finished')
                 })

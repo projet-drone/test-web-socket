@@ -23,6 +23,10 @@
   
       const socket = io('http://127.0.0.1:3000');
 
+     /* setInterval(() => {
+        socket.emit("refreshConnection","boop")
+      },300)*/
+
       socket.on("startHandShake",data =>{
         console.log("c'est pas très covid ça")
 
@@ -43,7 +47,7 @@
       socket.on("unlocked",data => {
           console.log("i'm now idle")
       })
-      socket.on("switchMod",data => {
+      socket.on("switchMode",data => {
         console.log("switched to mod : " + data)
         if(data == "memoryVacuum"){
           setTimeout(()=>{
@@ -69,12 +73,14 @@
           console.log("click")
           let fakeJoystickData = "Edison:-1:0"
           socket.emit("sendJoystickDatas",fakeJoystickData)
+          socket.emit("edisonCompleted")
         })
 
         joystickRight.addEventListener("click",()=>{
           console.log("click")
           let fakeJoystickData = "Edison:1:0"
           socket.emit("sendJoystickDatas",fakeJoystickData)
+          socket.emit("westinghouseCompleted")
         })
 
         joystickUp.addEventListener("click",()=>{

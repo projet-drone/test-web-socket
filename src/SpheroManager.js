@@ -73,7 +73,7 @@ class SpheroManager {
     switchSpheroMod(sphero,mod,modSwitched){
         sphero.switchMode(mod,modSwitched)
 
-        sphero.client.emit("switchMod",mod)
+        sphero.client.emit("switchMode",mod)
     } 
 
     listenForJoystickConnection(spheroConnected){

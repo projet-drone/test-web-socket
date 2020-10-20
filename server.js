@@ -19,7 +19,7 @@ let xpManager = new ExperienceManager()
 let clientHandler = ClientHandler.getinstance()
 clientHandler.server = server;
 clientHandler.ioObject = io;
-xpManager.init()
+//xpManager.init()
 
 
 
@@ -42,16 +42,25 @@ const events = [
 io.on('connection', (socket) => {
 
   console.log('a user connected');
+  //socket.emit("event","events")
 
-  socket.on("pizza-cordon-bleu", data => {
+  /*socket.on("pizza-cordon-bleu", data => {
     socket.emit("miam",events)
+  })*/
+  socket.on('edisonCompleted', data => {
+    console.log(data)
+    socket.broadcast.emit("edisonCompleted",data)
+  })
+  socket.on('westinghouseCompleted', data => {
+    console.log(data)
+    socket.broadcast.emit("westinghouseCompleted",data)
   })
 
   socket.on('scoreSended', data => {
     console.log(data)
     socket.broadcast.emit("scoreSended",data)
   })
-
+/*
   socket.on("joystickMoved", data => {
     console.log(data)
     data = data+ ''
@@ -64,10 +73,10 @@ io.on('connection', (socket) => {
     console.log(data)
     
     socket.broadcast.emit("generatorRotated",coords)
-  })
+  })*/
 
   socket.on("hello",data => {
-    socket.emit("hello","yo");
+    //socket.emit("hello","yo");
     console.log(data)
   })
 

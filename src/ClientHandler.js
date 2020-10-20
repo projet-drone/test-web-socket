@@ -100,7 +100,7 @@ class ClientHandler{
             this.clients.push(newClient)
             identificationCallback(newClient)
             this.sortInRightChannel(newClient)
-
+            client.emit("connectionState","connected")
             //console.log("new client",newClient.name + " : " + newClient.type)
 
         })
