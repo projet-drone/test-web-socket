@@ -8,7 +8,7 @@ var Client = require('./model/Client')
 const clientTypes = {
         SPHERO : "sphero",
         LIGHT : "light",
-        MAP : "map",
+        MAP : "mappy",
         DISPLAY : "display",
 }
 
@@ -39,16 +39,20 @@ class ClientHandler{
      * @param {*} connectionCallBack 
      * @param {*} disconnectionCallBack 
      */
-    listenForConnections(connectionCallBack,disconnectionCallBack){
-        io(this.server).on('connection',client => {
 
+    listenForConnections(connectionCallBack,disconnectionCallBack){
+        
+        io(this.server).on('connection',client => {
+           
             this.identifyClient(client,(newClient) =>{
                 connectionCallBack(newClient)
+                console.log(newClient.name)
             })
         
 
             //listening to disconnection
             client.on('disconnect', () => {
+                console.log("clientToDisconnect",client);
                 let clientToDelete = this.findClientFromSocket(client)
                 disconnectionCallBack(clientToDelete)
                 this.clients.splice(clientToDelete.index,1)
@@ -95,18 +99,25 @@ class ClientHandler{
 
         client.on("HandShakeAnswered",data => {
             let explodedData = data.split(":")
+            console.log("explodedData", explodedData)
             newClient.name = explodedData[0]
             newClient.type = explodedData[1]
             this.clients.push(newClient)
             identificationCallback(newClient)
-            this.sortInRightChannel(newClient)
-            client.emit("connectionState","connected")
+            //this.sortInRightChannel(newClient)
+
+            console.log("***********************************")
+            console.log("connection",newClient.name)
+            console.log("***********************************")
+            console.log(this.clients.length)
+
+            //client.emit("connectionState","connected")
             //console.log("new client",newClient.name + " : " + newClient.type)
 
         })
 
     }
-
+/*
     sortInRightChannel(newClient){
         switch (newClient.type) {
             case clientTypes.SPHERO:
@@ -126,13 +137,17 @@ class ClientHandler{
                 newClient.client.join(clientTypes.DISPLAY)
                 console.log("new DISPLAY detected")
                 break;
+            case clientTypes.Map:
+                newClient.client.join(clientTypes.MAP)
+                console.log("new MAP detected")
+                break;
             default:
                 console.log("Unknown device")
                 newClient.client.emit("error","wrong client type")
                 break;
         }
     }
-
+*/
     disconnectAll(){
         this.clients.forEach(client => {
             client.client.disconnect(true);

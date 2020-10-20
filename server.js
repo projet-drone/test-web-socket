@@ -7,7 +7,7 @@ var io = require('socket.io')(server);
 var ExperienceManager = require('./src/XpManager')
 var {ClientHandler} = require('./src/ClientHandler')
 
-const port = 3000 
+const port = 3002 
 
 server.listen(port, function () {
   console.log('Express server listening on %d', port);
@@ -19,7 +19,7 @@ let xpManager = new ExperienceManager()
 let clientHandler = ClientHandler.getinstance()
 clientHandler.server = server;
 clientHandler.ioObject = io;
-//xpManager.init()
+xpManager.init()
 
 
 
@@ -38,15 +38,28 @@ const events = [
 
 
 
-
+let countUsers = 0
 io.on('connection', (socket) => {
-
+  countUsers ++ 
   console.log('a user connected');
+  console.log(countUsers);
+  socket.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
+
+  socket.on("HandShakeAnswered",data => {
+      
+      console.log("***********************************")
+      console.log("connection",data)
+      console.log("***********************************")
+
+      //client.emit("connectionState","connected")
+      //console.log("new client",newClient.name + " : " + newClient.type)
+
+  })
   //socket.emit("event","events")
 
-  /*socket.on("pizza-cordon-bleu", data => {
+  socket.on("pizza-cordon-bleu", data => {
     socket.emit("miam",events)
-  })*/
+  })
   socket.on('edisonCompleted', data => {
     console.log(data)
     socket.broadcast.emit("edisonCompleted",data)
@@ -60,7 +73,7 @@ io.on('connection', (socket) => {
     console.log(data)
     socket.broadcast.emit("scoreSended",data)
   })
-/*
+
   socket.on("joystickMoved", data => {
     console.log(data)
     data = data+ ''
@@ -73,10 +86,10 @@ io.on('connection', (socket) => {
     console.log(data)
     
     socket.broadcast.emit("generatorRotated",coords)
-  })*/
+  })
 
   socket.on("hello",data => {
-    //socket.emit("hello","yo");
+    socket.emit("hello","yo");
     console.log(data)
   })
 

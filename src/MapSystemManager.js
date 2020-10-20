@@ -1,4 +1,4 @@
-var {MapSystem} = require('./model/MapSystem')
+var MapSystem = require('./model/MapSystem')
 var {ClientHandler, clientTypes} = require('./ClientHandler')
 
 
@@ -13,7 +13,7 @@ class MapSystemManager {
             console.log("this is an app", mapSystem.name)
 
 
-            let newmapSystem = new mapSystem(
+            let newmapSystem = new MapSystem(
                 mapSystem.name,
                 mapSystem.client
             )
@@ -23,18 +23,22 @@ class MapSystemManager {
 
     findMapSystemByName(name){
         let mapSystemToReturn = null
-        this.activities.forEach(mapSystem => {
+        this.mapSystems.forEach(mapSystem => {
             if(mapSystem.name == name){
                 mapSystemToReturn = mapSystem
+                 console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+                 console.log(mapSystemToReturn.name)
+                 console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+
             }
         });
         return mapSystemToReturn
     }
-    findMapSystemByName(name){
-        let mapSystemToReturn = null
-        this.activities.forEach(mapSystem => {
+    findallSystemsByName(name){
+        let mapSystemToReturn = []
+        this.mapSystems.forEach(mapSystem => {
             if(mapSystem.name == name){
-                mapSystemToReturn = mapSystem
+                mapSystemToReturn.push(mapSystem); 
             }
         });
         return mapSystemToReturn

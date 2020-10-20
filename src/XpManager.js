@@ -15,14 +15,16 @@ class XpManager{
     mapManager;
     activityManager;
     webAppsManager;
-    MapSystemManager;
+    mapSystemManager;
 
     experienceHasBegun = false
     nbInventorSpheros = 0
     nbWebApps = 0
+    nbMapSystems = 0
 
     expectedInventorSpheroNumber = 3
     excpectedWebApps = 2
+    excpectedMapSystems = 5
 
     activityDone = []
 
@@ -40,12 +42,24 @@ class XpManager{
                 this.nbWebApps += 1
                 console.log('nbWebApps',this.nbWebApps)
             }
+            if (newClientConnected.type == clientTypes.MAP) {
+                this.nbMapSystems += 1
+                console.log('nbMapSystems',this.nbMapSystems)
+            }
+            console.log("///////////////////////////////////////")
+            console.log("///////////////////////////////////////")
+            console.log("inventors : " + this.nbInventorSpheros + "/" + this.expectedInventorSpheroNumber )
+            console.log("webapps : " + this.nbWebApps + "/" + this.excpectedWebApps )
+            console.log("mapSystems : " + this.nbMapSystems + "/" + this.excpectedMapSystems )
+            console.log("///////////////////////////////////////")
+            console.log("///////////////////////////////////////")
 
-            if (this.nbInventorSpheros == this.expectedInventorSpheroNumber && this.nbWebApps == this.excpectedWebApps){
+            if (this.nbInventorSpheros == this.expectedInventorSpheroNumber && this.nbWebApps == this.excpectedWebApps && this.nbMapSystems == this.excpectedMapSystems){
 
                 //initialisation des différents managers
                 this.spheroManager.init()
                 this.webAppsManager.init()
+                this.mapSystemManager.init()
 
                 //déclarations des différentes activités de l'experience
                 this.declareExperienceActivities()
@@ -165,6 +179,9 @@ class XpManager{
                     case clientTypes.DISPLAY:
                         this.nbWebApps -= 1
                         break;
+                    case clientTypes.MAP:
+                        this.nbMapSystems -= 1
+                        break;
                 default:
                     break;
             }
@@ -175,7 +192,7 @@ class XpManager{
         this.webAppsManager = new WebAppsManager()
         this.activityManager = new ActivityManager()
         this.mapSystemManager = new MapSystemManager()
-
+        
         
     }
 
@@ -291,7 +308,7 @@ class XpManager{
 
                     let motorsMapSystems = this.MapSystemManager.findallSystemsByName("motor")
                     motorsMapSystems.forEach(MapmotorSystem => {
-                        
+                        MapmotorSystem.emit("teslaCompleted")
                     });
 
                     ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
