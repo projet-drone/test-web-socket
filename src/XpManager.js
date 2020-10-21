@@ -232,6 +232,12 @@ class XpManager{
 
                     let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
                     lightMapSystem.client.emit("edisonCompleted")
+
+                    let motorsMapSystems = this.mapSystemManager.findallSystemsByNameAndType("motor","near")
+                    motorsMapSystems.forEach(MapmotorSystem => {
+                        MapmotorSystem.client.emit("edisonCompleted")
+                    });
+
                     ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
                     resolve('finished')
                 })
@@ -306,9 +312,9 @@ class XpManager{
                     let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
                     lightMapSystem.client.emit("teslaCompleted")
 
-                    let motorsMapSystems = this.MapSystemManager.findallSystemsByName("motor")
+                    let motorsMapSystems = this.mapSystemManager.findallSystemsByName("motor")
                     motorsMapSystems.forEach(MapmotorSystem => {
-                        MapmotorSystem.emit("teslaCompleted")
+                        MapmotorSystem.client.emit("teslaCompleted")
                     });
 
                     ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")

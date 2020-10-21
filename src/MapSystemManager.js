@@ -23,7 +23,15 @@ class MapSystemManager {
 
     findMapSystemByName(name){
         let mapSystemToReturn = null
+        console.log("/*/*//**//*/*/*/* */")
+        console.log(this.mapSystems)
+        console.log("/*/*//**//*/*/*/* */")
         this.mapSystems.forEach(mapSystem => {
+            console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+            console.log(mapSystem.name)
+            console.log(name)
+            console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+
             if(mapSystem.name == name){
                 mapSystemToReturn = mapSystem
                  console.log("/*/*/*/*/*/*/*/*/*/*/*/")
@@ -34,10 +42,20 @@ class MapSystemManager {
         });
         return mapSystemToReturn
     }
+    findallSystemsByNameAndType(name,type){
+        let mapSystemToReturn = []
+        this.mapSystems.forEach(mapSystem => {
+            if(mapSystem.name.includes(name) && mapSystem.name.includes(type)){
+                mapSystemToReturn.push(mapSystem); 
+            }
+        });
+        return mapSystemToReturn
+    }
+
     findallSystemsByName(name){
         let mapSystemToReturn = []
         this.mapSystems.forEach(mapSystem => {
-            if(mapSystem.name == name){
+            if(mapSystem.name.includes(name)){
                 mapSystemToReturn.push(mapSystem); 
             }
         });
