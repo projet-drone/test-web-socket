@@ -27,8 +27,6 @@ export default class Node {
         let oX = position.left + this.radius/2;
         let oY = position.top + this.radius/2;
 
-        console.log(position);
-
         return {x: oX, y: oY}
     }
 }

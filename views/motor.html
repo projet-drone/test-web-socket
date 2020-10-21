@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name=”apple-mobile-web-app-capable” content=”yes”>
+    <link rel="manifest" href="public/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Motor</title>
@@ -11,8 +13,7 @@
 <body>
     <div class="container">
 
-        <span class="controls" id="_plus">+</span>
-        <span class="controls" id="_minus">-</span>
+      <div class="content">
         <div id="_spinner">
             <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
@@ -25,6 +26,12 @@
                 </g>
             </svg>
         </div>
+        <svg class="dots" width="479" height="434" viewBox="0 0 479 434" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="dot1" cx="240" cy="8" r="8" fill="#191919"/>
+            <circle class="dot2" cx="471" cy="426" r="8" fill="#191919"/>
+            <circle class="dot3" cx="8" cy="426" r="8" fill="#191919"/>
+            </svg>
+        </div>  
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"

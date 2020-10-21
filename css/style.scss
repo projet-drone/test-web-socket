@@ -16,9 +16,16 @@ $color_disable: #202020;
         stroke-dashoffset: 201 !important;
     }
     to {
-
         stroke-dashoffset: 0 !important;
-        
+    }
+}
+
+@keyframes blinking {
+    from {
+        fill: $color_blue;
+    }
+    to {
+        fill: $color_disable;
     }
 }
 
@@ -130,6 +137,7 @@ html, body {
         position: fixed; 
         top: 0;
         left: 0;
+        transition: .3s linear;
       
         // box-shadow: 0px 0px 100px 0px rgba(0,94,255,0.73), inset 0px 0px 10px 0px rgba(0,94,255,0.73);
         width: 100px;
@@ -188,7 +196,6 @@ html, body {
         width: 50%;
     }
 
-
 }
 
 .controls {
@@ -198,10 +205,54 @@ html, body {
     font-weight: 700;
 }
 
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    & .dots {
+        position: absolute;
+        top: -30px;
+        left: 10px;
+        
+        circle {
+            fill: $color_disable;
+            position: relative;
+
+            &.dot1 {
+             
+                animation: 0.5s 0s infinite blinking;
+            }
+
+            &.dot2 {
+                animation: 0.5s 0.33s infinite blinking;
+            }
+
+            &.dot3 {
+                animation: 0.5s 0.66s infinite blinking;
+            }
+
+            // &::after {
+            //     content:"";
+            //     box-shadow: 0px 0px 15px 5px $color_blue;
+            //     position: absolute;
+            //     top: 0;
+            //     left: 0;
+            //     width: 100%;
+            //     height: 100%;
+            // }
+            
+        }
+    }
+}
+
 #_spinner {
-    margin: 50px 0 0;
+    margin: 0;
     width: 500px;
     height: 500px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 #_testMap {
@@ -222,7 +273,7 @@ html, body {
 #_progressBar {
     height: 100%;
     width: 0px;
-    transition: width .3s ease;
+    transition: width 1.5s ease;
     background-color: $color_white;
     position: relative;
 

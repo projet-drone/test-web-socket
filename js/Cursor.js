@@ -39,7 +39,7 @@ export default class Cursor {
               
                 node.el.classList.add('active');
                 this.isLoading = true;
-                this.magneted(node) 
+                // this.magneted(node) 
             } 
         });
     }
@@ -49,12 +49,10 @@ export default class Cursor {
         // To improve 
         if(node.isFocused) {
             node.isFocused = false;
-            console.log(node.isFocused);
             this.el.classList.remove('magnet')
         } else {
 
             node.isFocused = true;
-            console.log(node.isFocused);
             this.el.classList.add('magnet')
             
             this.el.style.top = node.origin.y - this.radius + "px"

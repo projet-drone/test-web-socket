@@ -2,36 +2,15 @@ import Node from './Node.js';
 import Cursor from './Cursor.js';
 
 var nodeArray = []
+var x  = 0, y = 0;
 
-// // //const socket = io('http://192.168.43.81:3000');
+const socket = io('http://192.168.43.81:3001');
 // // //const socket = io('http://172.17.128.251:3000');
 // const socket = io('http://192.168.1.10:3000');
 
 // socket.on("startHandShake",data =>{
 //     console.log("c'est pas très covid ça")
 //     socket.emit("HandShakeAnswered","SkillTreeWebApp:display")
-// })
-
-// socket.on("sendJoystickDatas",dataString => {
-//   console.log("joystick data received",dataString)
-//   // let data = dataString.split(":")
-//   // coords[0] += parseFloat(data[1])
-//   // coords[1] -= parseFloat(data[2])
-
-//   // switch (data[0]) {
-//   //     case "Edison":
-//   //        color = "rgb(200,0,0)"
-//   //         break;
-//   //     case "Westinghouse":
-//   //        color = "rgb(100,50,200)"
-//   //         break;
-//   //     case "Tesla":
-//   //        color = "rgb(0,0,200)"
-//   //         break;
-//   //     default:
-//   //         break;
-//   // }
-//   requestAnimationFrame(draw)
 // })
 
 // // //socket.emit("joystickMoved", [0, 1])
@@ -42,14 +21,9 @@ var nodeArray = []
 //   SPRING: 'spring'
 // }
 
-
 var canvas = document.getElementById("_testMap");
 var cursor = document.getElementById("_cursor");
 var nodes = document.querySelectorAll(".node");
-
-var c = canvas.getContext("2d");
-var x = canvas.width / 2;
-var y = canvas.height - 30;
 
 const CURSOR = new Cursor(0, 0, 50, cursor)
 
@@ -61,12 +35,24 @@ nodes.forEach(node => {
   nodeArray.push(newNode)
 });
 
-document.addEventListener('mousemove', function (event) {
-  x = event.pageX
-  y = event.pageY
+socket.on("joystickMoved",dataString => {
+  console.log("joystick data received", dataString)
+  let data = dataString.split(":")
+ 
+  x += parseFloat(data[0]) * 4
+  y -= parseFloat(data[1]) * 4 
+
+  // console.log(parseFloat(data[0]) );
 
   CURSOR.moveCursor(x, y)
   CURSOR.collisionHandler(nodeArray)
+})
+
+// document.addEventListener('mousemove', function (event) {
+//   x = event.pageX
+//   y = event.pageY
+
+
 
   // let nodeOrigin = getOrigin(rect.left, rect.top, diameter)
   // let cursorOrigin = getOrigin(x, y, cursor.offsetWidth)
@@ -92,7 +78,7 @@ document.addEventListener('mousemove', function (event) {
   //   node.classList.remove('active')
   //   cursor.classList.remove('magnet')
   // }
-});
+// });
 
 // function drawBall() {
 //   c.lineWidth = 3
@@ -159,8 +145,6 @@ document.addEventListener('mousemove', function (event) {
 // //     coords[0] += parseFloat(data[0] * 10)
 // //     coords[1] -= parseFloat(data[1] * 10)
 
-
-
 // // })
 
 // // requestAnimationFrame(draw)
@@ -179,8 +163,6 @@ document.addEventListener('mousemove', function (event) {
 // //     ctx.shadowBlur = blur;
 
 // // }
-
-
 
 // /*
 //     Author: Stephen Bussard
@@ -209,8 +191,6 @@ document.addEventListener('mousemove', function (event) {
 // canvas.style.position = "absolute";
 // canvas.style.zIndex = -2;
 // document.body.appendChild(canvas);
-
-
 
 // //var canvas = document.getElementById("canvas");
 // var ctx = canvas.getContext("2d");

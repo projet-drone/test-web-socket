@@ -10,11 +10,12 @@ const events = [
   { event: "joystickMoved", hint: "sphero joystick data to send to move in the skill tree", expectedType: "Array of coordinates [x,y]" },
   { event: "hello", hint: "debug", expectedType: "Any" },
   { event: "hello", hint: "debug", expectedType: "nothing" },
-]
+] 
 
 app.use("/js", express.static(__dirname + "/js"))
 app.use("/css", express.static(__dirname + "/css"))
 app.use("/img", express.static(__dirname + "/img"))
+app.use("/public", express.static(__dirname + "/public"))
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
