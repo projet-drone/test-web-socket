@@ -2,11 +2,11 @@ $color_bg: #000;
 $color_white: #fff;
 $color_black: #000;
 
-$color_blue: #0082FF;
-$color_red: #FF3C00;
-$color_violet: #9A0FDB;
+$color_blue: #0082ff;
+$color_red: #ff3c00;
+$color_violet: #9a0fdb;
 
-$blue_node: #01203E;
+$blue_node: #01203e;
 
 $color_disable: #202020;
 
@@ -21,9 +21,7 @@ $color_disable: #202020;
     justify-content: space-between;
     border-radius: 5px;
     z-index: 10000;
-
 }
-
 
 @keyframes stroke-anim {
     from {
@@ -43,19 +41,35 @@ $color_disable: #202020;
     }
 }
 
+@keyframes pulse {
+    from {
+        transform: scale(0) translate(-50%, -50%);
+    }
+    to {
+        transform: scale(1) translate(-50%, -50%);
+    }
+}
+@keyframes disapear {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
 
 * {
     box-sizing: border-box;
     // cursor: none !important;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     position: relative;
     background-color: $color_bg;
-    background-image: url('./Pattern.svg');
-   
+    background-image: url("./Pattern.svg");
 }
 
 .container {
@@ -64,7 +78,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; 
+    position: relative;
     flex-direction: column;
 }
 
@@ -80,20 +94,17 @@ html, body {
         background-color: $blue_node;
 
         box-shadow: 0px 0px 200px 25px $color_red;
-        
-        &.active {
-   
-        }
 
-        
+        &.active {
+        }
     }
 
     .icon {
-        path { 
+        path {
             fill: $color_disable;
         }
     }
-    
+
     .network {
         width: 100vw;
     }
@@ -105,7 +116,6 @@ html, body {
             stroke: $color_disable;
         }
     }
-    
 
     .node {
         // stroke: $color_disable;
@@ -116,7 +126,7 @@ html, body {
         &.hidden {
             opacity: 0;
         }
-        
+
         & .filter {
             opacity: 0;
         }
@@ -149,11 +159,11 @@ html, body {
     }
 
     #_cursor {
-        position: fixed; 
+        position: fixed;
         top: 0;
         left: 0;
-        transition: .3s linear;
-      
+        transition: 0.3s linear;
+
         // box-shadow: 0px 0px 100px 0px rgba(0,94,255,0.73), inset 0px 0px 10px 0px rgba(0,94,255,0.73);
         width: 100px;
         height: 100px;
@@ -183,18 +193,17 @@ html, body {
             left: 50%;
             transform: translate(-50%, -50%);
             // border-radius: 50%;
-    
-          circle {
-            stroke: $color_red!important;
-            stroke-width: 2px;
-            stroke-dasharray: 201 !important;
-            stroke-dashoffset: 201 !important;
-          }
+
+            circle {
+                stroke: $color_red !important;
+                stroke-width: 2px;
+                stroke-dasharray: 201 !important;
+                stroke-dashoffset: 201 !important;
+            }
         }
-     
 
         &.magnet {
-            transition: 1s ease;
+            transition: 1s ease; 
 
             circle {
                 transition: 1.5s ease 1.2s;
@@ -203,14 +212,30 @@ html, body {
             }
         }
     }
-   
+
     .gif {
         position: fixed;
         bottom: 0;
         right: 0;
         width: 50%;
     }
+}
 
+.Motor {
+    background-color: $color_bg;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &::after {
+        content: "";
+        background-image: url('./Pattern.svg');
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .controls {
@@ -230,13 +255,12 @@ html, body {
         position: absolute;
         top: -30px;
         left: 10px;
-        
+
         circle {
             fill: $color_disable;
             position: relative;
 
             &.dot1 {
-             
                 animation: 0.5s 0s infinite blinking;
             }
 
@@ -257,7 +281,6 @@ html, body {
             //     width: 100%;
             //     height: 100%;
             // }
-            
         }
     }
 }
@@ -270,7 +293,34 @@ html, body {
     // overflow: hidden;
 }
 
-.finalAnimation {
+#_pulse {
+    width: 620px;
+    height: 619px;
+    border: 7px solid $color_blue;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 20px 5px $color_blue;
+   
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    border-radius: 50%;
+    transform: scale(0) translate(-50%, -50%);
+    transform-origin: center;
+    transform-origin: top left;
+
+    &.pulsed {
+        animation: pulse 1.8s ease  forwards, disapear .3s ease 1.8s forwards;
+        
+    }
+}
+
+#plus {
+    position: fixed;
+    top: 10px;
+    z-index: 99999999999999;
+}
+
+.finalAnimation { 
     position: fixed;
     top: 50%;
     left: 50%;
@@ -285,27 +335,7 @@ html, body {
 }
 
 #_testMap {
-    border: solid 2px $color_white ;
-   
-}
-
-#_bar {
-    width: 800px;
-    height: 80px;
     border: solid 2px $color_white;
-    padding: 2px;
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-}
-
-#_progressBar {
-    height: 100%;
-    width: 0px;
-    transition: width 1.5s ease;
-    background-color: $color_white;
-    position: relative;
- 
 }
 
 .Details {
@@ -314,8 +344,6 @@ html, body {
     left: 0;
     height: 100vh;
     width: 100%;
-
-   
 
     &-container {
         &::before {
@@ -334,7 +362,6 @@ html, body {
     }
     &-list {
         z-index: 3;
-       
     }
 
     &-content {
@@ -347,7 +374,7 @@ html, body {
 
     &-title {
         color: $color_white;
-        text-shadow: 0px 0px 60px $color_white; 
+        text-shadow: 0px 0px 60px $color_white;
         font-size: 46px;
         text-transform: uppercase;
     }
@@ -357,7 +384,7 @@ html, body {
         font-size: 24px;
         width: 480px;
     }
-    
+
     &-img {
         position: absolute;
         left: 120px;
@@ -368,7 +395,6 @@ html, body {
 }
 
 .swiper {
-
     &-pagination {
         width: 3px !important;
         height: 350px !important;
@@ -382,21 +408,19 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: $color_bg;
-    background-image: url('./Pattern.svg');
+    background-image: url("./Pattern.svg");
 
-    opacity: 0; 
-    transition: .5s ease;
+    opacity: 0;
+    transition: 0.5s ease;
 
     &.open {
         transform: translateY(-100%);
-        opacity: 1; 
+        opacity: 1;
     }
-  }
+}
 
-  .swiper-slide {
+.swiper-slide {
     display: flex !important;
     align-items: center;
     justify-content: center;
-
-    
-  }
+}

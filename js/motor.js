@@ -25,16 +25,17 @@ document.querySelector('#plus').addEventListener('click', function () {
     } else {
         gsap.to("#_spinner", { duration: 1, rotation: score * (rotation + prevRotate) });
 
+        document.querySelector('#_pulse').classList.add('pulsed')
         setTimeout(() => {
             document.querySelector('#_spinner').style.display = "none";
             document.querySelector('#_finalAnimation').setAttribute('src', '../img/Exp-moteur-machine-apparition.gif');
             
-        }, 300);
+        }, 1000);
 
         setTimeout(() => {
-            document.querySelector('#_finalAnimation').setAttribute('src', '../img/Exp-moteur-machine-loop.gif');
+            document.querySelector('#_finalAnimationLoop').setAttribute('src', '../img/Exp-moteur-machine-loop.gif');
             
-        }, 2500);
+        }, 3500);
 
      
     }

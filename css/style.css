@@ -35,7 +35,7 @@
 
 @-webkit-keyframes blinking {
   from {
-    fill: #0082FF;
+    fill: #0082ff;
   }
   to {
     fill: #202020;
@@ -44,10 +44,50 @@
 
 @keyframes blinking {
   from {
-    fill: #0082FF;
+    fill: #0082ff;
   }
   to {
     fill: #202020;
+  }
+}
+
+@-webkit-keyframes pulse {
+  from {
+    -webkit-transform: scale(0) translate(-50%, -50%);
+            transform: scale(0) translate(-50%, -50%);
+  }
+  to {
+    -webkit-transform: scale(1) translate(-50%, -50%);
+            transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes pulse {
+  from {
+    -webkit-transform: scale(0) translate(-50%, -50%);
+            transform: scale(0) translate(-50%, -50%);
+  }
+  to {
+    -webkit-transform: scale(1) translate(-50%, -50%);
+            transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@-webkit-keyframes disapear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes disapear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
@@ -56,7 +96,8 @@
           box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   position: relative;
@@ -91,9 +132,9 @@ html, body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background-color: #01203E;
-  -webkit-box-shadow: 0px 0px 200px 25px #FF3C00;
-          box-shadow: 0px 0px 200px 25px #FF3C00;
+  background-color: #01203e;
+  -webkit-box-shadow: 0px 0px 200px 25px #ff3c00;
+          box-shadow: 0px 0px 200px 25px #ff3c00;
 }
 
 .Tree .icon path {
@@ -156,8 +197,8 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
-  -webkit-transition: .3s linear;
-  transition: .3s linear;
+  -webkit-transition: 0.3s linear;
+  transition: 0.3s linear;
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -168,7 +209,7 @@ html, body {
 
 .Tree #_cursor::after {
   content: "";
-  border: solid 4px #FF3C00;
+  border: solid 4px #ff3c00;
   -webkit-filter: blur(4px);
           filter: blur(4px);
   width: 95%;
@@ -193,7 +234,7 @@ html, body {
 }
 
 .Tree #_cursor svg circle {
-  stroke: #FF3C00 !important;
+  stroke: #ff3c00 !important;
   stroke-width: 2px;
   stroke-dasharray: 201 !important;
   stroke-dashoffset: 201 !important;
@@ -215,6 +256,23 @@ html, body {
   bottom: 0;
   right: 0;
   width: 50%;
+}
+
+.Motor {
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.Motor::after {
+  content: "";
+  background-image: url("./Pattern.svg");
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .controls {
@@ -267,6 +325,37 @@ html, body {
   margin: 0;
 }
 
+#_pulse {
+  width: 620px;
+  height: 619px;
+  border: 7px solid #0082ff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 20px 5px #0082ff;
+          box-shadow: 0px 0px 20px 5px #0082ff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  -webkit-transform: scale(0) translate(-50%, -50%);
+          transform: scale(0) translate(-50%, -50%);
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+#_pulse.pulsed {
+  -webkit-animation: pulse 1.8s ease  forwards, disapear .3s ease 1.8s forwards;
+          animation: pulse 1.8s ease  forwards, disapear .3s ease 1.8s forwards;
+}
+
+#plus {
+  position: fixed;
+  top: 10px;
+  z-index: 99999999999999;
+}
+
 .finalAnimation {
   position: fixed;
   top: 50%;
@@ -285,29 +374,6 @@ html, body {
 
 #_testMap {
   border: solid 2px #fff;
-}
-
-#_bar {
-  width: 800px;
-  height: 80px;
-  border: solid 2px #fff;
-  padding: 2px;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-}
-
-#_progressBar {
-  height: 100%;
-  width: 0px;
-  -webkit-transition: width 1.5s ease;
-  transition: width 1.5s ease;
-  background-color: #fff;
-  position: relative;
 }
 
 .Details {
@@ -384,8 +450,8 @@ html, body {
   background-color: #000;
   background-image: url("./Pattern.svg");
   opacity: 0;
-  -webkit-transition: .5s ease;
-  transition: .5s ease;
+  -webkit-transition: 0.5s ease;
+  transition: 0.5s ease;
 }
 
 .swiper-container.open {
