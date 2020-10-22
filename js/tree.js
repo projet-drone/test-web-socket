@@ -2,9 +2,9 @@ import Node from './Node.js';
 import Cursor from './Cursor.js';
 
 var nodeArray = []
-var x  = 0, y = 0;
+var x = 0, y = 0;
 
-const socket = io('http://192.168.43.81:3001');
+// const socket = io('http://192.168.43.81:3001');
 // // //const socket = io('http://172.17.128.251:3000');
 // const socket = io('http://192.168.1.10:3000');
 
@@ -27,26 +27,55 @@ var nodes = document.querySelectorAll(".node");
 
 const CURSOR = new Cursor(0, 0, 50, cursor)
 
-nodes.forEach(node => {
+nodes.forEach((node, idx) => {
 
   // Use node's circle position
   var position = node.querySelector('.circle').getBoundingClientRect();
   let newNode = new Node(position.top, position.left, 66, node)
   nodeArray.push(newNode)
+  
+  node.querySelector('.circle').addEventListener('click', () => {
+  console.log(idx);
+    console.log(document.querySelector(`#detail${idx}`));
+    document.querySelector(`#detail${idx}`).classList.add('open')
+
+    
+  })
+});
+var swiper = new Swiper('.swiper-container', {
+  direction: 'vertical',
+  pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      type: 'progressbar',
+  },
 });
 
-socket.on("joystickMoved",dataString => {
-  console.log("joystick data received", dataString)
-  let data = dataString.split(":")
- 
-  x += parseFloat(data[0]) * 4
-  y -= parseFloat(data[1]) * 4 
 
-  // console.log(parseFloat(data[0]) );
-
-  CURSOR.moveCursor(x, y)
-  CURSOR.collisionHandler(nodeArray)
+document.querySelector('#button1').addEventListener('click', () => {
+  swiper.slideNext(300, false);
+  console.log("ok");
 })
+document.querySelector('#button2').addEventListener('click', () => {
+  swiper.slidePrev(300, false);
+  console.log("ok");
+})
+document.querySelector('#button3').addEventListener('click', () => {
+  document.querySelector(`.swiper-container`).classList.remove('open')
+})
+
+// socket.on("joystickMoved", dataString => {
+  // console.log("joystick data received", dataString)
+  // let data = dataString.split(":")
+
+  // x += parseFloat(data[0]) * 4
+  // y -= parseFloat(data[1]) * 4
+
+  // // console.log(parseFloat(data[0]) );
+
+  // CURSOR.moveCursor(x, y)
+  // CURSOR.collisionHandler(nodeArray)
+// })
 
 // document.addEventListener('mousemove', function (event) {
 //   x = event.pageX

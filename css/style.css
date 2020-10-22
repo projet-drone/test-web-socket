@@ -1,3 +1,20 @@
+#debug {
+  width: 300px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-color: #814e0b;
+  padding: 40px 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-radius: 5px;
+  z-index: 10000;
+}
+
 @-webkit-keyframes stroke-anim {
   from {
     stroke-dashoffset: 201 !important;
@@ -250,6 +267,14 @@ html, body {
   margin: 0;
 }
 
+.finalAnimation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
 .connection {
   position: fixed;
   top: 50%;
@@ -283,5 +308,101 @@ html, body {
   transition: width 1.5s ease;
   background-color: #fff;
   position: relative;
+}
+
+.Details {
+  position: fixed;
+  top: 100vh;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+}
+
+.Details-container::before {
+  content: "";
+  background-image: url("../img/Blur-violet.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  left: 0;
+}
+
+.Details-list {
+  z-index: 3;
+}
+
+.Details-content {
+  width: 1440px;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+}
+
+.Details-title {
+  color: #fff;
+  text-shadow: 0px 0px 60px #fff;
+  font-size: 46px;
+  text-transform: uppercase;
+}
+
+.Details-text {
+  color: #fff;
+  font-size: 24px;
+  width: 480px;
+}
+
+.Details-img {
+  position: absolute;
+  left: 120px;
+  z-index: -1;
+  top: 0;
+  -webkit-transform: translateY(-30%);
+          transform: translateY(-30%);
+}
+
+.swiper-pagination {
+  width: 3px !important;
+  height: 350px !important;
+  left: 100px !important;
+  bottom: 100px !important;
+  top: auto !important;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  background-image: url("./Pattern.svg");
+  opacity: 0;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+
+.swiper-container.open {
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  opacity: 1;
+}
+
+.swiper-slide {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 /*# sourceMappingURL=style.css.map */
