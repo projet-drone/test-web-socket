@@ -1,0 +1,81 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background-color: #000;
+  background-image: url("./Pattern.svg");
+}
+
+.Alternatif {
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.Alternatif-container {
+  width: 1320px;
+  height: 600px;
+  background-color: rgba(154, 15, 219, 0.1);
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Alternatif-container::before {
+  content: "";
+  background-image: url("../img/Blur-violet.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Alternatif-content {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: translateX(130px);
+          transform: translateX(130px);
+}
+
+.Alternatif-right {
+  height: 360px;
+  width: 480px;
+  padding: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0px 0px 64px 40px rgba(154, 15, 219, 0.1);
+          box-shadow: 0px 0px 64px 40px rgba(154, 15, 219, 0.1);
+}
+/*# sourceMappingURL=generator.css.map */

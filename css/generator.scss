@@ -1,0 +1,70 @@
+$color_bg: #000;
+$color_white: #fff;
+$color_black: #000;
+
+$color_blue: #0082FF;
+$color_red: #FF3C00;
+$color_violet: #9A0FDB;
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: $color_bg;
+    background-image: url('./Pattern.svg');
+}
+
+.Alternatif {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &-container {
+        width: 1320px;
+        height: 600px;
+        background-color: rgba($color_violet, .1);
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        &::before {
+            content: "";
+            background-image: url("../img/Blur-violet.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    &-content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transform: translateX(130px);
+    }
+
+    &-right {
+        height: 360px;
+        width: 480px;
+        padding: 50px;
+        background-color: rgba($color_black, .4);
+        box-shadow: 0px 0px 64px 40px rgba($color_violet, .1);
+    }
+
+
+}
+

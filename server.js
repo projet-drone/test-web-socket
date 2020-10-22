@@ -32,6 +32,9 @@ app.get('/motor', (req, res) => {
 app.get('/generator', (req, res) => {
   res.sendFile(__dirname + '/views/generator.html');
 });
+app.get('/alternatif', (req, res) => {
+  res.sendFile(__dirname + '/views/generatorAlternatif.html');
+});
 server.listen(port, function () {
   console.log('Express server listening on %d', port);
 });
