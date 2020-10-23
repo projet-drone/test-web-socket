@@ -4,7 +4,7 @@ const SpheroMods = {
     DC_GENERATOR : "dcGenerator",
     AC_GENERATOR : "acGenerator",
     PROXIMITY_DETECTOR : "memoryVacuum",
-    MOTOR : "display",
+    MOTOR : "motor",
 }
 
 class Sphero {
