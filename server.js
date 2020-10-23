@@ -37,12 +37,18 @@ const events = [
 // });
 
 
-
+let sockets = {}
 let countUsers = 0
+let shouldFarLightTurnOn = false
 io.on('connection', (socket) => {
   countUsers ++ 
   console.log('a user connected');
   console.log(countUsers);
+  socket.emit("coucouTki")
+  socket.on("coucouTkiRep",(data) => {
+    sockets[data] = {socket: socket, name:data}
+    console.log("sockets",sockets)
+  })
   //socket.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
 
   /*socket.on("HandShakeAnswered",data => {
@@ -60,13 +66,36 @@ io.on('connection', (socket) => {
   /*socket.on("pizza-cordon-bleu", data => {
     socket.emit("miam",events)
   })*/
-  socket.on('edisonCompleted', data => {
+ socket.on('edisonCompleted', data => {
     console.log(data)
-    socket.broadcast.emit("edisonCompleted",data)
+    shouldFarLightTurnOn = false
+    sockets["exterieur"].socket.emit("edisonCompleted",data)
+    sockets["interieur"].socket.emit("edisonCompleted",data)
   })
   socket.on('westinghouseCompleted', data => {
     console.log(data)
-    socket.broadcast.emit("westinghouseCompleted",data)
+    shouldFarLightTurnOn = true
+    sockets["exterieur"].socket.emit("westinghouseCompleted",data)
+    sockets["interieur"].socket.emit("westinghouseCompleted",data)
+  })
+  socket.on('teslaCompleted', data => {
+    shouldFarLightTurnOn = true
+    console.log(data)
+    sockets["exterieur"].socket.emit("teslaCompleted",data)
+    sockets["interieur"].socket.emit("teslaCompleted",data)
+  })
+  socket.on('lightUp', data => {
+    console.log(data)
+    if (sockets["exterieur"] && shouldFarLightTurnOn) {
+      sockets["exterieur"].socket.emit("lightUp",data)
+    }
+  })
+
+  socket.on('turnOff', data => {
+    console.log(data)
+    if (sockets["exterieur"]) {
+      sockets["exterieur"].socket.emit("turnOff",data)
+    }
   })
 
   /*socket.on('scoreSended', data => {
@@ -87,13 +116,18 @@ io.on('connection', (socket) => {
     
     socket.broadcast.emit("generatorRotated",coords)
   })
-*/
+  */
   socket.on("hello",data => {
     //socket.emit("hello","yo");
+    
     console.log(data)
-  })/*
+  })
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });*/
+    let name = "user"
+    if (sockets[socket.id]) {
+      name = sockets[socket.id].name
+    }
+    console.log( name + ' disconnected');
+  })
 });

@@ -17,11 +17,12 @@
 
     </div>
 
-    <script src="./socket.io.js"></script>
+    <!--<script src="./socket.io.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
     <script>
       // Create SocketIO instance, connect
   
-      const socket = io('http://127.0.0.1:3002');
+      const socket = io('http://192.168.43.81:3000');
 
      /* setInterval(() => {
         socket.emit("refreshConnection","boop")
@@ -87,6 +88,7 @@
           console.log("click")
           let fakeJoystickData = "Edison:0:1"
           socket.emit("sendJoystickDatas",fakeJoystickData)
+          socket.emit("teslaCompleted")
         })
 
         joystickDown.addEventListener("click",()=>{
