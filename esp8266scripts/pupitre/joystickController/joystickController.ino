@@ -99,6 +99,7 @@ void loop() {
     if (newVal != val) { 
       if(newVal == HIGH){
          webSocket.emit("spheroLifted","\"Edison\""); // Blue
+         USE_SERIAL.printf("EDISON lifted")
       }else{
          webSocket.emit("spheroDropped","\"Edison\"");
       }
