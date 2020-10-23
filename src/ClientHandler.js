@@ -1,5 +1,6 @@
 var io = require('socket.io')
 var Client = require('./model/Client')
+var {Observable, Subscriber } = require('rxjs')
 
 
 /**
@@ -10,6 +11,8 @@ const clientTypes = {
         LIGHT : "light",
         MAP : "mappy",
         DISPLAY : "display",
+        INSTALL : "installation",
+        ADMIN : "admin"
 }
 
 
@@ -44,6 +47,7 @@ class ClientHandler{
         
         io(this.server).on('connection',client => {
            
+            console.log('a user connected');
             this.identifyClient(client,(newClient) =>{
                 connectionCallBack(newClient)
                 console.log(newClient.name)
@@ -61,6 +65,21 @@ class ClientHandler{
             })
         })
     }
+
+    observeConnections = new Observable(subscriber => {
+        io(this.server).on('connection',client => {
+           
+            console.log('a user connected');
+            this.identifyClient(client,(newClient) =>{
+                subscriber.next(newClient)
+                console.log(newClient.name)
+            })
+        
+
+            //listening to disconnection
+            
+        })
+    })
 
     findClientFromSocket(client){
         let foundClient = null
@@ -155,7 +174,7 @@ class ClientHandler{
     }
 
     createSocketTunnel(emitter,receiver,eventName){
-        this.socketTunnels[eventName] = {emitter:emitter.client}
+        this.socketTunnels[eventName] = {emitter:emitter.client,receiver:receiver.client}
         emitter.client.on(eventName,(datas) =>{
             console.log("received " + datas + "on event : " + eventName)
             receiver.client.emit(eventName,datas)
@@ -168,6 +187,14 @@ class ClientHandler{
             this.socketTunnels[eventName].emitter.off(eventName,() => {})
             delete this.socketTunnels[eventName]
         }
+    }
+    collapseSocketTunnelBySphero(sphero,eventName){
+        for (const property in this.socketTunnels) {
+            if (property == eventName && sphero.client == this.socketTunnels[property].emitter) {
+                this.socketTunnels[property].receiver.off(property,() => {})
+                delete this.socketTunnels[property]
+            }
+          }
     }
     
 }

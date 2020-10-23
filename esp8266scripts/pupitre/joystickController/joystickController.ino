@@ -45,6 +45,13 @@ void refresh(const char * payload, size_t length) {
   
   //rainbow(10);
 }
+
+void identify(const char * payload, size_t length) {
+  Serial.println("refreshing \n");
+  webSocket.emit("HandShakeAnswered","\"Pupitre:installation\"");
+  //rainbow(10);
+}
+
 void setup() {
     Serial.begin(115200);
 
@@ -70,8 +77,9 @@ void setup() {
     }
 
    
+    webSocket.on("startHandShake",identify);
     
-    webSocket.begin(HOME_SERVER_IP,3000);
+    webSocket.begin(HOME_SERVER_IP,3002,"/socket.io/?transport=websocket");
     
     #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
   clock_prescale_set(clock_div_1);
@@ -88,14 +96,27 @@ void loop() {
     int newVal = digitalRead(inPin);
     int newVal2 = digitalRead(inPin2);
     int newVal3 = digitalRead(inPin3);// read input value
-    if (newVal != val) {         // check if the input is HIGH (button released)
-      webSocket.emit("hello","\"btn 1 puhed\""); // Blue
+    if (newVal != val) { 
+      if(newVal == HIGH){
+         webSocket.emit("spheroLifted","\"Edison\""); // Blue
+      }else{
+         webSocket.emit("spheroDropped","\"Edison\"");
+      }
+      //webSocket.emit("hello","\"btn 1 puhed\""); // Blue
     }
     if (newVal2 != val2) {         // check if the input is HIGH (button released)
-      webSocket.emit("hello","\"btn 2 pushed\""); // Blue
+      if(newVal == HIGH){
+         webSocket.emit("spheroLifted","\"Westinghouse\""); // Blue
+      }else{
+         webSocket.emit("spheroDropped","\"Westinghouse\"");
+      }
     }
     if (newVal3 != val3) {         // check if the input is HIGH (button released)
-      webSocket.emit("hello","\"btn 3 pushed\""); // Blue
+       if(newVal == HIGH){
+         webSocket.emit("spheroLifted","\"Tesla\""); // Blue
+      }else{
+         webSocket.emit("spheroDropped","\"Tesla\"");
+      }
     }
     
   val = newVal;

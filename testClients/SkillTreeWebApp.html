@@ -45,7 +45,7 @@
             socket.emit("launchActivity","ContinuousGeneratorActivity")
             setTimeout(() =>{
                 socket.emit("DCgeneratorActivityCompleted")
-            },3000)
+            },10000)
         })
         acGeneratorBBl.addEventListener('click',() => {
             socket.emit("launchActivity","AlternativeGeneratorActivity")

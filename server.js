@@ -2,12 +2,12 @@
 
 var app = require('express')();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var io = require('socket.io');
 
 var ExperienceManager = require('./src/XpManager')
 var {ClientHandler} = require('./src/ClientHandler')
 
-const port = 3000
+const port = 3002
 
 server.listen(port, function () {
   console.log('Express server listening on %d', port);
@@ -19,7 +19,7 @@ let xpManager = new ExperienceManager()
 let clientHandler = ClientHandler.getinstance()
 clientHandler.server = server;
 clientHandler.ioObject = io;
-//xpManager.init()
+xpManager.init()
 
 
 
@@ -38,11 +38,11 @@ const events = [
 
 
 
-let countUsers = 0
+/*let countUsers = 0
 io.on('connection', (socket) => {
   countUsers ++ 
   console.log('a user connected');
-  console.log(countUsers);
+  console.log(countUsers);*/
   //socket.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
 
   /*socket.on("HandShakeAnswered",data => {
@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
 
   /*socket.on("pizza-cordon-bleu", data => {
     socket.emit("miam",events)
-  })*/
+  })*//*
   socket.on('edisonCompleted', data => {
     console.log(data)
     socket.broadcast.emit("edisonCompleted",data)
@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
     
     socket.broadcast.emit("generatorRotated",coords)
   })
-*/
+*//*
   socket.on("hello",data => {
     //socket.emit("hello","yo");
     console.log(data)
@@ -96,4 +96,4 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });*/
-});
+//});
