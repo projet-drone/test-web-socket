@@ -34,8 +34,8 @@ SocketIoClient webSocket;
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 int inPin = 13;   
-int val = HIGH;
-uint32_t testColor = strip.Color(100,20,200);
+int val = 0;
+uint32_t testColor = strip.Color(0,0,0);
 int timer = 0;
 
 void colorStripRed(const char * payload, size_t length) {
@@ -56,15 +56,25 @@ void colorStripPurple(const char * payload, size_t length) {
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
 }
-void identify(const char * payload, size_t length) {
+
+void lightUp(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  webSocket.emit("coucouTkiRep","\"interieur\"");
+  webSocket.emit("hello","\"je suis allumé CONNARD\"");
+   colorWipe(testColor, 5);
+  val = 1;
+  //rainbow(10);
+}
+void turnOff(const char * payload, size_t length) {
+  Serial.println("refreshing \n");
+  webSocket.emit("hello","\"c'est bon j'arrete\"");
+  turnStripOff(); 
   val = 0;
   //rainbow(10);
 }
-void refresh(const char * payload, size_t length) {
+void identify(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  
+  webSocket.emit("coucouTkiRep","\"exterieur\"");
+  val = 0;
   //rainbow(10);
 }
 void setup() {
@@ -92,12 +102,14 @@ void setup() {
     }
 
     webSocket.on("edisonCompleted", colorStripRed);
-    webSocket.on("teslaCompleted", colorStripBlue);
     webSocket.on("westinghouseCompleted", colorStripPurple);
+    webSocket.on("teslaCompleted", colorStripBlue);
+    webSocket.on("lightUp", lightUp);
+    webSocket.on("turnOff", turnOff);
     webSocket.on("coucouTki", identify);
     
     webSocket.begin(PATAPON_SERVER_IP,3000);
-    webSocket.emit("hello","\"je suis le centre de la map o/\"");
+    webSocket.emit("hello","\"je suis l'exterieur de la map o/\"");
     #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
   clock_prescale_set(clock_div_1);
     #endif
@@ -113,22 +125,11 @@ void setup() {
 
 void loop() {
     webSocket.loop();
-    int newVal = digitalRead(inPin);
      // read input value
-    if (newVal == LOW) {         // check if the input is HIGH (button released)
-      colorWipe(testColor, 5);// Blue
-      if(newVal != val){
-        webSocket.emit("lightUp","\"allume toi\"");
-      }
-    } else{
-      if(newVal != val){
-        webSocket.emit("turnOff","\"eteinds toi\"");
-      }
-      turnStripOff();
-    }
-
-    val = newVal; 
-    
+     int newVal = val;
+    if (newVal == 1) {         // check if the input is HIGH (button released)
+      colorWipe(testColor, 5); // Blue
+    } 
     if (timer == 500){
       stats("test");
       timer = 0;
@@ -141,6 +142,7 @@ void loop() {
 void turnStripOff(){
   for(int i=0; i<strip.numPixels(); i++){
     strip.setPixelColor(i, strip.Color(0, 0, 0));
+     
   }
    strip.show();
 }
