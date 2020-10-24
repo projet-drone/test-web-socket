@@ -41,7 +41,7 @@ Stepper myStepper = Stepper(stepsPerRevolution, 14, 13, 12, 15);
 
 void identify(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  webSocket.emit("HandShakeAnswered","\"motor:map\"");
+  webSocket.emit("HandShakeAnswered","\"farMotor:map\"");
   
   //rainbow(10);
 }
@@ -88,7 +88,7 @@ void setup() {
         delay(100);
     }
 
-    webSocket.on("edisonCompleted", activateNearMotors);
+    webSocket.on("edisonCompleted", disableMotors);
     webSocket.on("westinghouseCompleted", disableMotors);
     webSocket.on("teslaCompleted", activateAllMotors);
     webSocket.on("startHandShake", identify);

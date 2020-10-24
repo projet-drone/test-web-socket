@@ -44,9 +44,11 @@ io.on('connection', (socket) => {
   countUsers ++ 
   console.log('a user connected');
   console.log(countUsers);
-  socket.emit("coucouTki")
-  socket.on("coucouTkiRep",(data) => {
-    sockets[data] = {socket: socket, name:data}
+  socket.emit("startHandShake")
+  socket.on("HandShakeAnswered",(data) => {
+    let explodedData = data.split(":")
+    console.log("explodedData", explodedData)
+    sockets[explodedData[0]] = {socket: socket, name:explodedData[0]}
     console.log("sockets",sockets)
   })
   //socket.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
@@ -70,22 +72,25 @@ io.on('connection', (socket) => {
     console.log(data)
     shouldFarLightTurnOn = false
     //sockets["exterieur"].socket.emit("edisonCompleted",data)
-    sockets["interieur"].socket.emit("edisonCompleted",data)
+    sockets["led"].socket.emit("edisonCompleted",data)
     sockets["motor"].socket.emit("edisonCompleted",data)
+    sockets["farMotor"].socket.emit("edisonCompleted",data)
   })
   socket.on('westinghouseCompleted', data => {
     console.log(data)
     shouldFarLightTurnOn = true
     //sockets["exterieur"].socket.emit("westinghouseCompleted",data)
-    sockets["interieur"].socket.emit("westinghouseCompleted",data)
+    sockets["led"].socket.emit("westinghouseCompleted",data)
     sockets["motor"].socket.emit("westinghouseCompleted",data)
+    sockets["farMotor"].socket.emit("westinghouseCompleted",data)
   })
   socket.on('teslaCompleted', data => {
     shouldFarLightTurnOn = true
     console.log(data)
     //sockets["exterieur"].socket.emit("teslaCompleted",data)
-    sockets["interieur"].socket.emit("teslaCompleted",data)
+    sockets["led"].socket.emit("teslaCompleted",data)
     sockets["motor"].socket.emit("teslaCompleted",data)
+    sockets["farMotor"].socket.emit("teslaCompleted",data)
   })
   /*socket.on('lightUp', data => {
     console.log(data)

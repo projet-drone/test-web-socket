@@ -65,7 +65,7 @@ void colorStripPurple(const char * payload, size_t length) {
 }
 void identify(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  webSocket.emit("coucouTkiRep","\"interieur\"");
+  webSocket.emit("HandShakeAnswered","\"led:map\"");
   
   //rainbow(10);
 }
@@ -101,7 +101,7 @@ void setup() {
     webSocket.on("edisonCompleted", colorStripRed);
     webSocket.on("teslaCompleted", colorStripBlue);
     webSocket.on("westinghouseCompleted", colorStripPurple);
-    webSocket.on("coucouTki", identify);
+    webSocket.on("startHandShake", identify);
     
     webSocket.begin(PATAPON_SERVER_IP,3000);
     webSocket.emit("hello","\"je suis le centre de la map o/\"");
