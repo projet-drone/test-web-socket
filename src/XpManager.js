@@ -36,6 +36,8 @@ class XpManager{
 
     unlockedInventors = []
 
+    pendingActivity = false
+
     
     init(){
 
@@ -126,7 +128,9 @@ class XpManager{
                         console.log("===================================")
                         //active le sphéro en question
                         this.spheroManager.activate(sphero)
-                        sphero.client.emit('waitingForJoystickData')
+                        //sphero.client.emit('waitingForJoystickData')
+                        this.spheroManager.switchSpheroMod(sphero,SpheroMods.JOYSTICK)
+
                         let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
                         
                         ClientHandler.getinstance().collapseSocketTunnel("sendJoystickDatas")
@@ -139,6 +143,9 @@ class XpManager{
                 this.pupitre.listenForJoystickDisconnection((spheroName) => {
                     console.log("disconnectedJoystick")
                     let sphero = this.spheroManager.findSpheroByName(spheroName)
+                    if (this.unlockedInventors.includes(spheroName) && !this.pendingActivity) {
+                        this.spheroManager.switchSpheroMod(sphero,SpheroMods.IDLE)
+                    }
                     ClientHandler.getinstance().collapseSocketTunnelBySphero(sphero,"sendJoystickDatas")
                 })
     
@@ -147,6 +154,7 @@ class XpManager{
                 skillTreeWebApp.client.on("launchActivity",(activityName) => {
                     ClientHandler.getinstance().collapseSocketTunnel("sendJoystickDatas")
                     let activity = this.activityManager.findActivityByName(activityName)
+                    this.pendingActivity = true
                     console.log("===================================")
                     console.log(activityName + " launched")
                     console.log("===================================")
@@ -168,7 +176,7 @@ class XpManager{
                     const validationObserver = waitForValidation.subscribe((observer) =>{
                         completedTasks.push(observer)
     
-                        if (completedTasks.includes("lifted") && completedTasks.includes("shaked")){
+                        if (completedTasks.includes("lifted") /*&& completedTasks.includes("shaked")*/){
 
                             console.log("===================================")
                             console.log(activityName + " launched")
@@ -178,7 +186,7 @@ class XpManager{
                             activity.activityCore().then((result) => {
                                 //code a executer quand l'activité est finie
                                 this.activityDone.push(activityName)
-        
+                                this.pendingActivity = false
                                 console.log(this.activityDone)
                                 console.log("testsetset")
         
@@ -187,7 +195,7 @@ class XpManager{
                                 console.log("===================================")
                                 validationObserver.unsubscribe()
                                 //reswitch les sphero dans le bon mode
-                                this.spheroManager.switchSpheroMod(activity.actorSphero,SpheroMods.JOYSTICK)
+                                this.spheroManager.switchSpheroMod(activity.actorSphero,SpheroMods.IDLE)
                                 
                             })
                         }
@@ -274,14 +282,14 @@ class XpManager{
 
 
                     let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
-                    lightMapSystem.client.emit("edisonCompleted")
+                    //lightMapSystem.client.emit("edisonCompleted")
 
                     let motorsMapSystems = this.mapSystemManager.findallSystemsByNameAndType("motor","near")
                     motorsMapSystems.forEach(MapmotorSystem => {
-                        MapmotorSystem.client.emit("edisonCompleted")
+                        //MapmotorSystem.client.emit("edisonCompleted")
                     });
 
-                    ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
+                    //ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
                     resolve('finished')
                 })
             })

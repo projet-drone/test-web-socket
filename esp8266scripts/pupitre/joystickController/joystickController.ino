@@ -70,7 +70,7 @@ void setup() {
       }
     WiFi.getMode();
     //WiFi.mode(WIFI_AP);
-    WiFiMulti.addAP(HOME, HOME_PASS);
+    WiFiMulti.addAP(PATAPON, PATAPON_PASS);
 
     while(WiFiMulti.run() != WL_CONNECTED) {
         delay(100);
@@ -79,7 +79,7 @@ void setup() {
    
     webSocket.on("startHandShake",identify);
     
-    webSocket.begin(HOME_SERVER_IP,3002,"/socket.io/?transport=websocket");
+    webSocket.begin(PATAPON_SERVER_IP,3000,"/socket.io/?transport=websocket");
     
     #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
   clock_prescale_set(clock_div_1);
@@ -99,7 +99,7 @@ void loop() {
     if (newVal != val) { 
       if(newVal == HIGH){
          webSocket.emit("spheroLifted","\"Edison\""); // Blue
-         USE_SERIAL.printf("EDISON lifted")
+         USE_SERIAL.printf("EDISON lifted");
       }else{
          webSocket.emit("spheroDropped","\"Edison\"");
       }

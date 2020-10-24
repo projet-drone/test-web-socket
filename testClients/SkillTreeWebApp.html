@@ -15,10 +15,11 @@
     <button id="acGenerator">fake acGeneratorBBl clicked</button>
     <button id="motor">fake motorBBl clicked</button>
 
-    <script src="./socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+
     <script>
         // Create SocketIO instance, connect
-        const socket = io('http://127.0.0.1:3002');
+        const socket = io('http://192.168.43.81:3000');
 
         socket.on("startHandShake",data =>{
             console.log("c'est pas très covid ça")
@@ -45,7 +46,7 @@
             socket.emit("launchActivity","ContinuousGeneratorActivity")
             setTimeout(() =>{
                 socket.emit("DCgeneratorActivityCompleted")
-            },10000)
+            },20000)
         })
         acGeneratorBBl.addEventListener('click',() => {
             socket.emit("launchActivity","AlternativeGeneratorActivity")

@@ -5,6 +5,7 @@ const SpheroMods = {
     AC_GENERATOR : "acGenerator",
     PROXIMITY_DETECTOR : "memoryVacuum",
     MOTOR : "motor",
+    IDLE : "idle"
 }
 
 class Sphero {
@@ -34,6 +35,9 @@ class Sphero {
     }
     switchMode(mod,modSwitched){
         this.mode = mod
+        console.log("///////////////////////")
+        console.log("switched " + this.name + "to " + mod)
+        console.log("///////////////////////")
         if(modSwitched){
             modSwitched()
         }
