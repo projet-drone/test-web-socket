@@ -69,34 +69,37 @@ io.on('connection', (socket) => {
  socket.on('edisonCompleted', data => {
     console.log(data)
     shouldFarLightTurnOn = false
-    sockets["exterieur"].socket.emit("edisonCompleted",data)
+    //sockets["exterieur"].socket.emit("edisonCompleted",data)
     sockets["interieur"].socket.emit("edisonCompleted",data)
+    sockets["motor"].socket.emit("edisonCompleted",data)
   })
   socket.on('westinghouseCompleted', data => {
     console.log(data)
     shouldFarLightTurnOn = true
-    sockets["exterieur"].socket.emit("westinghouseCompleted",data)
+    //sockets["exterieur"].socket.emit("westinghouseCompleted",data)
     sockets["interieur"].socket.emit("westinghouseCompleted",data)
+    sockets["motor"].socket.emit("westinghouseCompleted",data)
   })
   socket.on('teslaCompleted', data => {
     shouldFarLightTurnOn = true
     console.log(data)
-    sockets["exterieur"].socket.emit("teslaCompleted",data)
+    //sockets["exterieur"].socket.emit("teslaCompleted",data)
     sockets["interieur"].socket.emit("teslaCompleted",data)
+    sockets["motor"].socket.emit("teslaCompleted",data)
   })
-  socket.on('lightUp', data => {
+  /*socket.on('lightUp', data => {
     console.log(data)
-    if (sockets["exterieur"] && shouldFarLightTurnOn) {
-      sockets["exterieur"].socket.emit("lightUp",data)
+    if (//sockets["exterieur"]) {
+      //sockets["exterieur"].socket.emit("lightUp",data)
     }
-  })
+  })*/
 
-  socket.on('turnOff', data => {
+  /*socket.on('turnOff', data => {
     console.log(data)
-    if (sockets["exterieur"]) {
-      sockets["exterieur"].socket.emit("turnOff",data)
+    if (//sockets["exterieur"]) {
+      //sockets["exterieur"].socket.emit("turnOff",data)
     }
-  })
+  })*/
 
   /*socket.on('scoreSended', data => {
     console.log(data)
@@ -124,10 +127,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    let name = "user"
-    if (sockets[socket.id]) {
-      name = sockets[socket.id].name
+    let name = "interieur"
+    if (sockets[name] && sockets[name].socket == socket ) {
+      console.log( name + ' disconnected');
     }
-    console.log( name + ' disconnected');
+    
   })
 });
