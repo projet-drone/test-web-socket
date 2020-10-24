@@ -76,21 +76,21 @@
           console.log("click")
           let fakeJoystickData = "Edison:-1:0"
           socket.emit("sendJoystickDatas",fakeJoystickData)
-          socket.emit("edisonCompleted")
+          //socket.emit("edisonCompleted")
         })
 
         joystickRight.addEventListener("click",()=>{
           console.log("click")
           let fakeJoystickData = "Edison:1:0"
           socket.emit("sendJoystickDatas",fakeJoystickData)
-          socket.emit("westinghouseCompleted")
+          //socket.emit("westinghouseCompleted")
         })
 
         joystickUp.addEventListener("click",()=>{
           console.log("click")
           let fakeJoystickData = "Edison:0:1"
           socket.emit("sendJoystickDatas",fakeJoystickData)
-          socket.emit("teslaCompleted")
+          //socket.emit("teslaCompleted")
         })
 
         joystickDown.addEventListener("click",()=>{

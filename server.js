@@ -40,7 +40,7 @@ const events = [
 let sockets = {}
 let countUsers = 0
 let shouldFarLightTurnOn = false
-io.on('connection', (socket) => {
+/*io.on('connection', (socket) => {
   countUsers ++ 
   console.log('a user connected');
   console.log(countUsers);
@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
     console.log("explodedData", explodedData)
     sockets[explodedData[0]] = {socket: socket, name:explodedData[0]}
     console.log("sockets",sockets)
-  })
+  })*/
   //socket.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
 
   /*socket.on("HandShakeAnswered",data => {
@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
   /*socket.on("pizza-cordon-bleu", data => {
     socket.emit("miam",events)
   })*/
- socket.on('edisonCompleted', data => {
+ /*socket.on('edisonCompleted', data => {
     console.log(data)
     shouldFarLightTurnOn = false
     //sockets["exterieur"].socket.emit("edisonCompleted",data)
@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
     sockets["led"].socket.emit("teslaCompleted",data)
     sockets["motor"].socket.emit("teslaCompleted",data)
     sockets["farMotor"].socket.emit("teslaCompleted",data)
-  })
+  })*/
   /*socket.on('lightUp', data => {
     console.log(data)
     if (//sockets["exterieur"]) {
@@ -125,7 +125,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit("generatorRotated",coords)
   })
   */
-  socket.on("hello",data => {
+  /*socket.on("hello",data => {
     //socket.emit("hello","yo");
     
     console.log(data)
@@ -138,4 +138,4 @@ io.on('connection', (socket) => {
     }
     
   })
-});
+});*/

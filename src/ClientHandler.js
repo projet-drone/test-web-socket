@@ -9,7 +9,7 @@ var {Observable, Subscriber } = require('rxjs')
 const clientTypes = {
         SPHERO : "sphero",
         LIGHT : "light",
-        MAP : "mappy",
+        MAP : "map",
         DISPLAY : "display",
         INSTALL : "installation",
         ADMIN : "admin"
@@ -111,10 +111,13 @@ class ClientHandler{
     
     identifyClient(client, identificationCallback){
         let newClient = new Client();
-
+        client.on("hello",(data) =>{
+            //console.log("helloed")
+        })
+        console.log("client oui")
         newClient.client = client;
 
-        client.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
+        client.emit("startHandShake")
 
         client.on("HandShakeAnswered",data => {
             let explodedData = data.split(":")

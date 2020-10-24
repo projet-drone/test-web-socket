@@ -281,13 +281,9 @@ class XpManager{
                     console.log("activity finie")
 
 
-                    let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
-                    //lightMapSystem.client.emit("edisonCompleted")
-
-                    let motorsMapSystems = this.mapSystemManager.findallSystemsByNameAndType("motor","near")
-                    motorsMapSystems.forEach(MapmotorSystem => {
-                        //MapmotorSystem.client.emit("edisonCompleted")
-                    });
+                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                        mapSystem.client.emit("edisonCompleted")
+                    })
 
                     //ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
                     resolve('finished')
@@ -325,8 +321,10 @@ class XpManager{
                 //eventuellent l'écran qui envoie cet event
                 skillTreeWebApp.client.on('ACgeneratorActivityCompleted',() => {
 
-                    let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
-                    lightMapSystem.client.emit("westinghouseCompleted")
+
+                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                        mapSystem.client.emit("westinghouseCompleted")
+                    })
 
                     ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
                     resolve('finished')
@@ -363,13 +361,9 @@ class XpManager{
                 //eventuellent l'écran qui envoie cet event
                 motorWebApp.client.on('MotorActivityCompleted',() => {
 
-                    let lightMapSystem = this.mapSystemManager.findMapSystemByName("light") 
-                    lightMapSystem.client.emit("teslaCompleted")
-
-                    let motorsMapSystems = this.mapSystemManager.findallSystemsByName("motor")
-                    motorsMapSystems.forEach(MapmotorSystem => {
-                        MapmotorSystem.client.emit("teslaCompleted")
-                    });
+                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                        mapSystem.client.emit("teslaCompleted")
+                    })
 
                     ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
                     resolve('finished')
