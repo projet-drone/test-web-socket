@@ -90,6 +90,7 @@
           console.log("click")
           let fakeJoystickData = "Edison:0:1"
           socket.emit("sendJoystickDatas",fakeJoystickData)
+          socket.emit("teslaCompleted")
         })
 
         joystickDown.addEventListener("click",()=>{

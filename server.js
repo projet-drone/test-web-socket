@@ -37,12 +37,20 @@ const events = [
 // });
 
 
-
-/*let countUsers = 0
+let sockets = {}
+let countUsers = 0
+let shouldFarLightTurnOn = false
 io.on('connection', (socket) => {
   countUsers ++ 
   console.log('a user connected');
-  console.log(countUsers);*/
+  console.log(countUsers);
+  socket.emit("startHandShake")
+  socket.on("HandShakeAnswered",(data) => {
+    let explodedData = data.split(":")
+    console.log("explodedData", explodedData)
+    sockets[explodedData[0]] = {socket: socket, name:explodedData[0]}
+    console.log("sockets",sockets)
+  })
   //socket.emit("startHandShake",{responseEvent: "HandShakeAnswered", responseForm:'name/type'})
 
   /*socket.on("HandShakeAnswered",data => {
@@ -59,15 +67,44 @@ io.on('connection', (socket) => {
 
   /*socket.on("pizza-cordon-bleu", data => {
     socket.emit("miam",events)
-  })*//*
-  socket.on('edisonCompleted', data => {
+  })*/
+ socket.on('edisonCompleted', data => {
     console.log(data)
-    socket.broadcast.emit("edisonCompleted",data)
+    shouldFarLightTurnOn = false
+    //sockets["exterieur"].socket.emit("edisonCompleted",data)
+    sockets["led"].socket.emit("edisonCompleted",data)
+    sockets["motor"].socket.emit("edisonCompleted",data)
+    sockets["farMotor"].socket.emit("edisonCompleted",data)
   })
   socket.on('westinghouseCompleted', data => {
     console.log(data)
-    socket.broadcast.emit("westinghouseCompleted",data)
+    shouldFarLightTurnOn = true
+    //sockets["exterieur"].socket.emit("westinghouseCompleted",data)
+    sockets["led"].socket.emit("westinghouseCompleted",data)
+    sockets["motor"].socket.emit("westinghouseCompleted",data)
+    sockets["farMotor"].socket.emit("westinghouseCompleted",data)
   })
+  socket.on('teslaCompleted', data => {
+    shouldFarLightTurnOn = true
+    console.log(data)
+    //sockets["exterieur"].socket.emit("teslaCompleted",data)
+    sockets["led"].socket.emit("teslaCompleted",data)
+    sockets["motor"].socket.emit("teslaCompleted",data)
+    sockets["farMotor"].socket.emit("teslaCompleted",data)
+  })
+  /*socket.on('lightUp', data => {
+    console.log(data)
+    if (//sockets["exterieur"]) {
+      //sockets["exterieur"].socket.emit("lightUp",data)
+    }
+  })*/
+
+  /*socket.on('turnOff', data => {
+    console.log(data)
+    if (//sockets["exterieur"]) {
+      //sockets["exterieur"].socket.emit("turnOff",data)
+    }
+  })*/
 
   /*socket.on('scoreSended', data => {
     console.log(data)
@@ -87,13 +124,18 @@ io.on('connection', (socket) => {
     
     socket.broadcast.emit("generatorRotated",coords)
   })
-*//*
+  */
   socket.on("hello",data => {
     //socket.emit("hello","yo");
+    
     console.log(data)
-  })/*
+  })
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });*/
-//});
+    let name = "interieur"
+    if (sockets[name] && sockets[name].socket == socket ) {
+      console.log( name + ' disconnected');
+    }
+    
+  })
+});

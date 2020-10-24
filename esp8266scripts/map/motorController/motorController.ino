@@ -10,7 +10,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <Adafruit_NeoPixel.h>
-
+#include <Stepper.h>
 #include <ArduinoJson.h>
 
 #include <SocketIoClient.h>
@@ -19,7 +19,11 @@
 
 ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
+#define LED_PIN 14
+#define LED_PIN2 12
 #define USE_SERIAL Serial1
+#define LED_COUNT 60
+
 #define PATAPON "patapatapon"
 #define PATAPON_PASS "oreooreo123"
 #define PATAPON_SERVER_IP "192.168.43.81"
@@ -28,30 +32,38 @@ SocketIoClient webSocket;
 #define HOME_PASS "7gxgMFqdtRzoQZ3gFy"
 #define HOME_SERVER_IP "192.168.1.10"
 
-
-
-int inPin = 14;
-int inPin2 = 12;
-int inPin3 = 13;     
-int val = 0;
-int val2 = 0;
-int val3 = 0;
-
+int inPin = 4;   
+int val = HIGH;
 int timer = 0;
+boolean canRotateMotors = true;
+const int stepsPerRevolution = 2048;
+Stepper myStepper = Stepper(stepsPerRevolution, 14, 13, 12, 15);
 
-
-void refresh(const char * payload, size_t length) {
+void identify(const char * payload, size_t length) {
   Serial.println("refreshing \n");
+  webSocket.emit("HandShakeAnswered","\"motor:map\"");
   
   //rainbow(10);
 }
 
-void identify(const char * payload, size_t length) {
+void activateNearMotors(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  webSocket.emit("HandShakeAnswered","\"Pupitre:installation\"");
+  canRotateMotors = true;
+  
   //rainbow(10);
 }
-
+void disableMotors(const char * payload, size_t length) {
+  canRotateMotors = false;
+  Serial.println("refreshing \n");
+  
+  //rainbow(10);
+}
+void activateAllMotors(const char * payload, size_t length) {
+  Serial.println("refreshing \n");
+  canRotateMotors = true;
+  
+  //rainbow(10);
+}
 void setup() {
     Serial.begin(115200);
 
@@ -76,16 +88,18 @@ void setup() {
         delay(100);
     }
 
-   
-    webSocket.on("startHandShake",identify);
+    webSocket.on("edisonCompleted", activateNearMotors);
+    webSocket.on("westinghouseCompleted", disableMotors);
+    webSocket.on("teslaCompleted", activateAllMotors);
+    webSocket.on("startHandShake", identify);
     
     webSocket.begin(PATAPON_SERVER_IP,3000);
-    
+    webSocket.emit("hello","\"je suis le centre de la map o/\"");
     #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
   clock_prescale_set(clock_div_1);
     #endif
       // END of Trinket-specific code.
-    
+      myStepper.setSpeed(16);
 }
 
     // use HTTP Basic Authorization this is optional remove if not needed
@@ -94,39 +108,20 @@ void setup() {
 void loop() {
     webSocket.loop();
     int newVal = digitalRead(inPin);
-    int newVal2 = digitalRead(inPin2);
-    int newVal3 = digitalRead(inPin3);// read input value
-    if (newVal != val) { 
-      if(newVal == HIGH){
-         webSocket.emit("spheroLifted","\"Edison\""); // Blue
-         USE_SERIAL.printf("EDISON lifted");
-      }else{
-         webSocket.emit("spheroDropped","\"Edison\"");
-      }
-      //webSocket.emit("hello","\"btn 1 puhed\""); // Blue
+     // read input value
+    if (newVal == LOW && canRotateMotors) {         // check if the input is HIGH (button released)
+      myStepper.step(100);// Blue
     }
-    if (newVal2 != val2) {         // check if the input is HIGH (button released)
-      if(newVal == HIGH){
-         webSocket.emit("spheroLifted","\"Westinghouse\""); // Blue
-      }else{
-         webSocket.emit("spheroDropped","\"Westinghouse\"");
-      }
+    if (timer == 500){
+      stats("test");
+      webSocket.emit("hello","\"this is a reponse ws\"");
+      timer = 0;
     }
-    if (newVal3 != val3) {         // check if the input is HIGH (button released)
-       if(newVal == HIGH){
-         webSocket.emit("spheroLifted","\"Tesla\""); // Blue
-      }else{
-         webSocket.emit("spheroDropped","\"Tesla\"");
-      }
-    }
+    timer ++;
     
-  val = newVal;
-  val2 = newVal2;
-  val3 = newVal3;
-
-  USE_SERIAL.printf("%d",val);
 
 }
+
 
 void stats(const char* what) {
   // we could use getFreeHeap() getMaxFreeBlockSize() and getHeapFragmentation()

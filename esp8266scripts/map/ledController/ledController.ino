@@ -20,6 +20,7 @@
 ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
 #define LED_PIN 14
+#define LED_PIN2 12
 #define USE_SERIAL Serial1
 #define LED_COUNT 60
 
@@ -32,19 +33,24 @@ SocketIoClient webSocket;
 #define HOME_SERVER_IP "192.168.1.10"
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip2(LED_COUNT, LED_PIN2, NEO_GRB + NEO_KHZ800);
 
 int inPin = 13;   
 int val = HIGH;
 uint32_t testColor = strip.Color(100,20,200);
 int timer = 0;
+bool canShowSecondLedStrip = false;
+
 
 void colorStripRed(const char * payload, size_t length) {
+ canShowSecondLedStrip = false;
   Serial.println("event received");
   testColor = strip.Color(255,10,0);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
 }
 void colorStripBlue(const char * payload, size_t length) {
+  canShowSecondLedStrip = true;
   Serial.println("event received");
   testColor = strip.Color(0,130,255);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
@@ -52,14 +58,15 @@ void colorStripBlue(const char * payload, size_t length) {
 }
 void colorStripPurple(const char * payload, size_t length) {
   Serial.println("event received");
+  canShowSecondLedStrip = true;
   testColor = strip.Color(105,10,180);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
 }
 void identify(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  webSocket.emit("coucouTkiRep","\"interieur\"");
-  val = 0;
+  webSocket.emit("HandShakeAnswered","\"led:map\"");
+  
   //rainbow(10);
 }
 void refresh(const char * payload, size_t length) {
@@ -94,7 +101,7 @@ void setup() {
     webSocket.on("edisonCompleted", colorStripRed);
     webSocket.on("teslaCompleted", colorStripBlue);
     webSocket.on("westinghouseCompleted", colorStripPurple);
-    webSocket.on("coucouTki", identify);
+    webSocket.on("startHandShake", identify);
     
     webSocket.begin(PATAPON_SERVER_IP,3000);
     webSocket.emit("hello","\"je suis le centre de la map o/\"");
@@ -103,9 +110,12 @@ void setup() {
     #endif
       // END of Trinket-specific code.
     
-      strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
-      strip.show();            // Turn OFF all pixels ASAP
-      strip.setBrightness(200); // Set BRIGHTNESS to about 1/5 (max = 255)
+      strip.begin();
+      strip2.begin();// INITIALIZE NeoPixel strip object (REQUIRED)
+      strip.show();
+      strip2.show();// Turn OFF all pixels ASAP
+      strip.setBrightness(200); 
+      strip2.setBrightness(200); // Set BRIGHTNESS to about 1/5 (max = 255)
 }
 
     // use HTTP Basic Authorization this is optional remove if not needed
@@ -115,15 +125,10 @@ void loop() {
     webSocket.loop();
     int newVal = digitalRead(inPin);
      // read input value
-    if (newVal == LOW) {         // check if the input is HIGH (button released)
+    if (newVal == LOW && newVal != val) {         // check if the input is HIGH (button released)
       colorWipe(testColor, 5);// Blue
-      if(newVal != val){
-        webSocket.emit("lightUp","\"allume toi\"");
-      }
-    } else{
-      if(newVal != val){
-        webSocket.emit("turnOff","\"eteinds toi\"");
-      }
+    }
+    if (newVal == HIGH && newVal != val) {         // check if the input is HIGH (button released)
       turnStripOff();
     }
 
@@ -131,6 +136,7 @@ void loop() {
     
     if (timer == 500){
       stats("test");
+      webSocket.emit("hello","\"this is a reponse ws\"");
       timer = 0;
     }
     timer ++;
@@ -141,8 +147,14 @@ void loop() {
 void turnStripOff(){
   for(int i=0; i<strip.numPixels(); i++){
     strip.setPixelColor(i, strip.Color(0, 0, 0));
+    strip.show();
   }
-   strip.show();
+  for(int i=0; i<strip2.numPixels(); i++){
+    strip2.setPixelColor(i, strip.Color(0, 0, 0));
+    strip2.show();
+  }
+  
+   
 }
 
 
@@ -152,6 +164,16 @@ void colorWipe(uint32_t color, int wait) {
     strip.show();                          //  Update strip to match
     delay(wait);                           //  Pause for a moment
   }
+  if(canShowSecondLedStrip){
+    for(int i=0; i<strip2.numPixels(); i++) { // For each pixel in strip...
+    strip2.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip2.show();                          //  Update strip to match
+    delay(wait);  
+  }
+                             //  Pause for a moment
+  
+  }
+  
 }
 
 void stats(const char* what) {
