@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>SkillTree</title>
+
+</head>
+<body>
+    
+    </div>
+    <canvas id="testMap" height="500px" width="500px"></canvas>
+    <button id="dcGenerator">fake dcGeneratorBBl clicked</button>
+    <button id="acGenerator">fake acGeneratorBBl clicked</button>
+    <button id="motor">fake motorBBl clicked</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+
+    <script>
+        // Create SocketIO instance, connect
+        const socket = io('http://192.168.43.81:3000');
+
+        socket.on("startHandShake",data =>{
+            console.log("c'est pas très covid ça")
+
+
+            socket.emit("HandShakeAnswered","SkillTreeWebApp:display")
+        })
+    
+        let testCanvas = document.getElementById("testMap")
+        let ctx = testCanvas.getContext('2d')
+
+        let coords = [10,10]
+        let color = "rgb(200,0,0)"
+
+        if (testCanvas.getContext){
+            
+        }
+        
+        let dcGeneratorBBl = document.querySelector("#dcGenerator")
+        let acGeneratorBBl = document.querySelector("#acGenerator")
+        let motorBBl = document.querySelector("#motor")
+
+        dcGeneratorBBl.addEventListener('click',() => {
+            socket.emit("launchActivity","ContinuousGeneratorActivity")
+            setTimeout(() =>{
+                socket.emit("DCgeneratorActivityCompleted")
+            },10000)
+        })
+        acGeneratorBBl.addEventListener('click',() => {
+            socket.emit("launchActivity","AlternativeGeneratorActivity")
+            setTimeout(() =>{
+                socket.emit("ACgeneratorActivityCompleted")
+            },3000)
+        })
+        motorBBl.addEventListener('click',() => {
+            socket.emit("launchActivity","MotorActivity")
+            setTimeout(() =>{
+                socket.emit("MotorActivityCompleted")
+            },3000)
+        })
+
+        
+
+        socket.on("sendJoystickDatas",dataString => {
+            console.log("joystick data received",dataString)
+            let data = dataString.split(":")
+            coords[0] += parseFloat(data[1])
+            coords[1] -= parseFloat(data[2])
+
+            switch (data[0]) {
+                case "Edison":
+                   color = "rgb(200,0,0)"
+                    break;
+                case "Westinghouse":
+                   color = "rgb(100,50,200)"
+                    break;
+                case "Tesla":
+                   color = "rgb(0,0,200)"
+                    break;
+                default:
+                    break;
+            }
+            requestAnimationFrame(draw)
+
+        })
+
+        function draw(){
+
+            ctx.clearRect(0,0,500,500)
+
+            ctx.fillStyle = color;
+            ctx.fillRect(coords[0], coords[1], 50, 50);
+            console.log(coords)
+
+        }
+    
+
+  </script>
+</body>
+</html>

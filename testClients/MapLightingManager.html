@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>MapLighting</title>
+
+</head>
+<body>
+    
+    </div>
+
+
+    <script src="./socket.io.js"></script>
+    <script>
+      // Create SocketIO instance, connect
+  
+      const socket = io('http://127.0.0.1:3002');
+
+            socket.on("startHandShake",data =>{
+                console.log("c'est pas très covid ça")
+
+                socket.emit("HandShakeAnswered","light:mappy")
+                
+            })
+  
+      socket.on("edisonCompleted",data => {
+          console.log("hop la couleur est changée pour celle d'edison")
+      })
+
+      socket.on("westinghouseCompleted",data => {
+          console.log("hop la couleur est changée pour celle de westinghouse")
+      })
+      socket.on("teslaCompleted",data => {
+          console.log("hop la couleur est changée pour celle de tesla")
+      })
+
+      
+  </script>
+</body>
+</html>
