@@ -139,6 +139,8 @@ class XpManager{
                         ClientHandler.getinstance().createSocketTunnel(sphero,skillTreeWebApp,"sendJoystickDatas")
                     }
                 })
+
+                this.spheroManager.switchJoystickDataSource()
     
                 this.pupitre.listenForJoystickDisconnection((spheroName) => {
                     console.log("disconnectedJoystick")

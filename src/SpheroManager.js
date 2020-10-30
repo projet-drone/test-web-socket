@@ -99,6 +99,17 @@ class SpheroManager {
             })
         });
     }
+    switchJoystickDataSource(){
+        this.spheros.forEach((sphero) => {
+            sphero.client.on('silenceWenches',data =>{
+                this.spheros.forEach((spheroThatNeedToShutUp) =>{
+                    if (spheroThatNeedToShutUp != sphero) {
+                        spheroThatNeedToShutUp.cient.emit("shutUp","shutUp")
+                    }
+                })
+            })
+        })
+    }
 
 }
 module.exports = SpheroManager;
