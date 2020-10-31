@@ -10,7 +10,7 @@ class WebAppManager {
         let webAppClients = ClientHandler.getinstance().findClientByType(clientTypes.DISPLAY)
         
         webAppClients.forEach(webApp => {
-            console.log("this is an app", webApp.name)
+            // console.log("this is an app", webApp.name)
             let newWebApp = new WebApp(
                 webApp.name,
                 webApp.client

@@ -8,13 +8,13 @@ class Pupitre {
     }
     listenForJoystickConnection(spheroConnected){
        this.client.on("spheroDropped",name => {
-           console.log("dropped",name )
+           // console.log("dropped",name )
         spheroConnected(name)
        })  
     }
     listenForJoystickDisconnection(spheroConnected){
         this.client.on("spheroLifted",name => {
-            console.log("lifted",name )
+            // console.log("lifted",name )
          spheroConnected(name)
         })  
      }

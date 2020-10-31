@@ -19,21 +19,21 @@
       const socket = io('http://127.0.0.1:3002');
 
             socket.on("startHandShake",data =>{
-                console.log("c'est pas très covid ça")
+                // console.log("c'est pas très covid ça")
 
                 socket.emit("HandShakeAnswered","light:mappy")
                 
             })
   
       socket.on("edisonCompleted",data => {
-          console.log("hop la couleur est changée pour celle d'edison")
+          // console.log("hop la couleur est changée pour celle d'edison")
       })
 
       socket.on("westinghouseCompleted",data => {
-          console.log("hop la couleur est changée pour celle de westinghouse")
+          // console.log("hop la couleur est changée pour celle de westinghouse")
       })
       socket.on("teslaCompleted",data => {
-          console.log("hop la couleur est changée pour celle de tesla")
+          // console.log("hop la couleur est changée pour celle de tesla")
       })
 
       

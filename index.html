@@ -38,7 +38,7 @@
       const socket = io('http://192.168.43.81:3002');
 
       socket.on("startHandShake",data =>{
-        console.log("c'est pas très covid ça")
+        // console.log("c'est pas très covid ça")
 
 
         socket.emit("HandShakeAnswered","Tesla:sphero")
@@ -57,7 +57,7 @@
       }
       
       socket.on("joystickMoved",data => {
-        console.log("joystick data received",data)
+        // console.log("joystick data received",data)
         
         coords[0] += parseFloat(data[0])
         coords[1] -= parseFloat(data[1])
@@ -67,13 +67,13 @@
 
       socket.on("scoreSended", data =>{
 
-          console.log(data)
+          // console.log(data)
           let score = data
           
           let rotation = score * 36
           let prevRotate = (score - 1) * 36
           score++;
-          console.log([score, prevRotate, rotation]); 
+          // console.log([score, prevRotate, rotation]); 
   
           if (score >= 10) {
               gsap.to("#_spinner", {duration: 1, rotation: score * (rotation + prevRotate), repeat: -1, ease:Linear.easeNone});
@@ -90,7 +90,7 @@
 
           ctx.fillStyle = 'rgb(200, 0, 0)';
           ctx.fillRect(coords[0], coords[1], 50, 50);
-          console.log(coords)
+          // console.log(coords)
 
         }
       
