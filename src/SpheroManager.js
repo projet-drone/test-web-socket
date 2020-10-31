@@ -10,7 +10,7 @@ class SpheroManager {
         let spherosClients = ClientHandler.getinstance().findClientByType(clientTypes.SPHERO)
         
         spherosClients.forEach(client => {
-            //// console.log("this is a sphero", sphero.name)
+            //console.log("this is a sphero", sphero.name)
             let newSphero = new Sphero(
                 client.name,
                 client.type,
@@ -91,11 +91,11 @@ class SpheroManager {
             
 
             
-            //// console.log("this is a sphero", sphero.name)
+            //console.log("this is a sphero", sphero.name)
             //io.sockets.emit("checkAllSpheroClients",{response:"pingServer"})
             sphero.client.emit("checkAllSpheroClients",{response:"pingServer"})
             sphero.client.on("pingServer",data => {
-                // console.log(data)
+                console.log(data)
             })
         });
     }

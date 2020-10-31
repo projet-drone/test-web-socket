@@ -35,9 +35,9 @@ class Sphero {
     }
     switchMode(mod,modSwitched){
         this.mode = mod
-        // console.log("///////////////////////")
-        // console.log("switched " + this.name + "to " + mod)
-        // console.log("///////////////////////")
+        console.log("///////////////////////")
+        console.log("switched " + this.name + "to " + mod)
+        console.log("///////////////////////")
         if(modSwitched){
             modSwitched()
         }

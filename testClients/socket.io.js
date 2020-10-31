@@ -1866,8 +1866,8 @@ function formatArgs(args) {
   args.splice(lastC, 0, c);
 }
 /**
- * Invokes `// console.log()` when available.
- * No-op when `// console.log` is not a "function".
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
  *
  * @api public
  */
@@ -1877,8 +1877,8 @@ function log() {
   var _console;
 
   // This hackery is required for IE8/9, where
-  // the `// console.log` function doesn't have 'apply'
-  return (typeof console === "undefined" ? "undefined" : _typeof(console)) === 'object' && // console.log && (_console = console).log.apply(_console, arguments);
+  // the `console.log` function doesn't have 'apply'
+  return (typeof console === "undefined" ? "undefined" : _typeof(console)) === 'object' && console.log && (_console = console).log.apply(_console, arguments);
 }
 /**
  * Save `namespaces`.
@@ -3706,7 +3706,7 @@ var Request = /*#__PURE__*/function (_Emitter) {
             }
           }
         } catch (e) {
-          // console.log(e);
+          console.log(e);
         }
 
         if ("POST" === this.method) {

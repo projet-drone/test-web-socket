@@ -10,7 +10,7 @@ class MapSystemManager {
         let mapSystemClients = ClientHandler.getinstance().findClientByType(clientTypes.MAP)
         
         mapSystemClients.forEach(mapSystem => {
-            // console.log("this is an app", mapSystem.name)
+            console.log("this is an app", mapSystem.name)
 
 
             let newmapSystem = new MapSystem(
@@ -23,20 +23,20 @@ class MapSystemManager {
 
     findMapSystemByName(name){
         let mapSystemToReturn = null
-        // console.log("/*/*//**//*/*/*/* */")
-        // console.log(this.mapSystems)
-        // console.log("/*/*//**//*/*/*/* */")
+        console.log("/*/*//**//*/*/*/* */")
+        console.log(this.mapSystems)
+        console.log("/*/*//**//*/*/*/* */")
         this.mapSystems.forEach(mapSystem => {
-            // console.log("/*/*/*/*/*/*/*/*/*/*/*/")
-            // console.log(mapSystem.name)
-            // console.log(name)
-            // console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+            console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+            console.log(mapSystem.name)
+            console.log(name)
+            console.log("/*/*/*/*/*/*/*/*/*/*/*/")
 
             if(mapSystem.name == name){
                 mapSystemToReturn = mapSystem
-                 // console.log("/*/*/*/*/*/*/*/*/*/*/*/")
-                 // console.log(mapSystemToReturn.name)
-                 // console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+                 console.log("/*/*/*/*/*/*/*/*/*/*/*/")
+                 console.log(mapSystemToReturn.name)
+                 console.log("/*/*/*/*/*/*/*/*/*/*/*/")
 
             }
         });

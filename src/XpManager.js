@@ -45,15 +45,15 @@ class XpManager{
 
             if (newClientConnected.type == clientTypes.SPHERO) {
                 this.nbInventorSpheros += 1
-                // console.log('nbInventorSpheros',this.nbInventorSpheros)
+                console.log('nbInventorSpheros',this.nbInventorSpheros)
             }
             if (newClientConnected.type == clientTypes.DISPLAY) {
                 this.nbWebApps += 1
-                // console.log('nbWebApps',this.nbWebApps)
+                console.log('nbWebApps',this.nbWebApps)
             }
             if (newClientConnected.type == clientTypes.MAP) {
                 this.nbMapSystems += 1
-                // console.log('nbMapSystems',this.nbMapSystems)
+                console.log('nbMapSystems',this.nbMapSystems)
             }
             if (newClientConnected.name == "Pupitre") {
                 this.pupitre = new Pupitre("theOnlyPupitre",newClientConnected.client)
@@ -63,19 +63,19 @@ class XpManager{
                 this.launchExperience()
                 
             }
-            // console.log("///////////////////////////////////////")
-            // console.log("///////////////////////////////////////")
-            // console.log("inventors : " + this.nbInventorSpheros + "/" + this.expectedInventorSpheroNumber )
-            // console.log("webapps : " + this.nbWebApps + "/" + this.excpectedWebApps )
-            // console.log("mapSystems : " + this.nbMapSystems + "/" + this.excpectedMapSystems )
-            // console.log("///////////////////////////////////////")
-            // console.log("///////////////////////////////////////")
+            console.log("///////////////////////////////////////")
+            console.log("///////////////////////////////////////")
+            console.log("inventors : " + this.nbInventorSpheros + "/" + this.expectedInventorSpheroNumber )
+            console.log("webapps : " + this.nbWebApps + "/" + this.excpectedWebApps )
+            console.log("mapSystems : " + this.nbMapSystems + "/" + this.excpectedMapSystems )
+            console.log("///////////////////////////////////////")
+            console.log("///////////////////////////////////////")
 
             newClientConnected.client.on('disconnect', () => {
-                // console.log("clientToDisconnect",newClientConnected);
+                console.log("clientToDisconnect",newClientConnected);
                 let clientToDelete = newClientConnected
                
-                // console.log("switchType",clientToDelete.client.type)
+                console.log("switchType",clientToDelete.client.type)
                     switch (clientToDelete.client.type) {
                         case clientTypes.SPHERO:
                             this.nbInventorSpheros -= 1
@@ -91,8 +91,8 @@ class XpManager{
             }
     
                 ClientHandler.getinstance().clients.splice(clientToDelete.index,1)
-                // console.log("disconnected")
-                //// console.log("test")
+                console.log("disconnected")
+                //console.log("test")
             })
         })
 
@@ -123,9 +123,9 @@ class XpManager{
                 this.pupitre.listenForJoystickConnection((spheroName) => {
                     let sphero = this.spheroManager.findSpheroByName(spheroName)
                     if(this.unlockedInventors.includes(spheroName)){
-                        // console.log("===================================")
-                        // console.log("sphero " + sphero.name + " connected as Joystick")
-                        // console.log("===================================")
+                        console.log("===================================")
+                        console.log("sphero " + sphero.name + " connected as Joystick")
+                        console.log("===================================")
                         //active le sphéro en question
                         this.spheroManager.activate(sphero)
                         //sphero.client.emit('waitingForJoystickData')
@@ -143,7 +143,7 @@ class XpManager{
                 this.spheroManager.switchJoystickDataSource()
     
                 this.pupitre.listenForJoystickDisconnection((spheroName) => {
-                    // console.log("disconnectedJoystick")
+                    console.log("disconnectedJoystick")
                     let sphero = this.spheroManager.findSpheroByName(spheroName)
                     if (this.unlockedInventors.includes(spheroName) && !this.pendingActivity) {
                         this.spheroManager.switchSpheroMod(sphero,SpheroMods.IDLE)
@@ -157,19 +157,19 @@ class XpManager{
                     ClientHandler.getinstance().collapseSocketTunnel("sendJoystickDatas")
                     let activity = this.activityManager.findActivityByName(activityName)
                     this.pendingActivity = true
-                    // console.log("===================================")
-                    // console.log(activityName + " launched")
-                    // console.log("===================================")
+                    console.log("===================================")
+                    console.log(activityName + " launched")
+                    console.log("===================================")
     
-                    // console.log(activity)
+                    console.log(activity)
     
                     const waitForValidation = new Observable((subscriber) => {
                         this.pupitre.client.on("spheroLifted",data => {
-                            // console.log("do you even lift ?")
+                            console.log("do you even lift ?")
                             subscriber.next("lifted")
                         })
                         activity.actorSphero.client.on("spheroShaked",data => {
-                            // console.log("drop da bass")
+                            console.log("drop da bass")
                             subscriber.next("shaked")
                         })
                     })
@@ -180,21 +180,21 @@ class XpManager{
     
                         if (completedTasks.includes("lifted") /*&& completedTasks.includes("shaked")*/){
 
-                            // console.log("===================================")
-                            // console.log(activityName + " launched")
-                            // console.log("===================================")
+                            console.log("===================================")
+                            console.log(activityName + " launched")
+                            console.log("===================================")
 
-                            // console.log("test")
+                            console.log("test")
                             activity.activityCore().then((result) => {
                                 //code a executer quand l'activité est finie
                                 this.activityDone.push(activityName)
                                 this.pendingActivity = false
-                                // console.log(this.activityDone)
-                                // console.log("testsetset")
+                                console.log(this.activityDone)
+                                console.log("testsetset")
         
-                                // console.log("===================================")
-                                // console.log(activityName + " finished")
-                                // console.log("===================================")
+                                console.log("===================================")
+                                console.log(activityName + " finished")
+                                console.log("===================================")
                                 validationObserver.unsubscribe()
                                 //reswitch les sphero dans le bon mode
                                 this.spheroManager.switchSpheroMod(activity.actorSphero,SpheroMods.IDLE)
@@ -221,9 +221,9 @@ class XpManager{
                                 this.spheroManager.disable(spheroToUnlock)
                                 this.unlockedInventors.push(spheroName)
     
-                                // console.log("===================================")
-                                // console.log(spheroName + " captured !!")
-                                // console.log("===================================")
+                                console.log("===================================")
+                                console.log(spheroName + " captured !!")
+                                console.log("===================================")
                                 //TODO: emit un event pour allumer les lumières
                                 //TODO: jouer un son
                             })
@@ -234,9 +234,9 @@ class XpManager{
     
     
                 //experience start
-                // console.log("===================================")
-                // console.log("experience started")
-                // console.log("===================================")
+                console.log("===================================")
+                console.log("experience started")
+                console.log("===================================")
             
     
             })
@@ -280,7 +280,7 @@ class XpManager{
                 //eventuellent l'écran qui envoie cet event
                 skillTreeWebApp.client.on('DCgeneratorActivityCompleted',() => {
 
-                    // console.log("activity finie")
+                    console.log("activity finie")
 
 
                     this.mapSystemManager.mapSystems.forEach(mapSystem => {
