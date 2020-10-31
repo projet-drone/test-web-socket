@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pupitre</title>
+
+</head>
+<body>
+    
+    </div>
+
+    <button id="switchEdison">edisonPupitre</button>
+    <button id="switchTesla">teslaPupuitre</button>
+    <button id="switchWestinghouse">WestinghousePupitre</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+
+    <script>
+        // Create SocketIO instance, connect
+        const socket = io('http://127.0.0.1:3000');
+
+        socket.on("startHandShake",data =>{
+            console.log("c'est pas très covid ça")
+
+
+            socket.emit("HandShakeAnswered","Pupitre:installation")
+        })
+        let edisonOnPupitre = true;
+        let teslaOnPupitre = true;
+        let Westinghouse = true;
+
+        document.querySelector("#switchEdison").addEventListener('click',() => {
+            if(edisonOnPupitre){
+                socket.emit("spheroLifted","Edison");
+            }else{
+                socket.emit("spheroDropped","Edison");
+            }
+            edisonOnPupitre = !edisonOnPupitre
+            
+        })
+        document.querySelector("#switchTesla").addEventListener('click',() => {
+            if(edisonOnPupitre){
+                socket.emit("spheroLifted","Westinghouse");
+            }else{
+                socket.emit("spheroDropped","Westinghouse");
+            }
+            edisonOnPupitre = !edisonOnPupitre
+            
+        })
+        document.querySelector("#switchWestinghouse").addEventListener('click',() => {
+            if(teslaOnPupitre){
+                socket.emit("spheroLifted","Tesla");
+            }else{
+                socket.emit("spheroDropped","Tesla");
+            }
+            teslaOnPupitre = !teslaOnPupitre
+            
+        })
+    
+    
+
+  </script>
+</body>
+</html>

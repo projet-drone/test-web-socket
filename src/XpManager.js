@@ -75,10 +75,22 @@ class XpManager{
                 console.log("clientToDisconnect",newClientConnected);
                 let clientToDelete = newClientConnected
                
-                console.log("switchType",clientToDelete.client.type)
-                    switch (clientToDelete.client.type) {
+                console.log("switchType",clientToDelete.type)
+                    switch (clientToDelete.type) {
                         case clientTypes.SPHERO:
                             this.nbInventorSpheros -= 1
+                            let spheroTODelete = this.spheroManager.findSpheroByName(clientToDelete.name)
+                            if (spheroTODelete) {
+
+                                for (let i = 0; i < this.spheroManager.spheros.length; i++) {
+                                    const element = this.spheroManager.spheros[i];
+                                    if (element = spheroTODelete) {
+                                        this.spheroManager.spheros.splice(i,1)
+                                    }
+                                    
+                                }
+                                
+                            }
                             break;
                             case clientTypes.DISPLAY:
                                 this.nbWebApps -= 1

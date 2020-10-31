@@ -11,6 +11,10 @@
     
     
     <button id="start">start</button>
+    <button id="disconnect-everyone">disconnect Everyone</button>
+    <button id="go-to-DCGeneratorMilestone">go to just before DCGenerator</button>
+    <button id="go-to-ACGeneratorMilestone">go to just before ACGenerator</button>
+    <button id="go-to-ACMotor">go to just before AcMotor</button>
 
     </div>
 
@@ -18,7 +22,7 @@
     <script>
       // Create SocketIO instance, connect
   
-      const socket = io('http://calm-bayou-78355.herokuapp.com:3000/');
+      const socket = io('http://127.0.0.1:3000/');
 
 
      /* setInterval(() => {
@@ -41,9 +45,9 @@
           
           socket.emit("startExperience")
         })
-
-        
       })
+
+
   </script>
 </body>
 </html>
