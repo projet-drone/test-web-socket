@@ -56,7 +56,7 @@ class ClientHandler{
 
             //listening to disconnection
             client.on('disconnect', () => {
-                console.log("clientToDisconnect",client);
+                //console.log("clientToDisconnect",client);
                 let clientToDelete = this.findClientFromSocket(client)
                 disconnectionCallBack(clientToDelete)
                 this.clients.splice(clientToDelete.index,1)

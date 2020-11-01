@@ -10,6 +10,7 @@ var {Sphero, SpheroMods} = require('./model/Sphero')
 var Activity = require('./model/Activity')
 var WebApp = require('./model/WebApp')
 var Pupitre = require('./model/Pupitre')
+var XpTracker = require('./XpTracker')
 
 class XpManager{
 
@@ -22,6 +23,8 @@ class XpManager{
 
     pupitre;
     master;
+
+    xpTracker = new XpTracker
 
     experienceHasBegun = false
     nbInventorSpheros = 0
@@ -60,6 +63,7 @@ class XpManager{
             }
             if (newClientConnected.name == "Master") {
                 this.master = newClientConnected
+                
                 this.launchExperience()
                 
             }
@@ -72,10 +76,11 @@ class XpManager{
             console.log("///////////////////////////////////////")
 
             newClientConnected.client.on('disconnect', () => {
-                console.log("clientToDisconnect",newClientConnected);
+                //console.log("clientToDisconnect",newClientConnected);
                 let clientToDelete = newClientConnected
                
                 console.log("switchType",clientToDelete.type)
+                    clientToDelete.client.removeAllListeners()
                     switch (clientToDelete.type) {
                         case clientTypes.SPHERO:
                             this.nbInventorSpheros -= 1
@@ -165,85 +170,100 @@ class XpManager{
     
                 let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
                 //écouter l'appweb si une activité dois commencer ==> l'utlisateur a clické sur une bubulle d'experience
-                skillTreeWebApp.client.on("launchActivity",(activityName) => {
-                    ClientHandler.getinstance().collapseSocketTunnel("sendJoystickDatas")
-                    let activity = this.activityManager.findActivityByName(activityName)
-                    this.pendingActivity = true
-                    console.log("===================================")
-                    console.log(activityName + " launched")
-                    console.log("===================================")
-    
-                    console.log(activity)
-    
-                    const waitForValidation = new Observable((subscriber) => {
-                        this.pupitre.client.on("spheroLifted",data => {
-                            console.log("do you even lift ?")
-                            subscriber.next("lifted")
-                        })
-                        activity.actorSphero.client.on("spheroShaked",data => {
-                            console.log("drop da bass")
-                            subscriber.next("shaked")
-                        })
-                    })
-    
-                    let completedTasks = []
-                    const validationObserver = waitForValidation.subscribe((observer) =>{
-                        completedTasks.push(observer)
-    
-                        if (completedTasks.includes("lifted") /*&& completedTasks.includes("shaked")*/){
-
-                            console.log("===================================")
-                            console.log(activityName + " launched")
-                            console.log("===================================")
-
-                            console.log("test")
-                            activity.activityCore().then((result) => {
-                                //code a executer quand l'activité est finie
-                                this.activityDone.push(activityName)
-                                this.pendingActivity = false
-                                console.log(this.activityDone)
-                                console.log("testsetset")
+                if (skillTreeWebApp) {
+                    skillTreeWebApp.client.on("launchActivity",(activityName) => {
+                        ClientHandler.getinstance().collapseSocketTunnel("sendJoystickDatas")
+                        let activity = this.activityManager.findActivityByName(activityName)
+                        this.pendingActivity = true
+                        console.log("===================================")
+                        console.log(activityName + " launched")
+                        console.log("===================================")
         
+                        console.log(activity)
+        
+                        const waitForValidation = new Observable((subscriber) => {
+
+                            if (this.pupitre) {
+                                this.pupitre.client.on("spheroLifted",data => {
+                                    console.log("do you even lift ?")
+                                    subscriber.next("lifted")
+                                })
+                            }else{
+                                console.log("ERROR", "skillTreeWebApp undefined")
+                            }
+                            
+                            // activity.actorSphero.client.on("spheroShaked",data => {
+                            //     console.log("drop da bass")
+                            //     subscriber.next("shaked")
+                            // })
+                        })
+        
+                        let completedTasks = []
+                        const validationObserver = waitForValidation.subscribe((observer) =>{
+                            completedTasks.push(observer)
+        
+                            if (completedTasks.includes("lifted") /*&& completedTasks.includes("shaked")*/){
+    
                                 console.log("===================================")
-                                console.log(activityName + " finished")
+                                console.log(activityName + " launched")
                                 console.log("===================================")
-                                validationObserver.unsubscribe()
-                                //reswitch les sphero dans le bon mode
-                                this.spheroManager.switchSpheroMod(activity.actorSphero,SpheroMods.IDLE)
-                                
-                            })
-                        }
+    
+                                console.log("test")
+                                activity.activityCore().then((result) => {
+                                    //code a executer quand l'activité est finie
+                                    this.activityDone.push(activityName)
+                                    this.pendingActivity = false
+                                    console.log(this.activityDone)
+                                    console.log("testsetset")
+            
+                                    console.log("===================================")
+                                    console.log(activityName + " finished")
+                                    console.log("===================================")
+                                    validationObserver.unsubscribe()
+                                    //reswitch les sphero dans le bon mode
+                                    this.spheroManager.switchSpheroMod(activity.actorSphero,SpheroMods.IDLE)
+                                    
+                                })
+                            }
+                        })
+        
+                        
+        
                     })
-    
-                    
-    
-                })
-    
+                }else{
+                    console.log("ERROR", "skillTreeWebApp undefined")
+                }
                 //a changer
     
                 
-    
-                this.pupitre.client.on("spheroLifted",(spheroName) => {
-                    if (!this.unlockedInventors.includes(spheroName)) {
-                        let spheroToUnlock = this.spheroManager.findSpheroByName(spheroName)
-                        this.spheroManager.unlock(spheroToUnlock)
-                        this.spheroManager.activate(spheroToUnlock) 
-                        this.spheroManager.switchSpheroMod(spheroToUnlock,SpheroMods.PROXIMITY_DETECTOR, () => {
-                            spheroToUnlock.client.on("gotCloseToEmitter",() => {
-                                this.spheroManager.disable(spheroToUnlock)
-                                this.unlockedInventors.push(spheroName)
-    
-                                console.log("===================================")
-                                console.log(spheroName + " captured !!")
-                                console.log("===================================")
-                                //TODO: emit un event pour allumer les lumières
-                                //TODO: jouer un son
-                            })
-                        })
-                    }
-    
-                })
-    
+                if (this.pupitre) {
+                    this.pupitre.client.on("spheroLifted",(spheroName) => {
+                        if (!this.unlockedInventors.includes(spheroName)) {
+                            let spheroToUnlock = this.spheroManager.findSpheroByName(spheroName)
+                            if (this.spheroToUnlock){
+                                this.spheroManager.unlock(spheroToUnlock)
+                                this.spheroManager.activate(spheroToUnlock) 
+                                this.spheroManager.switchSpheroMod(spheroToUnlock,SpheroMods.PROXIMITY_DETECTOR, () => {
+                                    spheroToUnlock.client.on("gotCloseToEmitter",() => {
+                                        this.spheroManager.disable(spheroToUnlock)
+                                        this.unlockedInventors.push(spheroName)
+            
+                                        console.log("===================================")
+                                        console.log(spheroName + " captured !!")
+                                        console.log("===================================")
+                                        //TODO: emit un event pour allumer les lumières
+                                        //TODO: jouer un son
+                                    })
+                                })
+                            }else{
+                                console.log("ERROR", "sphero to unlock undefined")
+                            }
+                        }
+        
+                    })                
+                }else{
+                    console.log("ERROR", "pupitre undefined")
+                }
     
                 //experience start
                 console.log("===================================")
@@ -252,7 +272,9 @@ class XpManager{
             
     
             })
-            }
+        }else{
+            console.log("ERROR", "master client undefined")
+        }
 
     }
 
@@ -290,18 +312,22 @@ class XpManager{
             const endedActivityPromise = new Promise((resolve,reject) => {
 
                 //eventuellent l'écran qui envoie cet event
-                skillTreeWebApp.client.on('DCgeneratorActivityCompleted',() => {
-
-                    console.log("activity finie")
-
-
-                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
-                        mapSystem.client.emit("edisonCompleted")
-                    })
-
-                    //ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
-                    resolve('finished')
-                })
+                if (skillTreeWebApp) {
+                    skillTreeWebApp.client.on('DCgeneratorActivityCompleted',() => {
+    
+                        console.log("activity finie")
+    
+    
+                        this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                            mapSystem.client.emit("edisonCompleted")
+                        })
+    
+                        //ClientHandler.getinstance().collapseSocketTunnel("sendContinuousData")
+                        resolve('finished')
+                    })         
+                }else{
+                    console.log("ERROR", "skillTreeMap missing")
+                }
             })
             return endedActivityPromise
         }
@@ -333,16 +359,21 @@ class XpManager{
             const endedActivityPromise = new Promise((resolve,reject) => {
 
                 //eventuellent l'écran qui envoie cet event
-                skillTreeWebApp.client.on('ACgeneratorActivityCompleted',() => {
-
-
-                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
-                        mapSystem.client.emit("westinghouseCompleted")
+                if (skillTreeWebApp) {
+                    skillTreeWebApp.client.on('ACgeneratorActivityCompleted',() => {
+    
+    
+                        this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                            mapSystem.client.emit("westinghouseCompleted")
+                        })
+    
+                        ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
+                        resolve('finished')
                     })
-
-                    ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
-                    resolve('finished')
-                })
+                    
+                }else{
+                    console.log("ERROR", "skillTreeWebApp missing")
+                }
             })
             return endedActivityPromise
         }
@@ -373,15 +404,19 @@ class XpManager{
             const endedActivityPromise = new Promise((resolve,reject) => {
 
                 //eventuellent l'écran qui envoie cet event
-                motorWebApp.client.on('MotorActivityCompleted',() => {
-
-                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
-                        mapSystem.client.emit("teslaCompleted")
+                if (motorWebApp) {
+                    motorWebApp.client.on('MotorActivityCompleted',() => {
+    
+                        this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                            mapSystem.client.emit("teslaCompleted")
+                        })
+    
+                        ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
+                        resolve('finished')
                     })
-
-                    ClientHandler.getinstance().collapseSocketTunnel("sendAlternativeData")
-                    resolve('finished')
-                })
+                }else{
+                    console.log("ERROR","motorWebApp is not Definied")
+                }
             })
             return endedActivityPromise
         }

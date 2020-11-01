@@ -19,7 +19,12 @@ let xpManager = new ExperienceManager()
 let clientHandler = ClientHandler.getinstance()
 clientHandler.server = server;
 clientHandler.ioObject = io;
-xpManager.init()
+
+try {
+  xpManager.init()
+} catch (error) {
+  console.log(error)
+}
 
 
 
