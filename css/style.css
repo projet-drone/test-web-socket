@@ -376,6 +376,14 @@ body {
   border: solid 2px #fff;
 }
 
+.text {
+  font-size: 20px;
+}
+
+.text-main {
+  text-transform: uppercase;
+}
+
 .Details {
   position: fixed;
   top: 100vh;
@@ -442,6 +450,11 @@ body {
   left: 100px !important;
   bottom: 100px !important;
   top: auto !important;
+  background-color: rgba(0, 130, 255, 0.2) !important;
+}
+
+.swiper-pagination-progressbar-fill {
+  background-color: #0082ff !important;
 }
 
 .swiper-container {

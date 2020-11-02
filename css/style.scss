@@ -338,6 +338,14 @@ body {
     border: solid 2px $color_white;
 }
 
+.text {
+    font-size: 20px;
+
+    &-main {
+        text-transform: uppercase;
+    }
+}
+
 .Details {
     position: fixed;
     top: 100vh;
@@ -401,7 +409,17 @@ body {
         left: 100px !important;
         bottom: 100px !important;
         top: auto !important;
+
+        background-color: rgba($color_blue, .2) !important;
+
+        &-progressbar-fill {
+            background-color: $color_blue !important;
+        }
     }
+
+
+
+
 }
 
 .swiper-container {

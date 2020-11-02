@@ -39,7 +39,6 @@ nodes.forEach((node, idx) => {
     console.log(document.querySelector(`#detail${idx}`));
     document.querySelector(`#detail${idx}`).classList.add('open')
 
-    
   })
 });
 var swiper = new Swiper('.swiper-container', {
@@ -50,7 +49,6 @@ var swiper = new Swiper('.swiper-container', {
       type: 'progressbar',
   },
 });
-
 
 document.querySelector('#button1').addEventListener('click', () => {
   swiper.slideNext(300, false);
@@ -80,8 +78,6 @@ document.querySelector('#button3').addEventListener('click', () => {
 // document.addEventListener('mousemove', function (event) {
 //   x = event.pageX
 //   y = event.pageY
-
-
 
   // let nodeOrigin = getOrigin(rect.left, rect.top, diameter)
   // let cursorOrigin = getOrigin(x, y, cursor.offsetWidth)
