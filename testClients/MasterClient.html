@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Edison</title>
+    <title>MasterClient</title>
 
 </head>
 <body>
@@ -17,12 +17,12 @@
     <button id="go-to-ACMotor">go to just before AcMotor</button>
 
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
     <script>
       // Create SocketIO instance, connect
   
-      const socket = io('http://192.168.43.81:3000/');
+      const socket = io('http://192.168.1.16:3000/');
 
 
      /* setInterval(() => {
@@ -36,6 +36,16 @@
         socket.emit("HandShakeAnswered","Master:admin")
       })
   
+      socket.on("lightPhilipsHue",(hue) => {
+        axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+        {"on":true, "sat":254, "bri":254,"hue":hue})
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
      
       document.addEventListener('DOMContentLoaded',()=>{
         

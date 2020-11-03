@@ -8,7 +8,7 @@ var {Observable, Subscriber } = require('rxjs')
  */
 const clientTypes = {
         SPHERO : "sphero",
-        LIGHT : "light",
+        LIGHT : "lighting",
         MAP : "map",
         DISPLAY : "display",
         INSTALL : "installation",

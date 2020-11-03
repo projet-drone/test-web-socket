@@ -22,7 +22,7 @@
 
     <script>
       // Create SocketIO instance, connect
-        const socket = io('http://192.168.43.81:3000');
+        const socket = io('http://192.168.1.16:3000');
   
 
      /* setInterval(() => {
@@ -76,6 +76,8 @@
           console.log("click")
           let fakeJoystickData = "Edison:-1:0"
           socket.emit("sendJoystickDatas",fakeJoystickData)
+          socket.emit("silenceWenches","")
+          
           //socket.emit("edisonCompleted")
         })
 

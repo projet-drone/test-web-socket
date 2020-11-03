@@ -17,11 +17,11 @@
     <button id="joystickUp">haut</button>
     <button id="joystickDown">bas</button>
 
-    <script src="./socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+
     <script>
       // Create SocketIO instance, connect
-  
-      const socket = io('http://127.0.0.1:3002');
+        const socket = io('http://192.168.1.16:3000');
 
       socket.on("startHandShake",data =>{
         console.log("c'est pas très covid ça")
@@ -54,6 +54,7 @@
           console.log("click")
           let fakeJoystickData = "Tesla:-1:0"
           socket.emit("sendJoystickDatas",fakeJoystickData)
+          socket.emit("silenceWenches","")
         })
 
         joystickRight.addEventListener("click",()=>{
@@ -84,6 +85,19 @@
 
           }
         })
+
+        socket.on("switchMode",data => {
+        console.log("switched to mod : " + data)
+        if(data == "memoryVacuum"){
+          setTimeout(()=>{
+            console.log("i've got close to target")
+            socket.emit("gotCloseToEmitter")
+          },3000)
+        }
+        if(data == "joyStick"){
+          socket.emit("connectedAsJoystick")
+        }
+      })
       })
 
   </script>

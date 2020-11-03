@@ -99,12 +99,16 @@ class SpheroManager {
             })
         });
     }
-    switchJoystickDataSource(){
+    switchJoystickDataSource(roomManager){
         this.spheros.forEach((sphero) => {
             sphero.client.on('silenceWenches',data =>{
                 this.spheros.forEach((spheroThatNeedToShutUp) =>{
-                    if (spheroThatNeedToShutUp != sphero) {
-                        spheroThatNeedToShutUp.cient.emit("shutUp","shutUp")
+                    if (spheroThatNeedToShutUp != sphero && spheroThatNeedToShutUp) {
+                        console.log("spheroThatNeedToShutUp", spheroThatNeedToShutUp.name)
+                        spheroThatNeedToShutUp.client.emit("shutUp","shutUp")
+                    }else{
+                        console.log("spheroThatSpeaks", spheroThatNeedToShutUp.name)
+                        roomManager.changeAmbiantColor(spheroThatNeedToShutUp.name)
                     }
                 })
             })

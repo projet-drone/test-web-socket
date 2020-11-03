@@ -5,12 +5,14 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "express": "^4.17.1",
+    "node-hue-api": "^4.0.9",
     "rxjs": "^6.6.3",
     "socket.io": "^2.3.0"
   }

@@ -89,7 +89,7 @@ class XpManager{
 
                                 for (let i = 0; i < this.spheroManager.spheros.length; i++) {
                                     const element = this.spheroManager.spheros[i];
-                                    if (element = spheroTODelete) {
+                                    if (element == spheroTODelete) {
                                         this.spheroManager.spheros.splice(i,1)
                                     }
                                     
@@ -118,6 +118,8 @@ class XpManager{
         this.webAppsManager = new WebAppsManager()
         this.activityManager = new ActivityManager()
         this.mapSystemManager = new MapSystemManager()
+        this.roomManager = new RoomManager()
+        
 
         
         
@@ -131,6 +133,8 @@ class XpManager{
                 this.spheroManager.init()
                 this.webAppsManager.init()
                 this.mapSystemManager.init()
+                this.roomManager.master = this.master
+                this.roomManager.init()
     
                 //déclarations des différentes activités de l'experience
                 this.declareExperienceActivities()
@@ -157,7 +161,7 @@ class XpManager{
                     }
                 })
 
-                this.spheroManager.switchJoystickDataSource()
+                this.spheroManager.switchJoystickDataSource(this.roomManager)
     
                 this.pupitre.listenForJoystickDisconnection((spheroName) => {
                     console.log("disconnectedJoystick")
@@ -240,7 +244,8 @@ class XpManager{
                     this.pupitre.client.on("spheroLifted",(spheroName) => {
                         if (!this.unlockedInventors.includes(spheroName)) {
                             let spheroToUnlock = this.spheroManager.findSpheroByName(spheroName)
-                            if (this.spheroToUnlock){
+                            console.log(spheroToUnlock)
+                            if (1){
                                 this.spheroManager.unlock(spheroToUnlock)
                                 this.spheroManager.activate(spheroToUnlock) 
                                 this.spheroManager.switchSpheroMod(spheroToUnlock,SpheroMods.PROXIMITY_DETECTOR, () => {
@@ -424,6 +429,7 @@ class XpManager{
         this.activityManager.activities.push(DCGeneratorActivity)
         this.activityManager.activities.push(ACGeneratorActivity)
         this.activityManager.activities.push(motorActivity)
+        
 
 
 
