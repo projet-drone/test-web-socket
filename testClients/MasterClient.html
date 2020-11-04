@@ -22,7 +22,7 @@
     <script>
       // Create SocketIO instance, connect
   
-      const socket = io('http://192.168.1.16:3000/');
+      const socket = io('http://192.168.8.106:3000/');
       let currentHue = 100;
 
      /* setInterval(() => {
@@ -38,7 +38,7 @@
   
       socket.on("lightPhilipsHue",(hue) => {
         currentHue = hue
-        axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+        axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
         {"on":true, "sat":254, "bri":254,"hue":hue})
           .then(function (response) {
             console.log(response);
@@ -49,8 +49,8 @@
       })
 
       socket.on("reduceLight", brightness => {
-        axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
-        {"on":true, "sat":254, "bri":brightness,"hue":hue})
+        axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+        {"on":true, "sat":254, "bri":brightness,"hue":currentHue})
           .then(function (response) {
             console.log(response);
           })
@@ -60,11 +60,11 @@
       })
 
       socket.on("playCaptureLightEffect", (lightObject) => {
-        axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+        axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
         {"on":true, "sat":254, "bri":0,"hue":lightObject.hue})
           .then(function (response) {
             setTimeout(() =>{
-              axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+              axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
               {"on":true, "sat":254, "bri":lightObject.brightness,"hue":lightObject.hue})
                 .then(function (response) {
                   console.log(response);
