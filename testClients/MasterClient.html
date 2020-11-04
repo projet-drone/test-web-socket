@@ -22,7 +22,7 @@
     <script>
       // Create SocketIO instance, connect
   
-      let SoutenanceServerAdress = "192.168.8.106"
+      let SoutenanceServerAdress = "127.0.0.1"
       let HomeServerAdress = "192.168.1.16"
 
       const socket = io('http://'+ SoutenanceServerAdress +':3000/');
@@ -92,12 +92,18 @@
           case "inventorCapture":
             audioPath += "ambiance-object-found.mp3"
           break;
+          case "inventorEdisonCapture":
+            audioPath += "ambiance-object-found.mp3"
+            let audio2 = new Audio("./Sound-design/ambiance-music.mp3");
+            audio2.loop = true
+            audio2.play()
+          break;
 
-          case "mapWithMotor":
+          case "motor":
             audioPath += "map-light-motor.mp3"  
           break;
 
-          case "mapLight":
+          case "light":
             audioPath += "map-light-only.mp3"  
           break;
 
@@ -115,8 +121,7 @@
         let startBtn = document.querySelector("#start")
 
         startBtn.addEventListener("click",()=>{
-          let audio2 = new Audio("./Sound-design/ambiance-music.mp3");
-          audio2.play()
+         
           // var audio = new Audio('./Sound-design/ambiance-switch-colors.mp3');
           // audio.play()
           socket.emit("startExperience")

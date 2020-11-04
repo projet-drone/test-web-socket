@@ -47,20 +47,18 @@ class RoomManager {
         })
         switch (inventorName) {
             case "Edison":
-                light.client.emit("edisonCompleted");
                 hueValue = 100
                 console.log("HUE value :", hueValue)
                 this.master.client.emit("lightPhilipsHue",hueValue)
+                
 
                 break;
             case "Westinghouse":
-                light.client.emit("westinghouseCompleted");
                 hueValue = 50000
                 console.log("HUE value :", hueValue)
                 this.master.client.emit("lightPhilipsHue",hueValue)
                 break;
             case "Tesla":
-                light.client.emit("teslaCompleted");
                 hueValue = 40000
                 console.log("HUE value :", hueValue)
                 this.master.client.emit("lightPhilipsHue",hueValue)
@@ -102,20 +100,20 @@ class RoomManager {
                 hueValue = 100
                 console.log("HUE value :", hueValue)
                 this.master.client.emit("playCaptureLightEffect",{brightness:127 ,hue:hueValue})
-                this.playSound("color-change")
+                this.playSound("inventorEdisonCapture")
                 break;
             case "Westinghouse":
                 hueValue = 50000
                 console.log("HUE value :", hueValue)
                 this.master.client.emit("playCaptureLightEffect",{brightness:127 ,hue:hueValue})
-                this.playSound("color-change")
+                this.playSound("inventorCapture")
 
                 break;
             case "Tesla":
                 hueValue = 40000
                 console.log("HUE value :", hueValue)
                 this.master.client.emit("playCaptureLightEffect",{brightness:127 ,hue:hueValue})
-                this.playSound("color-change")
+                this.playSound("inventorCapture")
                 break;
             default:
                 break;
