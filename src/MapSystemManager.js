@@ -18,6 +18,7 @@ class MapSystemManager {
                 mapSystem.client
             )
             this.mapSystems.push(newmapSystem)
+
         });
     }
 

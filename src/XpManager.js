@@ -61,6 +61,14 @@ class XpManager{
             if (newClientConnected.name == "Pupitre") {
                 this.pupitre = new Pupitre("theOnlyPupitre",newClientConnected.client)
             }
+
+            if (newClientConnected.name == "led") {
+                newClientConnected.client.on("mapButtonPressed", data =>{
+                    this.roomManager.playMapSound(data)
+                })
+                
+            }
+
             if (newClientConnected.name == "Master") {
                 this.master = newClientConnected
                 
@@ -168,6 +176,7 @@ class XpManager{
                     let sphero = this.spheroManager.findSpheroByName(spheroName)
                     if (this.unlockedInventors.includes(spheroName) && !this.pendingActivity) {
                         this.spheroManager.switchSpheroMod(sphero,SpheroMods.IDLE)
+                        this.roomManager.lessLight()
                     }
                     ClientHandler.getinstance().collapseSocketTunnelBySphero(sphero,"sendJoystickDatas")
                 })
@@ -250,6 +259,8 @@ class XpManager{
                                 this.spheroManager.activate(spheroToUnlock) 
                                 this.spheroManager.switchSpheroMod(spheroToUnlock,SpheroMods.PROXIMITY_DETECTOR, () => {
                                     spheroToUnlock.client.on("gotCloseToEmitter",() => {
+
+                                        this.roomManager.playInventorCapture(spheroName)
                                         this.spheroManager.disable(spheroToUnlock)
                                         this.unlockedInventors.push(spheroName)
             

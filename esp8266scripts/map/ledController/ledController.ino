@@ -40,10 +40,12 @@ int val = HIGH;
 uint32_t testColor = strip.Color(100,20,200);
 int timer = 0;
 bool canShowSecondLedStrip = false;
+bool motorShouldActivate = true;
 
 
 void colorStripRed(const char * payload, size_t length) {
- canShowSecondLedStrip = false;
+  canShowSecondLedStrip = false;
+  motorShouldActivate = false;
   Serial.println("event received");
   testColor = strip.Color(255,10,0);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
@@ -51,6 +53,7 @@ void colorStripRed(const char * payload, size_t length) {
 }
 void colorStripBlue(const char * payload, size_t length) {
   canShowSecondLedStrip = true;
+  motorShouldActivate = true;
   Serial.println("event received");
   testColor = strip.Color(0,130,255);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
@@ -59,6 +62,7 @@ void colorStripBlue(const char * payload, size_t length) {
 void colorStripPurple(const char * payload, size_t length) {
   Serial.println("event received");
   canShowSecondLedStrip = true;
+  motorShouldActivate = false;
   testColor = strip.Color(105,10,180);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
@@ -127,6 +131,14 @@ void loop() {
      // read input value
     if (newVal == LOW && newVal != val) {         // check if the input is HIGH (button released)
       colorWipe(testColor, 5);// Blue
+      if ( motorShouldActivate == true){
+              webSocket.emit("mapButtonPressed","\"motor\"");
+      }else{
+              webSocket.emit("mapButtonPressed","\"light\"");
+
+      }
+      
+      
     }
     if (newVal == HIGH && newVal != val) {         // check if the input is HIGH (button released)
       turnStripOff();

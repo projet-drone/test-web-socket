@@ -23,7 +23,7 @@
       // Create SocketIO instance, connect
   
       const socket = io('http://192.168.1.16:3000/');
-
+      let currentHue = 100;
 
      /* setInterval(() => {
         socket.emit("refreshConnection","boop")
@@ -37,6 +37,7 @@
       })
   
       socket.on("lightPhilipsHue",(hue) => {
+        currentHue = hue
         axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
         {"on":true, "sat":254, "bri":254,"hue":hue})
           .then(function (response) {
@@ -46,13 +47,75 @@
             console.log(error);
           });
       })
+
+      socket.on("reduceLight", brightness => {
+        axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+        {"on":true, "sat":254, "bri":brightness,"hue":hue})
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+
+      socket.on("playCaptureLightEffect", (lightObject) => {
+        axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+        {"on":true, "sat":254, "bri":0,"hue":lightObject.hue})
+          .then(function (response) {
+            setTimeout(() =>{
+              axios.put('https://192.168.1.30/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
+              {"on":true, "sat":254, "bri":lightObject.brightness,"hue":lightObject.hue})
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            },2000)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+
+      socket.on("playSound",audioEventName =>{
+        let audioPath = "./Sound-design/"
+        switch (audioEventName) {
+          case "color-change":
+            audioPath += "ambiance-switch-colors.mp3"
+          break;
+          
+          case "inventorCapture":
+            audioPath += "ambiance-object-found.mp3"
+          break;
+
+          case "mapWithMotor":
+            audioPath += "map-light-motor.mp3"  
+          break;
+
+          case "mapLight":
+            audioPath += "map-light-only.mp3"  
+          break;
+
+          default:
+            break;
+        }
+        let audio = new Audio(audioPath);
+        audio.play()
+      })
+
+      
      
       document.addEventListener('DOMContentLoaded',()=>{
         
         let startBtn = document.querySelector("#start")
 
         startBtn.addEventListener("click",()=>{
-          
+          let audio2 = new Audio("./Sound-design/ambiance-music.mp3");
+          audio2.play()
+          // var audio = new Audio('./Sound-design/ambiance-switch-colors.mp3');
+          // audio.play()
           socket.emit("startExperience")
         })
       })
