@@ -19,7 +19,20 @@ class MapSystemManager {
             )
             this.mapSystems.push(newmapSystem)
 
+            
         });
+        this.mapSystems.forEach((mapSystem) =>{
+            if(mapSystem.name == "led"){
+                let farMotor = this.findMapSystemByName("farMotor")
+                mapSystem.client.on("runMotors",(data) => {
+                    farMotor.client.emit("startMotor","yo")
+
+                })
+                mapSystem.client.on("stopMotors",(data) => {
+                    farMotor.client.emit("stopMotor","yo")
+                })
+            }
+        })
     }
 
     findMapSystemByName(name){

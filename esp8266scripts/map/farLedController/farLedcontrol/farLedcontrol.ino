@@ -25,7 +25,7 @@ SocketIoClient webSocket;
 
 #define PATAPON "HUAWEI-B315-E91A"
 #define PATAPON_PASS "WifiDuChef01"
-#define PATAPON_SERVER_IP "192.168.8.106"
+#define PATAPON_SERVER_IP "192.168.8.105"
 
 #define HOME "Livebox-FA80"
 #define HOME_PASS "7gxgMFqdtRzoQZ3gFy"

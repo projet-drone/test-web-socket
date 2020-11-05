@@ -72,7 +72,8 @@ class XpManager{
             if (newClientConnected.name == "Master") {
                 this.master = newClientConnected
                 
-                this.launchExperience()
+               this.launchExperience2()
+            
                 
             }
             console.log("///////////////////////////////////////")
@@ -133,6 +134,52 @@ class XpManager{
         
     }
     
+    launchExperience2(){
+
+        if (this.master){
+            this.master.client.on("startExperience",() => {
+                this.spheroManager.init()
+                this.webAppsManager.init()
+                this.mapSystemManager.init()
+                this.roomManager.master = this.master
+                this.roomManager.init()
+                console.log("started")
+                let edisonSphero = this.spheroManager.findSpheroByName("Edison")
+                let westinghouseSphero = this.spheroManager.findSpheroByName("Westinghouse")
+                let teslaSphero = this.spheroManager.findSpheroByName("Tesla")
+                let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
+
+                this.master.client.on("switchEdisonToJoyStick",(data) => {
+                    
+                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.JOYSTICK,() =>{})
+                    ClientHandler.getinstance().createSocketTunnel(edisonSphero,skillTreeWebApp,"sendJoystickDatas")
+                    
+                })
+                this.master.client.on("switchWestinghouseToJoyStick",(data) => {
+                    let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
+                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.JOYSTICK,() =>{})
+                    ClientHandler.getinstance().createSocketTunnel(westinghouseSphero,skillTreeWebApp,"sendJoystickDatas")
+                    
+                })
+                this.master.client.on("switchTeslaToJoyStick",(data) => {
+                    console.log('tesla')
+                    let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
+                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
+                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.JOYSTICK,() =>{})
+                    ClientHandler.getinstance().createSocketTunnel(teslaSphero,skillTreeWebApp,"sendJoystickDatas")
+                    
+                })
+            })
+        }
+    }
     launchExperience(){
         if (this.master){
             this.master.client.on("startExperience",() => {
@@ -161,7 +208,7 @@ class XpManager{
                         this.spheroManager.switchSpheroMod(sphero,SpheroMods.JOYSTICK)
 
                         let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
-                        
+                        skillTreeWebApp.client.emit("unlockInventor",spheroName)
                         ClientHandler.getinstance().collapseSocketTunnel("sendJoystickDatas")
                        
                         //appeler la fonction de transfere des données du sphéro au client web
@@ -174,6 +221,7 @@ class XpManager{
                 this.pupitre.listenForJoystickDisconnection((spheroName) => {
                     console.log("disconnectedJoystick")
                     let sphero = this.spheroManager.findSpheroByName(spheroName)
+                    //sphero.client.off('sendJoystickDatas');
                     if (this.unlockedInventors.includes(spheroName) && !this.pendingActivity) {
                         this.spheroManager.switchSpheroMod(sphero,SpheroMods.IDLE)
                         this.roomManager.lessLight()

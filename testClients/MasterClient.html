@@ -15,14 +15,17 @@
     <button id="go-to-DCGeneratorMilestone">go to just before DCGenerator</button>
     <button id="go-to-ACGeneratorMilestone">go to just before ACGenerator</button>
     <button id="go-to-ACMotor">go to just before AcMotor</button>
-
+    <button id="edisonTOJoysitckBtn">edisonTOJoysitckBtn</button>
+    <button id="westinghouseTOJoysitckBtn">westinghouseTOJoysitckBtn</button>
+    <button id="teslaTOJoysitckBtn">switchTelsaToJoyStick</button>
+    
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
     <script>
       // Create SocketIO instance, connect
   
-      let SoutenanceServerAdress = "127.0.0.1"
+      let SoutenanceServerAdress = "192.168.8.105"
       let HomeServerAdress = "192.168.1.16"
 
       const socket = io('http://'+ SoutenanceServerAdress +':3000/');
@@ -119,6 +122,20 @@
       document.addEventListener('DOMContentLoaded',()=>{
         
         let startBtn = document.querySelector("#start")
+        let edisonTOJoysitckBtn = document.querySelector("#edisonTOJoysitckBtn")
+        let westinghouseTOJoysitckBtn = document.querySelector("#westinghouseTOJoysitckBtn")
+        let teslaTOJoysitckBtn = document.querySelector("#teslaTOJoysitckBtn")
+
+        edisonTOJoysitckBtn.addEventListener("click", () => {
+          socket.emit("switchEdisonToJoyStick")
+        })
+        westinghouseTOJoysitckBtn.addEventListener("click", () => {
+          socket.emit("switchWestinghouseToJoyStick")
+        })
+        teslaTOJoysitckBtn.addEventListener("click", () => {
+          socket.emit("switchTeslaToJoyStick")
+          console.log("click")
+        })
 
         startBtn.addEventListener("click",()=>{
          
@@ -127,6 +144,8 @@
           socket.emit("startExperience")
         })
       })
+
+
 
 
   </script>

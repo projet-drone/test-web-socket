@@ -72,7 +72,7 @@ class SpheroManager {
 
     switchSpheroMod(sphero,mod,modSwitched){
         sphero.switchMode(mod,modSwitched)
-
+        console.log("switched")
         sphero.client.emit("switchMode",mod)
     } 
 

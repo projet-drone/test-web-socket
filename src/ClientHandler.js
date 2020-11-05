@@ -178,6 +178,7 @@ class ClientHandler{
 
     createSocketTunnel(emitter,receiver,eventName){
         this.socketTunnels[eventName] = {emitter:emitter.client,receiver:receiver.client}
+        emitter.client.off(eventName,() =>{})
         emitter.client.on(eventName,(datas) =>{
             console.log("received " + datas + "on event : " + eventName)
             receiver.client.emit(eventName,datas)

@@ -40,36 +40,36 @@ int val = HIGH;
 uint32_t testColor = strip.Color(100,20,200);
 int timer = 0;
 bool canShowSecondLedStrip = false;
+bool motorShouldActivate = true;
 
 
 void colorStripRed(const char * payload, size_t length) {
- canShowSecondLedStrip = false;
+  canShowSecondLedStrip = false;
+  motorShouldActivate = false;
   Serial.println("event received");
   testColor = strip.Color(255,10,0);
-  colorWipe(testColor, 5);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
 }
 void colorStripBlue(const char * payload, size_t length) {
   canShowSecondLedStrip = true;
+  motorShouldActivate = true;
   Serial.println("event received");
   testColor = strip.Color(0,130,255);
-  colorWipe(testColor, 5);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
 }
 void colorStripPurple(const char * payload, size_t length) {
   Serial.println("event received");
   canShowSecondLedStrip = true;
+  motorShouldActivate = false;
   testColor = strip.Color(105,10,180);
-  colorWipe(testColor, 5);
   webSocket.emit("hello","\"this is a putain de reponse ws\"");
   //rainbow(10);
 }
 void identify(const char * payload, size_t length) {
   Serial.println("refreshing \n");
-  webSocket.emit("HandShakeAnswered","\"PortraitLed:lighting\"");
-  turnStripOff();
+  webSocket.emit("HandShakeAnswered","\"led:map\"");
   
   //rainbow(10);
 }
@@ -127,7 +127,26 @@ void setup() {
 
 void loop() {
     webSocket.loop();
-    
+    int newVal = digitalRead(inPin);
+     // read input value
+    if (newVal == LOW && newVal != val) { 
+      webSocket.emit("runMotors","\"runMotors\"");// check if the input is HIGH (button released)
+      colorWipe(testColor, 5);// Blue
+      if ( motorShouldActivate == true){
+              webSocket.emit("mapButtonPressed","\"motor\"");
+      }else{
+              webSocket.emit("mapButtonPressed","\"light\"");
+
+      }
+      
+      
+    }
+    if (newVal == HIGH && newVal != val) {         // check if the input is HIGH (button released)
+      turnStripOff();
+      webSocket.emit("stopMotors","\"stopMotors\"");
+    }
+
+    val = newVal; 
     
     if (timer == 500){
       stats("test");
