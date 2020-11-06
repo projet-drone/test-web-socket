@@ -23,6 +23,8 @@ class XpManager{
 
     pupitre;
     master;
+    soundBoard;
+    soundClient;
 
     xpTracker = new XpTracker
 
@@ -60,6 +62,13 @@ class XpManager{
             }
             if (newClientConnected.name == "Pupitre") {
                 this.pupitre = new Pupitre("theOnlyPupitre",newClientConnected.client)
+            }
+
+            if (newClientConnected.name == "sound-board") {
+                this.soundBoard = newClientConnected
+            }
+            if (newClientConnected.name == "sound-client") {
+                this.soundClient = newClientConnected
             }
 
             if (newClientConnected.name == "led") {
@@ -135,50 +144,18 @@ class XpManager{
     }
     
     launchExperience2(){
-
         if (this.master){
             this.master.client.on("startExperience",() => {
-                this.spheroManager.init()
-                this.webAppsManager.init()
-                this.mapSystemManager.init()
-                this.roomManager.master = this.master
-                this.roomManager.init()
                 console.log("started")
-                let edisonSphero = this.spheroManager.findSpheroByName("Edison")
-                let westinghouseSphero = this.spheroManager.findSpheroByName("Westinghouse")
-                let teslaSphero = this.spheroManager.findSpheroByName("Tesla")
-                let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
-
-                this.master.client.on("switchEdisonToJoyStick",(data) => {
-                    
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.JOYSTICK,() =>{})
-                    ClientHandler.getinstance().createSocketTunnel(edisonSphero,skillTreeWebApp,"sendJoystickDatas")
-                    
-                })
-                this.master.client.on("switchWestinghouseToJoyStick",(data) => {
-                    let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.JOYSTICK,() =>{})
-                    ClientHandler.getinstance().createSocketTunnel(westinghouseSphero,skillTreeWebApp,"sendJoystickDatas")
-                    
-                })
-                this.master.client.on("switchTeslaToJoyStick",(data) => {
-                    console.log('tesla')
-                    let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.JOYSTICK,() =>{})
-                    ClientHandler.getinstance().createSocketTunnel(teslaSphero,skillTreeWebApp,"sendJoystickDatas")
-                    
+                this.soundBoard.client.on("playSound",(audioEvent) =>{
+                    console.log("soundPlayed")
+                    this.soundClient.client.emit("playSound",audioEvent)
                 })
             })
         }
+    
+        
+        
     }
     launchExperience(){
         if (this.master){

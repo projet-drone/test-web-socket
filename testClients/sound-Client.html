@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>soundClient</title>
+
+</head>
+<body>
+
+    <button>PointlessButton (pas vraiment)</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+    <script>
+      // Create SocketIO instance, connect
+  
+      let SoutenanceServerAdress = "192.168.1.10"
+      let HomeServerAdress = "192.168.1.16"
+
+      const socket = io('http://'+ SoutenanceServerAdress +':3002/');
+      let currentHue = 100;
+
+     /* setInterval(() => {
+        socket.emit("refreshConnection","boop")
+      },300)*/
+
+      socket.on("startHandShake",data =>{
+        console.log("c'est pas très covid ça")
+
+
+        socket.emit("HandShakeAnswered","sound-client:admin")
+      })
+  
+      
+      socket.on("playSound",audioEvent =>{
+        let audioPath = "./Sound-design/" + audioEvent.name + ".mp3"
+
+        
+        let audio = new Audio(audioPath);
+
+        if (audioEvent.loop) {
+            audio.loop = true
+        }
+        audio.play()
+      })
+
+      
+     
+      document.addEventListener('DOMContentLoaded',()=>{
+        
+        let startBtn = document.querySelector("#start")
+        let edisonTOJoysitckBtn = document.querySelector("#edisonTOJoysitckBtn")
+        let westinghouseTOJoysitckBtn = document.querySelector("#westinghouseTOJoysitckBtn")
+        let teslaTOJoysitckBtn = document.querySelector("#teslaTOJoysitckBtn")
+
+        edisonTOJoysitckBtn.addEventListener("click", () => {
+          socket.emit("switchEdisonToJoyStick")
+        })
+        westinghouseTOJoysitckBtn.addEventListener("click", () => {
+          socket.emit("switchWestinghouseToJoyStick")
+        })
+        teslaTOJoysitckBtn.addEventListener("click", () => {
+          socket.emit("switchTeslaToJoyStick")
+          console.log("click")
+        })
+
+        startBtn.addEventListener("click",()=>{
+         
+          // var audio = new Audio('./Sound-design/ambiance-switch-colors.mp3');
+          // audio.play()
+          socket.emit("startExperience")
+        })
+      })
+
+
+
+
+  </script>
+</body>
+</html>

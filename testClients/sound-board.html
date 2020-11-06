@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>MasterClient</title>
+
+</head>
+<body>
+    
+    
+    <button id="ambiance-boom">ambiance-boom</button>
+    <button id="ambiance-music">ambiance-music</button>
+    <button id="ambiance-object-found">ambiance-object-found</button>
+    <button id="ambiance-switch-colors">ambiance-switch-colors</button>
+    <button id="exp-alternatif-loop">exp-alternatif-loop</button>
+    <button id="exp-continu-loop">exp-continu-loop</button>
+    <button id="exp-motor-final-loop">exp-motor-final-loop</button>
+    <button id="exp-motor-loop">exp-motor-loop</button>
+    <button id="map-light-motor">map-light-motor</button>
+    <button id="map-light-only">map-light-only</button>
+    <button id="screen-go-back">screen-go-back</button>
+    <button id="screen-hover-chapter">screen-hover-chapter</button>
+    <button id="screen-open-chapter">screen-open-chapter</button>
+    <button id="screen-scroll-down">screen-scroll-down</button>
+    <button id="screen-unlock-memory">screen-unlock-memory</button>
+    
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
+    <script>
+      // Create SocketIO instance, connect
+  
+      let SoutenanceServerAdress = "192.168.1.10"
+      let HomeServerAdress = "192.168.1.16"
+
+      const socket = io('http://'+ SoutenanceServerAdress +':3002/');
+      let currentHue = 100;
+
+     /* setInterval(() => {
+        socket.emit("refreshConnection","boop")
+      },300)*/
+
+      socket.on("startHandShake",data =>{
+        console.log("c'est pas très covid ça")
+
+
+        socket.emit("HandShakeAnswered","sound-board:admin")
+      })
+  
+      document.addEventListener('DOMContentLoaded',()=>{
+        
+        let ambianceBoom = document.querySelector("#ambiance-boom")
+        let ambianceMusic = document.querySelector("#ambiance-music")
+        let ambianceObjectFound = document.querySelector("#ambiance-object-found")
+        let ambianceSwitchColor = document.querySelector("#ambiance-switch-colors")
+        let expAltloop = document.querySelector("#exp-alternatif-loop")
+        let expCtnloop = document.querySelector("#exp-continu-loop")
+        let expMotorFinalloop = document.querySelector("#exp-motor-final-loop")
+        let expMotorloop = document.querySelector("#exp-motor-loop")
+        let mapLightMotor = document.querySelector("#map-light-motor")
+        let mapLightOnly = document.querySelector("#map-light-only")
+        let screenGoBack = document.querySelector("#screen-go-back")
+        let screenHoverChapter = document.querySelector("#screen-hover-chapter")
+        let screenOpenChapter = document.querySelector("#screen-open-chapter")
+        let screenScrollDown = document.querySelector("#screen-scroll-down")
+        let screenUnlockMemory = document.querySelector("#screen-unlock-memory")
+       
+
+        ambianceBoom.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"ambiance-boom", loop:false})
+        })
+        ambianceMusic.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"ambiance-music", loop:false})
+        })
+        ambianceObjectFound.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"ambiance-object-found", loop:false})
+        })
+        ambianceSwitchColor.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"ambiance-switch-colors", loop:false})
+        })
+        expAltloop.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"exp-alternatif-loop", loop:false})
+        })
+        expCtnloop.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"exp-continu-loop", loop:false})
+        })
+        expMotorFinalloop.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"exp-motor-final-loop", loop:false})
+        })
+        expMotorloop.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"exp-motor-loop", loop:false})
+        })
+        mapLightMotor.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"map-light-motor", loop:false})
+        })
+        mapLightOnly.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"map-light-only", loop:false})
+        })
+        screenGoBack.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"screen-go-back", loop:false})
+        })
+        screenHoverChapter.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"screen-hover-chapter", loop:false})
+        })
+        screenOpenChapter.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"screen-open-chapter", loop:false})
+        })
+        screenScrollDown.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"screen-scroll-down", loop:false})
+        })
+        screenUnlockMemory.addEventListener("click", () => {
+          socket.emit("playSound",{ name:"screen-unlock-memory", loop:false})
+        })
+
+      })
+
+
+
+
+  </script>
+</body>
+</html>

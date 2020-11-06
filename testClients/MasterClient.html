@@ -25,10 +25,10 @@
     <script>
       // Create SocketIO instance, connect
   
-      let SoutenanceServerAdress = "192.168.8.105"
+      let SoutenanceServerAdress = "192.168.1.10"
       let HomeServerAdress = "192.168.1.16"
 
-      const socket = io('http://'+ SoutenanceServerAdress +':3000/');
+      const socket = io('http://'+ SoutenanceServerAdress +':3002/');
       let currentHue = 100;
 
      /* setInterval(() => {

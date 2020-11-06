@@ -7,9 +7,9 @@ var io = require('socket.io');
 var ExperienceManager = require('./src/XpManager')
 var {ClientHandler} = require('./src/ClientHandler')
 
-const port = 3000
+const port = 3002
 
-server.listen(process.env.PORT || 3000, function () {
+server.listen(process.env.PORT || 3002, function () {
   console.log('Express server listening on %d', port);
 });
 
