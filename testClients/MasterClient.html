@@ -11,13 +11,10 @@
     
     
     <button id="start">start</button>
-    <button id="disconnect-everyone">disconnect Everyone</button>
-    <button id="go-to-DCGeneratorMilestone">go to just before DCGenerator</button>
-    <button id="go-to-ACGeneratorMilestone">go to just before ACGenerator</button>
-    <button id="go-to-ACMotor">go to just before AcMotor</button>
-    <button id="edisonTOJoysitckBtn">edisonTOJoysitckBtn</button>
-    <button id="westinghouseTOJoysitckBtn">westinghouseTOJoysitckBtn</button>
-    <button id="teslaTOJoysitckBtn">switchTelsaToJoyStick</button>
+    <button id="mapRed">mapRed</button>
+    <button id="mapPurple">mapPurple</button>
+    <button id="mapBlue">mapBlue</button>
+
     
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -25,7 +22,7 @@
     <script>
       // Create SocketIO instance, connect
   
-      let SoutenanceServerAdress = "192.168.8.105"
+      let SoutenanceServerAdress = "192.168.1.10"
       let HomeServerAdress = "192.168.1.16"
 
       const socket = io('http://'+ SoutenanceServerAdress +':3000/');
@@ -42,98 +39,31 @@
         socket.emit("HandShakeAnswered","Master:admin")
       })
   
-      socket.on("lightPhilipsHue",(hue) => {
-        currentHue = hue
-        axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
-        {"on":true, "sat":254, "bri":254,"hue":hue})
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      })
-
-      socket.on("reduceLight", brightness => {
-        axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
-        {"on":true, "sat":254, "bri":brightness,"hue":currentHue})
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      })
-
-      socket.on("playCaptureLightEffect", (lightObject) => {
-        axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
-        {"on":true, "sat":254, "bri":0,"hue":lightObject.hue})
-          .then(function (response) {
-            setTimeout(() =>{
-              axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
-              {"on":true, "sat":254, "bri":lightObject.brightness,"hue":lightObject.hue})
-                .then(function (response) {
-                  console.log(response);
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
-            },2000)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      })
-
-      socket.on("playSound",audioEventName =>{
-        let audioPath = "./Sound-design/"
-        switch (audioEventName) {
-          case "color-change":
-            audioPath += "ambiance-switch-colors.mp3"
-          break;
-          
-          case "inventorCapture":
-            audioPath += "ambiance-object-found.mp3"
-          break;
-          case "inventorEdisonCapture":
-            audioPath += "ambiance-object-found.mp3"
-            let audio2 = new Audio("./Sound-design/ambiance-music.mp3");
-            audio2.loop = true
-            audio2.play()
-          break;
-
-          case "motor":
-            audioPath += "map-light-motor.mp3"  
-          break;
-
-          case "light":
-            audioPath += "map-light-only.mp3"  
-          break;
-
-          default:
-            break;
-        }
-        let audio = new Audio(audioPath);
-        audio.play()
-      })
-
-      
      
       document.addEventListener('DOMContentLoaded',()=>{
         
         let startBtn = document.querySelector("#start")
-        let edisonTOJoysitckBtn = document.querySelector("#edisonTOJoysitckBtn")
-        let westinghouseTOJoysitckBtn = document.querySelector("#westinghouseTOJoysitckBtn")
-        let teslaTOJoysitckBtn = document.querySelector("#teslaTOJoysitckBtn")
+        let red = document.querySelector("#mapRed")
+        let purple = document.querySelector("#mapPurple")
+        let telsa = document.querySelector("#mapBlue")
 
-        edisonTOJoysitckBtn.addEventListener("click", () => {
-          socket.emit("switchEdisonToJoyStick")
+        
+        document.addEventListener("click", () => {
+
         })
-        westinghouseTOJoysitckBtn.addEventListener("click", () => {
-          socket.emit("switchWestinghouseToJoyStick")
+
+        red.addEventListener("click", () => {
+          socket.emit("edisonComplet")
+          console.log("click")
+
         })
-        teslaTOJoysitckBtn.addEventListener("click", () => {
-          socket.emit("switchTeslaToJoyStick")
+        purple.addEventListener("click", () => {
+          socket.emit("westinghouseComplet")
+          console.log("click")
+
+        })
+        telsa.addEventListener("click", () => {
+          socket.emit("teslaComplet")
           console.log("click")
         })
 

@@ -144,38 +144,28 @@ class XpManager{
                 this.roomManager.master = this.master
                 this.roomManager.init()
                 console.log("started")
-                let edisonSphero = this.spheroManager.findSpheroByName("Edison")
-                let westinghouseSphero = this.spheroManager.findSpheroByName("Westinghouse")
-                let teslaSphero = this.spheroManager.findSpheroByName("Tesla")
-                let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
+                
+                this.master.client.on("edisonComplet",() =>{
+                    console.log("edicompleted")
+                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                        mapSystem.client.emit("edisonCompleted")
+                    })
+                })
 
-                this.master.client.on("switchEdisonToJoyStick",(data) => {
-                    
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.JOYSTICK,() =>{})
-                    ClientHandler.getinstance().createSocketTunnel(edisonSphero,skillTreeWebApp,"sendJoystickDatas")
-                    
+                this.master.client.on("westinghouseComplet",()=> {
+                    console.log("wegcompleted")
+                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                        mapSystem.client.emit("westinghouseCompleted")
+                    })
+
                 })
-                this.master.client.on("switchWestinghouseToJoyStick",(data) => {
-                    let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.JOYSTICK,() =>{})
-                    ClientHandler.getinstance().createSocketTunnel(westinghouseSphero,skillTreeWebApp,"sendJoystickDatas")
-                    
-                })
-                this.master.client.on("switchTeslaToJoyStick",(data) => {
-                    console.log('tesla')
-                    let skillTreeWebApp = this.webAppsManager.findWebAppByName("SkillTreeWebApp")
-                    this.spheroManager.switchSpheroMod(westinghouseSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(edisonSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.IDLE,() =>{})
-                    this.spheroManager.switchSpheroMod(teslaSphero,SpheroMods.JOYSTICK,() =>{})
-                    ClientHandler.getinstance().createSocketTunnel(teslaSphero,skillTreeWebApp,"sendJoystickDatas")
-                    
+
+                this.master.client.on("teslaComplet",() =>{
+                    console.log("teslacompleted")
+                    this.mapSystemManager.mapSystems.forEach(mapSystem => {
+                        mapSystem.client.emit("teslaCompleted")
+                    })
+
                 })
             })
         }
