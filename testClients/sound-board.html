@@ -72,7 +72,7 @@
           socket.emit("playSound",{ name:"ambiance-boom", loop:false})
         })
         ambianceMusic.addEventListener("click", () => {
-          socket.emit("playSound",{ name:"ambiance-music", loop:false})
+          socket.emit("playSound",{ name:"ambiance-music", loop:false, volume:0.2})
         })
         ambianceObjectFound.addEventListener("click", () => {
           socket.emit("playSound",{ name:"ambiance-object-found", loop:false})

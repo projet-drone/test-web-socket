@@ -43,6 +43,9 @@
         if (audioEvent.loop) {
             audio.loop = true
         }
+        if (audioEvent.volume) {
+            audio.volume = audioEvent.volume
+        }
         audio.play()
       })
 

@@ -11,13 +11,11 @@
     
     
     <button id="start">start</button>
-    <button id="disconnect-everyone">disconnect Everyone</button>
-    <button id="go-to-DCGeneratorMilestone">go to just before DCGenerator</button>
-    <button id="go-to-ACGeneratorMilestone">go to just before ACGenerator</button>
-    <button id="go-to-ACMotor">go to just before AcMotor</button>
-    <button id="edisonTOJoysitckBtn">edisonTOJoysitckBtn</button>
-    <button id="westinghouseTOJoysitckBtn">westinghouseTOJoysitckBtn</button>
-    <button id="teslaTOJoysitckBtn">switchTelsaToJoyStick</button>
+    <button id="colorEdison">mapEdison</button>
+    <button id=n garsEdison">mapTesla</button>
+    <button id="disconnect-everyone">mapWestinghouse</button>
+   
+    
     
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -41,7 +39,7 @@
 
         socket.emit("HandShakeAnswered","Master:admin")
       })
-  
+  /*
       socket.on("lightPhilipsHue",(hue) => {
         currentHue = hue
         axios.put('http://192.168.8.109/api/Ynfv-hJ0vh0LZCTevecUMGvhcv6DJmyNW9K68Inv/lights/1/state', 
@@ -117,7 +115,7 @@
         audio.play()
       })
 
-      
+      */
      
       document.addEventListener('DOMContentLoaded',()=>{
         
