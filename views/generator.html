@@ -9,10 +9,17 @@
 </head>
 
 <body>
+      
     <main class="Continue">
         <div id="_bar">
             <span id="_progressBar"></span>
         </div>
+        <!-- <div class="controls">
+            <button id="drive-button">Drive</button>
+             <button id="drive-button">+</button>
+            <button id="stop-button">Stop</button>
+          </div> -->
+          
         <div class="Continue-container">
             <div class="Continue-content">
                 <div class="Continue-left">
@@ -42,7 +49,7 @@
                         <path d="M616.698 154H635.079" stroke="white" stroke-width="3" stroke-miterlimit="10"
                             stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M168 166V154H604M168 196V208H686V154H648" stroke="white" stroke-width="3" />
-                        <g filter="url(#filter2_f)">
+                        <g filter="url(#filter2_f)" id="bulb">
                             <circle cx="626" cy="89" r="35" fill="#FF3C00" />
                         </g>
                         <defs>
@@ -66,7 +73,6 @@
                             </filter>
                         </defs>
                     </svg>
-
 
                 </div>
 
@@ -101,8 +107,7 @@
                                 <feFlood flood-opacity="0" result="BackgroundImageFix" />
                                 <feColorMatrix in="SourceAlpha" type="matrix"
                                     values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
-                                <feOffset />
-                                <feGaussianBlur stdDeviation="5" />
+                                <feOffset />                                <feGaussianBlur stdDeviation="5" />
                                 <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.235294 0 0 0 0 0 0 0 0 1 0" />
                                 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
                                 <feColorMatrix in="SourceAlpha" type="matrix"
@@ -121,9 +126,14 @@
             </div>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"
+    integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ=="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/MotionPathPlugin.min.js"></script>
-    <script src="../js/alternatif.js"></script>
+    <script src="../js/generator.js"></script>
 </body>
-
+ 
 </html>

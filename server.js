@@ -61,10 +61,21 @@ io.on('connection', (socket) => {
     socket.broadcast.emit("joystickMoved", coords)
   })
 
-  socket.on("generatorRotated", data => {
+  socket.on("sendMotorData", data => {
     console.log(data)
 
-    socket.broadcast.emit("generatorRotated", data)
+    socket.broadcast.emit("sendMotorData", data)
+  })
+  socket.on("contGenerator", data => {
+    console.log(data)
+
+    socket.broadcast.emit("contGenerator", data)
+  })
+  
+  socket.on("altGenerator", data => {
+    console.log(data)
+
+    socket.broadcast.emit("altGenerator", data)
   })
 
   socket.on("hello", data => {

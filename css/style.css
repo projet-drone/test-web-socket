@@ -1,9 +1,9 @@
 #debug {
-  width: 300px;
+  height: 300px;
+  width: 100%;
   position: fixed;
   top: 10px;
   left: 10px;
-  background-color: #814e0b;
   padding: 40px 25px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -275,6 +275,25 @@ body {
   left: 0;
 }
 
+#plus {
+  background-color: orangered;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+}
+
+#_shake,
+#_connection {
+  opacity: 1;
+}
+
+#_shake.hidden,
+#_connection.hidden {
+  opacity: 0;
+}
+
 .controls {
   color: #fff;
   font-size: 60px;
@@ -356,12 +375,22 @@ body {
   z-index: 99999999999999;
 }
 
-.finalAnimation {
+.finalAnimation,
+.tutoAnimation {
   position: fixed;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+#_connection {
+  z-index: 1002;
+}
+
+.tutoAnimation {
+  background-color: #000;
 }
 
 .connection {

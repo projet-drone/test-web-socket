@@ -1,37 +1,146 @@
-const socket = io('http://192.168.43.81:3001');
-// const socket = io('http://192.168.1.38:3001');
-//const socket = io('http://192.168.1.16:3000'); 
+const rpm = 100
+const timeScaleDuration = 3
+const tyreTweenDuration = 60 / rpm
 
+// initialize _gsTransform object on element
+TweenLite.set("#_magnets", {  transformOrigin:"50% 50%"});
+ 
+const timeline = new TimelineMax()
+  .timeScale(0)
+
+const timeScaleTween = TweenLite.to(timeline, timeScaleDuration, {
+  timeScale: 1,
+  paused: true,
+  ease: Linear.easeNone
+})
+
+let magnets = $('#_magnets')
+
+timeline.to(magnets, tyreTweenDuration, {
+  rotation: 360,
+  ease: Linear.easeNone,
+  repeat: -1,
+}, 0)
+
+const socket = io('http://192.168.8.103:3000');
+
+gsap.registerPlugin(MotionPathPlugin);
+
+var speed = 10
 var totalProgression = 0;
 var progression = 0;
 
 var progressBar = document.getElementById('_progressBar');
-var magnet = document.getElementById('_magnets');
-
-gsap.to("#_magnets", { duration: 1, rotation: 360, loop: true});
 
 
-socket.on("generatorRotated", data => {
-    console.log(data);
-    progression = data * data * 10;
-    totalProgression += progression;
-    
-    console.log([totalProgression, progression])
-    progressBar.style.width = totalProgression + "px";
+// let magnet = gsap.to("#_magnets", { 
+//   duration: 8, 
+//   rotation: 360, 
+//   repeat: -1,
+//   transformOrigin: '50% 50%',
+//   yoyo: false,
+//   ease: "power0",
+//   // timeScale: 0.2
+// });
 
+// let dot = gsap.to("#_dot", {
+//   duration: 2,
+//   repeat: -1,
+//   yoyo: false,
+//   ease: "power0",
+
+//   motionPath: {
+//     path: "#_sin",
+//     align: "#_sin",
+//     autoRotate: true,
+//     alignOrigin: [0.5, 0.5]
+//   }
+// });
+
+// socket.on("generatorRotated", data => {
+
+//   if (speed > 0) {
+//     console.log(data);
+
+//     speed--
+
+
+//     dot.duration(speed)
+//     magnet.duration(speed)
+
+//     progression = data * data * 10;
+//     totalProgression += progression;
+//     progressBar.style.width = totalProgression + "px";
+
+//   } else {
+
+//   }
+// })
+
+
+$("#drive-button").click(() => {
+  timeScaleTween.play()
+
+  $('#_progressBar').addClass('active');
+  $('#bulb').addClass('active');
+
+  let dot = gsap.to("#_dot", {
+    duration: 2,
+    repeat: -1,
+    yoyo: false,
+    ease: "power0",
   
-
-    if (totalProgression >= 900) {
-        // end 
-
-    } else if (totalProgression >= 500) {
-        // speed ++ sinus animation
-    
-    } else if (totalProgression >= 50) {
-        // speed + sin animation
-
-    } else {
-        // start sinus animation
-        
+    motionPath: {
+      path: "#_sin",
+      align: "#_sin",
+      autoRotate: true,
+      alignOrigin: [0.5, 0.5]
     }
+  });
+
+});
+$("#stop-button").click(() => {
+  timeScaleTween.reverse()
+});
+
+
+socket.on('contGenerator', data => {
+  console.log(data)
+
+  if(data == "startCont") {
+    timeScaleTween.play()
+
+  $('#_progressBar').addClass('active');
+  $('#bulb').addClass('active');
+
+  let dot = gsap.to("#_dot", {
+    duration: 2,
+    repeat: -1,
+    yoyo: false,
+    ease: "power0",
+  
+    motionPath: {
+      path: "#_sin",
+      align: "#_sin",
+      autoRotate: true,
+      alignOrigin: [0.5, 0.5]
+    }
+  });
+
+  } else if ("stopCont") {
+    timeScaleTween.reverse()
+  } 
 })
+
+// document.querySelector('#debugPlus').addEventListener('click', () => {
+//   speed--
+
+//   progression = 50;
+//   totalProgression += progression;
+//   progressBar.style.width = totalProgression + "px";
+
+//   // magnet.timeScale(1)
+//   // dot.timeScale(1)
+//   dot.duration(speed)
+//   magnet.duration(speed)
+// })

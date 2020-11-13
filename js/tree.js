@@ -41,6 +41,7 @@ nodes.forEach((node, idx) => {
 
   })
 });
+
 var swiper = new Swiper('.swiper-container', {
   direction: 'vertical',
   pagination: {

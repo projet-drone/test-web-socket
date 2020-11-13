@@ -10,9 +10,20 @@
 
 <body>
     <main class="Alternatif">
+        <div id="test">
+
+        </div>
         <div id="_bar">
             <span id="_progressBar"></span>
         </div>
+        <!-- <div class="controls">
+            <button id="drive-button">Drive</button>
+             <button id="drive-button">+</button>
+            <button id="stop-button">Stop</button>
+          </div> -->
+
+        
+          
         <div class="Alternatif-container">
             <div class="Alternatif-content">
                 <div class="Alternatif-left">
@@ -41,7 +52,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M583.698 154H602.079" stroke="white" stroke-width="3" stroke-miterlimit="10"
                             stroke-linecap="round" stroke-linejoin="round" />
-                        <g filter="url(#filter2_f)">
+                        <g filter="url(#filter2_f)" id="bulb">
                             <circle cx="593" cy="89" r="35" fill="#9A0FDB" />
                         </g>
                         <defs>
@@ -118,17 +129,21 @@
                         </filter>
                         </defs>
                     </svg>
-                  
-
-
+    
                 </div>
 
             </div>
         </div>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"
+    integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ=="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/MotionPathPlugin.min.js"></script>
     <script src="../js/alternatif.js"></script>
-</body>
+</body> 
 
 </html>
